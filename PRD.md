@@ -254,7 +254,7 @@ All numbers are simplified, illustrative and live in one config file (`src/game/
 
 ### Invariants
 - **INV-1:** All money is whole AED integers. No floats in money math. Percentages round down.
-- **INV-2:** The money engine is pure: `(state, action, rng) → newState`. No UI, no Phaser, no storage inside it.
+- **INV-2:** The money engine is pure: `(state, action) → newState`, with the seeded RNG state carried inside `state` (so a saved season resumes with the same random draws). No UI, no Phaser, no storage inside it.
 - **INV-3:** Same seed + same choices + same race results → same final state, every time.
 - **INV-4:** Every money change writes a ledger entry. `cash = startingCash + sum(ledger cash changes)` always holds.
 - **INV-5:** A loan's shown total equals the sum of its scheduled payments.
@@ -376,6 +376,7 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | 2026-10-28 | Phaser 4.2.1 runs with `render.maxTextures = 1` | Phaser 4.2.1's multi-texture shader picks the texture with an exact float compare on an interpolated value (`outTexDatum == float(INDEX)` in `GetTexture-glsl.js`). With a rotated camera, images dropped out in pieces in a minimal repro (headless Chromium, SwiftShader). One texture per batch removes the compare; the track is baked into a few large textures, so draw calls stay low |
 | 2026-10-28 | Vitest pinned to 4.0.18 | npm 10.9 crashes (`Cannot read properties of null (reading 'edgesOut')`) resolving Vitest ≥ 4.1 peer deps; 4.0.18 installs cleanly on npm 10 and 11 |
 | 2026-10-28 | Race camera rotates with the car (car points up, look-ahead in front); `CAMERA.mode` in config can switch to a fixed north-up view | "Driver view, zoomed in, ahead of the car" (FR-RACE-001); to be confirmed at the owner phone test |
+| 2026-10-28 | Money-engine clarifications (Phase 2): RNG state lives in the season state; each required payment is all-or-nothing from cash then savings; an unpaid payment moves to "overdue", and a stop with any miss adds one AED 300 late fee and one strike (never more per stop); overdue is collected first at the next stop; insurance premium counts as a required payment; repossession does not reduce debt; repair is optional, paid from cash then savings, and only covered if the car was insured when the damage happened; entry fees come from cash; a Club Race takes that season slot (half prizes, Rookie rivals); the Grand Final win (AED 15,000) applies to both final races; the scam offer appears after race 3 or 4 (seeded); one Pit Lesson per stop, extra lessons wait for the next stop; a race can't return less damage than it started with | §11 left these details open; chosen so every §18 check passes and the rules stay simple. Event chance (50% per stop) and friend repay chance (60%) are tuning values in `economy.js` |
 
 ---
 

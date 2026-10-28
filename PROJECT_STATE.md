@@ -9,9 +9,9 @@
 
 ## 1. Right now
 
-- **Active phase:** Phase 2 — Money engine (PRD §27)
-- **Status:** Phases 0–1 passed their automatic checks; Gate 0 and the Phase 1 owner playtest are deferred by the owner until after Phase 3
-- **Next step:** Phase 2
+- **Active phase:** Phase 3 — Pit Hub (PRD §27)
+- **Status:** Phases 0–2 passed their automatic checks; Gate 0 and the Phase 1 owner playtest are deferred by the owner until after Phase 3
+- **Next step:** Phase 3
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -20,7 +20,7 @@
 |---|---|---|---|---|
 | 0 — Setup + Gate 0 | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner phone test deferred |
 | 1 — Racing core | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner playtest deferred; car feel not frozen |
-| 2 — Money engine | Not started | | | Auto + review |
+| 2 — Money engine | Done (automatic gate) | 2026-10-28 | see build log | Auto + review (self-review done in this run) |
 | 3 — Pit Hub | Not started | | | Auto |
 | 4 — Seasons | Not started | | | 🛑 Owner |
 | 5 — Polish | Not started | | | Auto |
@@ -35,7 +35,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-28 |
-| Tests | `npm test` | 28 passed (7 files) | 2026-10-28 |
+| Tests | `npm test` | 72 passed (11 files) | 2026-10-28 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-28 |
 | Build | `npm run build` | pass, relative `./assets` paths | 2026-10-28 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720 | taken, checked | 2026-10-28 |
@@ -55,6 +55,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Sheikh Zayed sprint: 4 lanes, lit median, oncoming traffic, metro line with moving train, 2 overhead interchanges, finish gantry.
 - Quick Race mode: Play → Quick Race → pick track → race → results (position, time, damage, hits, finishing order). No money in HUD.
 - Race HUD: position, lap / progress, speed, nitro, damage; cash + loan slot ready for season modes. Pause (button or P), first-race control hints (reset in Settings).
+- Money engine (`src/game/engine/`, pure, no UI/Phaser/storage): season state + state machine (illegal transitions throw), ledger for every money change, seeded RNG, upgrades + car value, Quick/Big loans, payment order, late fees, strikes, repossession, insurance, damage/repair, savings growth, index fund, Desert Gold scam, event pool, rent and scam anchors, entry fees, Club Race, prizes, lessons queue, net worth. All §18 consequence checks pass (7/7).
 
 ## 5. Real vs simplified right now
 
@@ -120,3 +121,11 @@ See `REAL_VS_MOCKED.md`. Nothing built yet.
   - Car stats object: `buildRaceSetup({ carStats: { engine, tyres, nitro, damage } })` → `buildPerformance` (config `UPGRADE_EFFECTS`).
   - Limits: owner playtest not done; rival pace (Rookie 0.92 / Pro 1.0 / Final 1.06) and all handling numbers are first guesses in `src/game/config/`. Nitro has no flame effect yet (Phase 5). No sound (Phase 5).
   - Video act: **Act 1 (Marina race win) can be recorded** in Quick Race → Marina.
+- **2026-10-28 — Phase 2 report (Money engine, PRD §27; built against PRD §11 rules + INV-1…INV-8, §18)**
+  - Files: `src/game/config/{economy,season}.js`; `src/game/engine/{money,ledger,lessons,payments,garage,loans,bank,repair,scam,strikes,events,season,afterRace,netWorth,machine,index}.js`; `tests/engine/{helpers,consequences,rules,machine,property}.test.js`.
+  - Tests: `npm run verify` passed — lint clean, 72 tests in 11 files passed, build OK. §18 consequence checks 7/7. Property test: 300 random seasons (career + quick) keep INV-1 (whole AED), INV-4 (ledger sums = cash, savings, fund, overdue) and INV-7 (a startable race from every Pit Hub). Determinism: same seed + choices → identical final state. INV-8: every money action throws during RACING.
+  - Lint guard: ESLint blocks `Math.random`, Phaser/React/UI imports and browser globals inside `src/game/engine/`.
+  - PRD updates: INV-2 wording (RNG state inside the season state) and the Phase 2 clarifications row in §16.
+  - Review: self-review of the engine against §11 in this run; the PRD's "stronger model review" is still worth doing before Phase 4 tuning.
+  - Limits: Quick Season scripted events (§19) and the snapshot test belong to Phase 4; Quick Season currently has no events. Numbers are untuned.
+  - Video act: none new (engine only).

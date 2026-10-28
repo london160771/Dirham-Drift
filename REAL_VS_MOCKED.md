@@ -4,8 +4,8 @@ Dirham Drift is a game. Nothing in it moves real money. This page says plainly w
 
 | Part | Status | Proof |
 |---|---|---|
-| Racing, physics, AI rivals | Real game code | [to fill: file paths after Phase 1] |
-| Money engine (loans, strikes, repossession, insurance, savings, index fund, scam, ledger) | Real game code, unit-tested | [to fill: test count after it passes] |
+| Racing, physics, AI rivals | Real game code | `src/game/race/` (sim, track, render, scenes); tests in `tests/race/` |
+| Money engine (loans, strikes, repossession, insurance, savings, index fund, scam, ledger) | Real game code, unit-tested | `src/game/engine/`; 47 engine tests in `tests/engine/` incl. all 7 PRD §18 checks (2026-10-28) |
 | Interest, fees, returns, prices | **Simplified and illustrative** | All numbers in `src/game/config/economy.js`; note on Bank screen and How to Play |
 | Banks, funds, sponsors | **Fictional** | No real names or logos |
 | Desert Gold Racing Fund | **Fictional scam, for teaching** | Red-flag checklist + Pit Lesson |
@@ -14,6 +14,6 @@ Dirham Drift is a game. Nothing in it moves real money. This page says plainly w
 
 **Not financial advice.** Rates and returns are not predictions.
 
-**Not built yet:** everything — planning finished on 2026-10-25. This file is updated as each phase is verified.
+**Not built yet (2026-10-28):** Pit Hub screens (Phase 3), Quick/Career season flow, recap and save (Phase 4), sound and settings (Phase 5), PWA + Arabic (Phase 6), Ghost Challenge (Phase 7). This file is updated as each phase is verified.
 
 This file, PRD §17 and the code agree. An honest "not yet" beats a fake green badge.
