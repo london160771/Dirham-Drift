@@ -7,7 +7,7 @@ export function SettingsScreen({ onBack }) {
   const [hintNote, setHintNote] = useState(false);
   const toggleFps = () => setSettings(updateSettings({ showFps: !settings.showFps }));
   const resetHints = () => {
-    setSettings(updateSettings({ hintsSeen: false }));
+    setSettings(updateSettings({ hintsSeen: false, pitTipsSeen: false }));
     setHintNote(true);
   };
   return (

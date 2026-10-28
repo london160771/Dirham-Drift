@@ -73,3 +73,5 @@ export const EVENTS = {
   sponsorTopPosition: 3,
   bonusPrize: 500,
 };
+
+export const BANK_CHIPS = [500, 1000, 5000];

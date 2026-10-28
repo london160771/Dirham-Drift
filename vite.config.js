@@ -1,14 +1,19 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
+const testJsx = { esbuild: { jsx: 'automatic' } };
+
+export default defineConfig(({ mode }) => ({
   base: './',
   plugins: [react()],
+  ...(mode === 'test' ? testJsx : {}),
   build: {
     chunkSizeWarningLimit: 1400,
   },
   test: {
-    environment: 'node',
-    include: ['tests/**/*.test.{js,jsx}'],
+    projects: [
+      { extends: true, test: { name: 'logic', environment: 'node', include: ['tests/**/*.test.js'] } },
+      { extends: true, test: { name: 'screens', environment: 'jsdom', include: ['tests/**/*.test.jsx'] } },
+    ],
   },
-});
+}));

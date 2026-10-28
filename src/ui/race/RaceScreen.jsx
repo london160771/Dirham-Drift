@@ -64,7 +64,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
       {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} />}
       {!settings.hintsSeen && !device.touch && <KeyboardHint used={used} />}
       {settings.showFps && <DebugOverlay telemetry={telemetry} input={input} />}
-      {paused && !device.mustRotate && <PauseOverlay onResume={() => setPaused(false)} onQuit={onQuit} />}
+      {paused && !device.mustRotate && <PauseOverlay onResume={() => setPaused(false)} onQuit={() => onQuit(telemetry)} />}
       {device.mustRotate && <RotateOverlay />}
     </div>
   );

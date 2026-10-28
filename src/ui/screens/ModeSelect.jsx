@@ -8,7 +8,7 @@ export function ModeSelect({ modes, onPick, onBack }) {
         {modes.map((mode) => (
           <button key={mode.id} type="button" className="card" onClick={() => onPick(mode.id)} data-testid={`mode-${mode.id}`}>
             <strong>{t(mode.title)}</strong>
-            <span>{t(mode.info)}</span>
+            <span>{t(mode.info, mode.vars)}</span>
           </button>
         ))}
       </div>

@@ -1,5 +1,5 @@
 const KEY = 'dirham-drift:settings';
-const DEFAULTS = { showFps: false, hintsSeen: false };
+const DEFAULTS = { showFps: false, hintsSeen: false, pitTipsSeen: false };
 
 export function loadSettings() {
   try {

@@ -7,6 +7,7 @@ export function buildRaceSetup({ trackId, carStats = { engine: 0, tyres: 0, nitr
   const pace = RIVAL_PACE[stage];
   return {
     trackId,
+    looks: { engine: carStats.engine, tyres: carStats.tyres, nitro: carStats.nitro },
     race: {
       player: buildPerformance(carStats),
       rivals: Array.from({ length: RIVALS }, () => buildPerformance({}, pace)),

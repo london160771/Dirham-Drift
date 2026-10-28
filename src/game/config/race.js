@@ -13,7 +13,10 @@ export const RACE = {
 
 export const RACE_SEEDS = {
   quickRace: 20261026,
+  perRaceStep: 7919,
 };
+
+export const SEED_RANGE = 2147483647;
 
 export const RIVAL_PACE = {
   rookie: 0.92,

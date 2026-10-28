@@ -61,6 +61,8 @@ export const CAR_COLORS = {
     { body: '#8a8f99', trim: '#3a3d44', glass: '#3a4a5c' },
     { body: '#3e4452', trim: '#22252c', glass: '#3a4a5c' },
   ],
+  tyre: '#0d0e12',
+  engineStripe: '#fff6d8',
   headlight: '#fff6d8',
   tailLight: '#ff3b47',
   shadow: 'rgba(0, 0, 0, 0.45)',
@@ -101,4 +103,9 @@ export const DEPTH = {
   track: 0,
   cars: 10,
   overlay: 20,
+};
+
+export const GARAGE_PREVIEW = {
+  scale: 3.2,
+  pad: 16,
 };

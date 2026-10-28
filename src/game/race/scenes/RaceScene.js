@@ -35,7 +35,8 @@ export class RaceScene extends Phaser.Scene {
     this.race = createRace({ track, ...this.setup.race });
     this.sprites = this.race.entries.map((entry, i) => {
       const colors = entry.car.isPlayer ? CAR_COLORS.player : CAR_COLORS.rivals[(i - 1) % CAR_COLORS.rivals.length];
-      const key = createCarTexture(this, entry.car.isPlayer ? 'player' : `rival-${i}`, colors);
+      const levels = entry.car.isPlayer ? this.setup.looks : undefined;
+      const key = createCarTexture(this, entry.car.isPlayer ? 'player' : `rival-${i}`, colors, levels);
       return this.add.image(entry.car.x, entry.car.y, key).setScale(CAR_TEXTURE_SCALE).setDepth(DEPTH.cars + (entry.car.isPlayer ? 1 : 0));
     });
     this.traffic = createAmbientTraffic(this, track);
