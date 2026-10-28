@@ -16,9 +16,9 @@ export const RACE_SEEDS = {
 };
 
 export const RIVAL_PACE = {
-  rookie: 0.86,
-  pro: 0.97,
-  final: 1.04,
+  rookie: 0.92,
+  pro: 1,
+  final: 1.06,
 };
 
 export const AI = {

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { t } from '../../i18n/strings.js';
+import { Hint } from './Hints.jsx';
 
 const SOURCE = 'touch';
 
@@ -18,7 +19,7 @@ function useHold(input, control) {
   return { onPointerDown: start, onPointerUp: end, onPointerCancel: end, onLostPointerCapture: end };
 }
 
-function SteerPad({ input }) {
+function SteerPad({ input, hints, used }) {
   const sides = useRef(new Map());
   const apply = () => {
     const values = [...sides.current.values()];
@@ -50,27 +51,31 @@ function SteerPad({ input }) {
     <div className="steer-pad" data-testid="steer-pad" onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onLostPointerCapture={up}>
       <span className="touch-btn steer" aria-label={t('controls.left')}>◀</span>
       <span className="touch-btn steer" aria-label={t('controls.right')}>▶</span>
+      <Hint show={hints} used={used.has('left')} textKey="controls.hintSteer" className="hint-steer" />
     </div>
   );
 }
 
-function HoldButton({ input, control, className, label }) {
+const HINT_KEYS = { gas: 'controls.hintGas', brake: 'controls.hintBrake', nitro: 'controls.hintNitro' };
+
+function HoldButton({ input, control, hints, used }) {
   const handlers = useHold(input, control);
   return (
-    <button type="button" className={`touch-btn ${className}`} data-testid={`btn-${control}`} {...handlers}>
-      {label}
+    <button type="button" className={`touch-btn ${control}`} data-testid={`btn-${control}`} {...handlers}>
+      {t(`controls.${control}`)}
+      <Hint show={hints} used={used.has(control)} textKey={HINT_KEYS[control]} className={`hint-${control}`} />
     </button>
   );
 }
 
-export function TouchControls({ input }) {
+export function TouchControls({ input, hints, used }) {
   return (
     <div className="touch-layer">
-      <SteerPad input={input} />
+      <SteerPad input={input} hints={hints} used={used} />
       <div className="pedals">
-        <HoldButton input={input} control="nitro" className="nitro" label={t('controls.nitro')} />
-        <HoldButton input={input} control="brake" className="brake" label={t('controls.brake')} />
-        <HoldButton input={input} control="gas" className="gas" label={t('controls.gas')} />
+        {['nitro', 'brake', 'gas'].map((control) => (
+          <HoldButton key={control} input={input} control={control} hints={hints} used={used} />
+        ))}
       </div>
     </div>
   );

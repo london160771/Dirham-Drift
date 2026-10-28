@@ -146,3 +146,85 @@ body {
   color: var(--teal);
   margin: 0;
 }
+
+.card-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(260px, 42vw);
+  min-height: 96px;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--panel-edge);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card strong {
+  font-size: 18px;
+  color: var(--gold);
+}
+
+.card span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.track-card.marina {
+  background: linear-gradient(135deg, #10263a 0%, var(--panel) 70%);
+}
+
+.track-card.sheikhZayed {
+  background: linear-gradient(135deg, #12302c 0%, var(--panel) 70%);
+}
+
+.result-headline {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.result-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.finish-order {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.finish-order li {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.finish-order b {
+  color: var(--muted);
+  margin-right: 4px;
+}
+
+.finish-order li.me {
+  color: var(--gold);
+  font-weight: 800;
+}

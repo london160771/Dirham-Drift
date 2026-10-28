@@ -33,7 +33,7 @@ export const WALLS = {
   hitSpeedThreshold: 70,
   damagePerSpeed: 0.08,
   maxDamagePerHit: 34,
-  hardHitSpeed: 160,
+  scrapeLossPerSecond: 1.4,
 };
 
 export const DAMAGE = {

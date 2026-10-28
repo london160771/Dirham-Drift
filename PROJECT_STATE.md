@@ -9,9 +9,9 @@
 
 ## 1. Right now
 
-- **Active phase:** Phase 1 — Racing core (PRD §27)
-- **Status:** Phase 0 passed its automatic checks; Gate 0 (owner phone test) deferred by the owner until after Phase 3
-- **Next step:** Phase 1
+- **Active phase:** Phase 2 — Money engine (PRD §27)
+- **Status:** Phases 0–1 passed their automatic checks; Gate 0 and the Phase 1 owner playtest are deferred by the owner until after Phase 3
+- **Next step:** Phase 2
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -19,7 +19,7 @@
 | Phase (PRD §27) | Status | Verified on | Commit | Gate |
 |---|---|---|---|---|
 | 0 — Setup + Gate 0 | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner phone test deferred |
-| 1 — Racing core | Not started | | | 🛑 Owner |
+| 1 — Racing core | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner playtest deferred; car feel not frozen |
 | 2 — Money engine | Not started | | | Auto + review |
 | 3 — Pit Hub | Not started | | | Auto |
 | 4 — Seasons | Not started | | | 🛑 Owner |
@@ -35,7 +35,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-28 |
-| Tests | `npm test` | 9 passed (3 files) | 2026-10-28 |
+| Tests | `npm test` | 28 passed (7 files) | 2026-10-28 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-28 |
 | Build | `npm run build` | pass, relative `./assets` paths | 2026-10-28 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720 | taken, checked | 2026-10-28 |
@@ -49,6 +49,12 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - One player car with arcade physics, barrier collisions, rotating follow camera with look-ahead.
 - Touch controls (steer pad, Gas, Brake, Nitro) and keyboard (arrows/WASD, Shift, Space, P). Two-finger steer + gas checked with a two-point touch event in headless Chromium.
 - Rotate-your-phone screen in portrait; frame-rate debug overlay (Settings → Show frame rate).
+- 4 AI rivals on a racing line with lane changes to pass, seeded pace variation and stage pace (Rookie / Pro / Final); unstick reset.
+- Ordered checkpoints and laps (3 on Marina), sprint finish line on Sheikh Zayed, live positions, 3-2-1-GO countdown.
+- Barrier hits add damage (0–100%) that lowers top speed; wall scraping bleeds speed; nitro fills, bursts and empties.
+- Sheikh Zayed sprint: 4 lanes, lit median, oncoming traffic, metro line with moving train, 2 overhead interchanges, finish gantry.
+- Quick Race mode: Play → Quick Race → pick track → race → results (position, time, damage, hits, finishing order). No money in HUD.
+- Race HUD: position, lap / progress, speed, nitro, damage; cash + loan slot ready for season modes. Pause (button or P), first-race control hints (reset in Settings).
 
 ## 5. Real vs simplified right now
 
@@ -107,3 +113,10 @@ See `REAL_VS_MOCKED.md`. Nothing built yet.
   - Config/env: no env vars. Vitest pinned to 4.0.18 (npm 10 crash with ≥ 4.1, PRD §16).
   - Limits: Gate 0 not done (no real phone here). Car feel not frozen.
   - Video act: none yet (Act 1 needs Phase 1 races).
+- **2026-10-28 — Phase 1 report (Racing core, PRD §27; built against FR-RACE-001…008, FR-CTL-001…004)**
+  - Files: `src/game/race/sim/*` (AI driver + passing, lap tracker, positions, walls with damage + scrape, race sim, results), `src/game/race/render/sheikhZayedScene.js`, `src/game/race/scenes/ambientTraffic.js`, `src/ui/screens/{ModeSelect,TrackSelect,QuickRaceResults}.jsx`, `src/ui/race/*` (HUD money slot, hints anchored to each control), `src/game/config/{race,car,style}.js`, `tests/race/*`.
+  - Tests: `npm run verify` passed — lint clean, 28 tests in 7 files passed, build OK. New tests: lap counting (in order, 3 laps, skipped section doesn't count, backwards doesn't count, sprint finish), position sorting, damage → top speed, nitro fill/burn/boost, barrier hit damage vs gentle touch, all rivals finish both tracks, Pro/Final rivals faster than Rookie, same seed → same race, results carry no money.
+  - Manual checks: Playwright 1280×720 and 844×390 (touch) on both tracks; nitro + steer + gas held with three touch points read correctly; results screen after a sprint; interchange, metro, median and oncoming traffic visible.
+  - Car stats object: `buildRaceSetup({ carStats: { engine, tyres, nitro, damage } })` → `buildPerformance` (config `UPGRADE_EFFECTS`).
+  - Limits: owner playtest not done; rival pace (Rookie 0.92 / Pro 1.0 / Final 1.06) and all handling numbers are first guesses in `src/game/config/`. Nitro has no flame effect yet (Phase 5). No sound (Phase 5).
+  - Video act: **Act 1 (Marina race win) can be recorded** in Quick Race → Marina.

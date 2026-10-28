@@ -9,6 +9,23 @@ export const EN = {
     settings: 'Settings',
     back: 'Back',
   },
+  modes: {
+    title: 'Choose a mode',
+    quickRace: 'Quick Race',
+    quickRaceInfo: 'Pick a track and race. No money.',
+  },
+  results: {
+    title: 'Race results',
+    position: 'You finished P{position} of {total}',
+    time: 'Time {time}',
+    damage: 'Damage {value}%',
+    hits: 'Barrier hits {value}',
+    order: 'Finishing order',
+    you: 'You',
+    rival: 'Rival {number}',
+    again: 'Race again',
+    menu: 'Menu',
+  },
   tracks: {
     marina: 'Marina street circuit',
     marinaInfo: '3 laps around the canal',
@@ -26,6 +43,9 @@ export const EN = {
     go: 'GO!',
     fps: '{fps} fps',
     pause: 'Pause',
+    cash: 'AED {amount}',
+    loan: 'Loan AED {amount} left',
+    noLoan: 'No loan',
   },
   controls: {
     left: 'Steer left',

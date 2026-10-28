@@ -58,8 +58,19 @@
 }
 
 .hud-money {
+  display: flex;
+  flex-direction: column;
   font-size: 13px;
+  font-weight: 700;
   color: var(--gold);
+}
+
+.hud-money .owed {
+  color: #ff8a93;
+}
+
+.hud-money .owed::before {
+  content: '− ';
 }
 
 .hud-speed strong {
@@ -223,12 +234,6 @@
   background: rgba(245, 196, 81, 0.3);
 }
 
-.hints {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 .hint {
   position: absolute;
   padding: 6px 10px;
@@ -237,6 +242,8 @@
   color: #03201d;
   font-size: 13px;
   font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
   animation: hint-in 0.6s ease-out both;
   transition: opacity 0.5s;
   pointer-events: none;
@@ -246,26 +253,27 @@
   opacity: 0;
 }
 
-.hint-steer {
-  left: max(18px, env(safe-area-inset-left));
-  bottom: 120px;
+.steer-pad .hint-steer {
+  left: 0;
+  bottom: calc(100% + 8px);
 }
 
-.hint-gas {
-  right: max(18px, env(safe-area-inset-right));
-  bottom: 128px;
+.touch-btn .hint-gas {
+  right: calc(100% + 6px);
+  bottom: calc(100% - 8px);
   animation-delay: 0.3s;
 }
 
-.hint-brake {
-  right: 150px;
-  bottom: 96px;
+.touch-btn .hint-brake {
+  right: calc(100% + 8px);
+  top: 50%;
+  margin-top: -15px;
   animation-delay: 0.6s;
 }
 
-.hint-nitro {
-  right: 108px;
-  bottom: 212px;
+.touch-btn .hint-nitro {
+  right: 0;
+  bottom: calc(100% + 8px);
   animation-delay: 0.9s;
 }
 

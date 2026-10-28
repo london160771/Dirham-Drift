@@ -31,8 +31,8 @@ export function createAmbientTraffic(scene, track) {
   const point = {};
   const cars = [];
   for (let i = 0; i < DECOR.trafficCount; i += 1) {
-    const colors = CAR_COLORS.rivals[i % CAR_COLORS.rivals.length];
-    const key = createCarTexture(scene, `traffic-${i % CAR_COLORS.rivals.length}`, colors);
+    const variant = i % CAR_COLORS.traffic.length;
+    const key = createCarTexture(scene, `traffic-${variant}`, CAR_COLORS.traffic[variant]);
     const lane = layout.oncomingCenter + (i % 2 === 0 ? -1 : 1) * (ONCOMING_LANE_SPREAD / 2);
     const sprite = scene.add.image(0, 0, key).setScale(CAR_TEXTURE_SCALE).setDepth(DEPTH.cars - 1);
     cars.push({ sprite, lane, s: rng.range(0, track.length), speed: DECOR.trafficSpeed * rng.range(0.8, 1.2) });

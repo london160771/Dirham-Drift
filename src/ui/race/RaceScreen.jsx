@@ -3,11 +3,12 @@ import { createInputState } from '../../game/race/input/inputState.js';
 import { attachKeyboard } from '../../game/race/input/keyboard.js';
 import { t } from '../../i18n/strings.js';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
-import { Hints } from './Hints.jsx';
+import { KeyboardHint } from './Hints.jsx';
 import { Countdown, DebugOverlay, Hud } from './Hud.jsx';
 import { PauseOverlay, RotateOverlay } from './Overlays.jsx';
 import { TouchControls } from './TouchControls.jsx';
 import { useDevice } from './useDevice.js';
+import { useUsedControls } from './useUsedControls.js';
 
 export function RaceScreen({ setup, money, onFinish, onQuit }) {
   const hostRef = useRef(null);
@@ -16,6 +17,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
   const input = useMemo(() => createInputState(), []);
   const settings = useMemo(() => loadSettings(), []);
   const device = useDevice();
+  const used = useUsedControls(input);
   const [telemetry, setTelemetry] = useState(null);
   const [paused, setPaused] = useState(false);
   const [ready, setReady] = useState(false);
@@ -59,8 +61,8 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
       {!ready && <div className="overlay loading">{t('common.loading')}</div>}
       <Hud telemetry={telemetry} money={money} onPause={() => setPaused(true)} />
       <Countdown telemetry={telemetry} />
-      {device.touch && <TouchControls input={input} />}
-      {!settings.hintsSeen && <Hints input={input} touch={device.touch} />}
+      {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} />}
+      {!settings.hintsSeen && !device.touch && <KeyboardHint used={used} />}
       {settings.showFps && <DebugOverlay telemetry={telemetry} input={input} />}
       {paused && !device.mustRotate && <PauseOverlay onResume={() => setPaused(false)} onQuit={onQuit} />}
       {device.mustRotate && <RotateOverlay />}

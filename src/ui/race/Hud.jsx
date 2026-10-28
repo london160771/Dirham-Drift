@@ -1,5 +1,6 @@
 import { SPEED_TO_KMH } from '../../game/config/car.js';
 import { t } from '../../i18n/strings.js';
+import { formatAed } from '../format.js';
 
 function Bar({ value, className }) {
   return (
@@ -23,7 +24,14 @@ export function Hud({ telemetry, money, onPause }) {
         <div className="hud-lap">
           {sprint ? t('hud.progress', { percent: Math.round(telemetry.progress * 100) }) : t('hud.lap', { current: telemetry.lap, total: telemetry.laps })}
         </div>
-        {money && <div className="hud-money">{money}</div>}
+        {money && (
+          <div className="hud-money" data-testid="hud-money">
+            <span>{t('hud.cash', { amount: formatAed(money.cash) })}</span>
+            <span className={money.loanLeft > 0 ? 'owed' : ''}>
+              {money.loanLeft > 0 ? t('hud.loan', { amount: formatAed(money.loanLeft) }) : t('hud.noLoan')}
+            </span>
+          </div>
+        )}
       </div>
       <button type="button" className="hud-pause" onClick={onPause} aria-label={t('hud.pause')}>
         II

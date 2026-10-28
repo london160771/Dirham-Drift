@@ -112,7 +112,7 @@ function stepEntry(race, entry, playerInput, dt) {
   }
   stepCar(entry.car, entry.car.isPlayer && !entry.lap.finished ? playerInput : entry.input, dt);
   locate(track, entry.car.x, entry.car.y, entry.loc.index, entry.loc);
-  collideWithWalls(track, entry.car, entry.loc);
+  collideWithWalls(track, entry.car, entry.loc, dt);
   locate(track, entry.car.x, entry.car.y, entry.loc.index, entry.loc);
   const wasFinished = entry.lap.finished;
   updateLap(track, entry.lap, entry.loc.s);
