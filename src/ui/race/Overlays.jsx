@@ -1,0 +1,25 @@
+import { t } from '../../i18n/strings.js';
+
+export function RotateOverlay() {
+  return (
+    <div className="overlay rotate" data-testid="rotate">
+      <div className="rotate-icon">⟳</div>
+      <h2>{t('rotate.title')}</h2>
+      <p>{t('rotate.body')}</p>
+    </div>
+  );
+}
+
+export function PauseOverlay({ onResume, onQuit }) {
+  return (
+    <div className="overlay" data-testid="pause">
+      <h2>{t('pause.title')}</h2>
+      <button type="button" className="btn primary" onClick={onResume}>
+        {t('pause.resume')}
+      </button>
+      <button type="button" className="btn" onClick={onQuit}>
+        {t('pause.quit')}
+      </button>
+    </div>
+  );
+}

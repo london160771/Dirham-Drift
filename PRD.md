@@ -353,7 +353,7 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 - Option A (ideal): free steering with Gas/Brake/Nitro, light drift on hard turns.
 - Option B (fallback): stronger steering assist that pulls toward the racing line.
 - Acceptance: one Marina lap on the owner's real phone feels fun; ≥ 45 fps; multi-touch works.
-- **Result:** [ ] (date + phone model + fps + short screen recording)
+- **Result:** deferred — owner phone test pending (owner decision 2026-10-28: build Phases 0–3 first, test on a real phone after Phase 3). Car-handling numbers stay in `src/game/config/` and are not frozen yet.
 
 **Resolved decisions — do not re-litigate:**
 | Date | Decision | Reason / evidence |
@@ -372,6 +372,10 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | 2026-10-25 | Submit on itch.io (HTML5 upload) + Vercel link for app install | Jam submits only via itch; PWA install doesn't work in itch's frame |
 | 2026-10-25 | 9 phases with 3 owner playtest gates; commit only after approval | Owner's workflow |
 | 2026-10-25 | No in-game live AI | Not needed by the rubric; all behaviour is game code |
+| 2026-10-28 | Gate 0 and the Phase 1 owner gate deferred until after Phase 3; Phases 0–3 committed and pushed to `main` as each passes `npm run verify` | Owner's build brief for this run |
+| 2026-10-28 | Phaser 4.2.1 runs with `render.maxTextures = 1` | Phaser 4.2.1's multi-texture shader picks the texture with an exact float compare on an interpolated value (`outTexDatum == float(INDEX)` in `GetTexture-glsl.js`). With a rotated camera, images dropped out in pieces in a minimal repro (headless Chromium, SwiftShader). One texture per batch removes the compare; the track is baked into a few large textures, so draw calls stay low |
+| 2026-10-28 | Vitest pinned to 4.0.18 | npm 10.9 crashes (`Cannot read properties of null (reading 'edgesOut')`) resolving Vitest ≥ 4.1 peer deps; 4.0.18 installs cleanly on npm 10 and 11 |
+| 2026-10-28 | Race camera rotates with the car (car points up, look-ahead in front); `CAMERA.mode` in config can switch to a fixed north-up view | "Driver view, zoomed in, ahead of the car" (FR-RACE-001); to be confirmed at the owner phone test |
 
 ---
 

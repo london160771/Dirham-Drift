@@ -1,0 +1,62 @@
+export const EN = {
+  app: {
+    title: 'Dirham Drift',
+    tagline: "Race for money. Don't let money race you.",
+    flow: 'RACE → EARN → BORROW → CRASH → REPO → SCAM → RECOVER',
+  },
+  title: {
+    play: 'Play',
+    settings: 'Settings',
+    back: 'Back',
+  },
+  tracks: {
+    marina: 'Marina street circuit',
+    marinaInfo: '3 laps around the canal',
+    sheikhZayed: 'Sheikh Zayed sprint',
+    sheikhZayedInfo: 'Start to finish, 4 lanes',
+    pick: 'Pick a track',
+  },
+  hud: {
+    position: 'POS',
+    lap: 'LAP {current}/{total}',
+    progress: '{percent}%',
+    speed: 'km/h',
+    nitro: 'NITRO',
+    damage: 'DMG {value}%',
+    go: 'GO!',
+    fps: '{fps} fps',
+    pause: 'Pause',
+  },
+  controls: {
+    left: 'Steer left',
+    right: 'Steer right',
+    gas: 'GAS',
+    brake: 'BRAKE',
+    nitro: 'NITRO',
+    hintSteer: 'Hold to steer',
+    hintGas: 'Hold to drive',
+    hintBrake: 'Brake / reverse',
+    hintNitro: 'Tap for a boost',
+    hintKeyboard: 'Arrows or WASD to drive · Shift brake · Space nitro · P pause',
+  },
+  pause: {
+    title: 'Paused',
+    resume: 'Resume',
+    quit: 'Quit race',
+  },
+  rotate: {
+    title: 'Rotate your phone',
+    body: 'Dirham Drift plays in landscape.',
+  },
+  settings: {
+    title: 'Settings',
+    showFps: 'Show frame rate',
+    resetHints: 'Show control hints again',
+    hintsReset: 'Hints will show next race.',
+    on: 'On',
+    off: 'Off',
+  },
+  common: {
+    loading: 'Loading track…',
+  },
+};

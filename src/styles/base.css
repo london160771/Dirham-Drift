@@ -1,0 +1,148 @@
+:root {
+  --night: #0b0d14;
+  --panel: #151926;
+  --panel-edge: #262c40;
+  --text: #eef1f7;
+  --muted: #9aa3b6;
+  --gold: #f5c451;
+  --teal: #2ec4b6;
+  --danger: #e63946;
+  --radius: 14px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--font);
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  overflow-y: auto;
+}
+
+.title-screen {
+  background: radial-gradient(ellipse at 50% 30%, #1a2236 0%, var(--night) 70%);
+}
+
+.logo {
+  margin: 0;
+  font-size: clamp(40px, 9vh, 76px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  font-style: italic;
+}
+
+.logo-gold {
+  color: var(--gold);
+}
+
+.tagline {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(15px, 3.4vh, 20px);
+}
+
+.flow {
+  margin: 0;
+  color: var(--teal);
+  font-size: clamp(10px, 2.4vh, 13px);
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--panel-edge);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.btn.primary {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #1b1405;
+}
+
+.btn.big {
+  font-size: 20px;
+  padding: 12px 36px;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn.toggle.on {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #04201d;
+}
+
+.panel-screen h2 {
+  margin: 0;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(420px, 100%);
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.note {
+  color: var(--teal);
+  margin: 0;
+}

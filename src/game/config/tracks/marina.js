@@ -1,0 +1,22 @@
+export const MARINA = {
+  id: 'marina',
+  kind: 'circuit',
+  laps: 3,
+  roadHalfWidth: 112,
+  sideGap: 270,
+  promenadeWidth: 44,
+  sampleSpacing: 8,
+  startDistance: 700,
+  spine: [
+    [1400, 4700],
+    [1400, 4200],
+    [1260, 3600],
+    [1300, 3000],
+    [1520, 2400],
+    [1480, 1800],
+    [1310, 1250],
+    [1350, 760],
+  ],
+  seaEdgeY: 520,
+  margin: 700,
+};
