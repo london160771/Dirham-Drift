@@ -8,5 +8,6 @@ export function buildPerformance({ engine = 0, tyres = 0, nitro = 0 } = {}, pace
     steerMultiplier: 1 + UPGRADE_EFFECTS.tyres[tyres] * 0.35,
     nitroBoost: NITRO.speedBoost * (1 + UPGRADE_EFFECTS.nitro[nitro]),
     nitroFill: NITRO.fillPerSecond * (1 + UPGRADE_EFFECTS.nitro[nitro] * 0.5),
+    damageTaken: 1,
   };
 }

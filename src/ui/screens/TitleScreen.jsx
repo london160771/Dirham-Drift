@@ -1,8 +1,10 @@
 import { t } from '../../i18n/strings.js';
+import { SceneArt } from '../art/SceneArt.jsx';
 
-export function TitleScreen({ onPlay, onSettings }) {
+export function TitleScreen({ onPlay, onHowTo, onSettings, onCredits }) {
   return (
     <div className="screen title-screen">
+      <SceneArt slot="title" className="backdrop" />
       <div className="title-glow" />
       <h1 className="logo">
         <span className="logo-gold">Dirham</span> Drift
@@ -13,9 +15,17 @@ export function TitleScreen({ onPlay, onSettings }) {
         <button type="button" className="btn primary big" onClick={onPlay} data-testid="play">
           {t('title.play')}
         </button>
-        <button type="button" className="btn" onClick={onSettings}>
-          {t('title.settings')}
-        </button>
+        <div className="menu row">
+          <button type="button" className="btn" onClick={onHowTo} data-testid="open-how-to">
+            {t('title.howTo')}
+          </button>
+          <button type="button" className="btn" onClick={onSettings} data-testid="open-settings">
+            {t('title.settings')}
+          </button>
+          <button type="button" className="btn" onClick={onCredits} data-testid="open-credits">
+            {t('title.credits')}
+          </button>
+        </div>
       </div>
     </div>
   );

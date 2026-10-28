@@ -2,12 +2,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { createInputState } from '../../game/race/input/inputState.js';
 import { attachKeyboard } from '../../game/race/input/keyboard.js';
 import { t } from '../../i18n/strings.js';
+import { applyAssists } from '../raceSetup.js';
+import { HowToPlay } from '../screens/HowToPlay.jsx';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
 import { KeyboardHint } from './Hints.jsx';
 import { Countdown, DebugOverlay, Hud } from './Hud.jsx';
 import { PauseOverlay, RotateOverlay } from './Overlays.jsx';
 import { TouchControls } from './TouchControls.jsx';
 import { useDevice } from './useDevice.js';
+import { useRaceSounds } from './useRaceSounds.js';
 import { useUsedControls } from './useUsedControls.js';
 
 export function RaceScreen({ setup, money, onFinish, onQuit }) {
@@ -21,7 +24,10 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
   const [telemetry, setTelemetry] = useState(null);
   const [paused, setPaused] = useState(false);
   const [ready, setReady] = useState(false);
+  const [howTo, setHowTo] = useState(false);
   const blocked = paused || device.mustRotate;
+  const tuned = useMemo(() => ({ ...applyAssists(setup, settings), reduceMotion: settings.reduceMotion }), [setup, settings]);
+  useRaceSounds(telemetry, settings, blocked);
 
   useEffect(() => {
     pausedRef.current = blocked;
@@ -42,7 +48,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
     let game = null;
     let cancelled = false;
     import('../../game/race/createRaceGame.js').then(({ createRaceGame }) => {
-      if (!cancelled) game = createRaceGame(hostRef.current, setup, bridge);
+      if (!cancelled) game = createRaceGame(hostRef.current, tuned, bridge);
     });
     const detach = attachKeyboard(input, { onPause: () => setPaused((p) => !p) });
     const hide = () => document.hidden && setPaused(true);
@@ -53,7 +59,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
       cancelled = true;
       game?.destroy(true);
     };
-  }, [input, setup]);
+  }, [input, tuned]);
 
   return (
     <div className="race-screen">
@@ -64,7 +70,8 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
       {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} />}
       {!settings.hintsSeen && !device.touch && <KeyboardHint used={used} />}
       {settings.showFps && <DebugOverlay telemetry={telemetry} input={input} />}
-      {paused && !device.mustRotate && <PauseOverlay onResume={() => setPaused(false)} onQuit={() => onQuit(telemetry)} />}
+      {paused && !device.mustRotate && !howTo && <PauseOverlay onResume={() => setPaused(false)} onHowTo={() => setHowTo(true)} onQuit={() => onQuit(telemetry)} />}
+      {paused && howTo && <HowToPlay overlay onBack={() => setHowTo(false)} />}
       {device.mustRotate && <RotateOverlay />}
     </div>
   );

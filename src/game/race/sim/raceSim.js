@@ -170,6 +170,8 @@ export function playerTelemetry(race) {
     nitro: player.car.nitro,
     nitroActive: player.car.nitroActive,
     damage: Math.round(player.car.damage),
+    hits: player.car.hits,
+    drifting: player.car.drifting,
     timeMs: Math.round(race.time * 1000),
     finished: player.lap.finished,
   };

@@ -34,14 +34,14 @@
 }
 
 .money-bar .label {
-  font-size: 11px;
+  font-size: calc(11px * var(--text-scale, 1));
   color: var(--muted);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
 .money-bar strong {
-  font-size: 16px;
+  font-size: calc(16px * var(--text-scale, 1));
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -52,7 +52,7 @@
 }
 
 .net-worth strong {
-  font-size: 22px;
+  font-size: calc(22px * var(--text-scale, 1));
   color: var(--gold);
 }
 
@@ -65,19 +65,19 @@
 }
 
 .money-cell.danger strong {
-  color: #ff8a93;
+  color: var(--loss);
 }
 
 .strikes {
-  font-size: 11px;
+  font-size: calc(11px * var(--text-scale, 1));
   font-weight: 800;
-  color: #ff8a93;
+  color: var(--loss);
 }
 
 .small-btn {
   min-height: 40px;
   padding: 6px 14px;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .pit-tabs {
@@ -94,7 +94,7 @@
   color: var(--muted);
   font: inherit;
   font-weight: 700;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
   cursor: pointer;
 }
 
@@ -116,11 +116,11 @@
 }
 
 .small {
-  font-size: 13px;
+  font-size: calc(13px * var(--text-scale, 1));
 }
 
 .danger-text {
-  color: #ff8a93;
+  color: var(--loss);
   margin: 0;
 }
 
@@ -130,7 +130,7 @@
   border-radius: 10px;
   background: rgba(230, 57, 70, 0.18);
   color: #ffb3b9;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .term {
@@ -160,13 +160,13 @@
 
 .delta.gain,
 dd.gain {
-  color: #7be0a6;
+  color: var(--gain);
 }
 
 .delta.loss,
 .delta.owed,
 dd.loss {
-  color: #ff8a93;
+  color: var(--loss);
 }
 
 .pit-home {
@@ -200,7 +200,7 @@ dd.loss {
 }
 
 .door .door-icon {
-  font-size: 26px;
+  font-size: calc(26px * var(--text-scale, 1));
 }
 
 .door-text {
@@ -210,7 +210,7 @@ dd.loss {
 }
 
 .door strong {
-  font-size: 17px;
+  font-size: calc(17px * var(--text-scale, 1));
 }
 
 .door-garage {
@@ -234,7 +234,7 @@ dd.loss {
 .next-race h3,
 .bank-section h3 {
   margin: 0 0 8px;
-  font-size: 16px;
+  font-size: calc(16px * var(--text-scale, 1));
 }
 
 .race-options {
@@ -254,7 +254,7 @@ dd.loss {
 
 .race-option strong {
   color: var(--gold);
-  font-size: 16px;
+  font-size: calc(16px * var(--text-scale, 1));
 }
 
 .race-option.club strong {
@@ -304,7 +304,7 @@ dd.loss {
 }
 
 .kicker {
-  font-size: 12px;
+  font-size: calc(12px * var(--text-scale, 1));
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -312,7 +312,7 @@ dd.loss {
 }
 
 .key-number {
-  font-size: 20px;
+  font-size: calc(20px * var(--text-scale, 1));
   font-weight: 900;
   color: var(--gold);
 }
@@ -376,13 +376,13 @@ dd.loss {
 }
 
 .slot-name .muted {
-  font-size: 13px;
+  font-size: calc(13px * var(--text-scale, 1));
 }
 
 .slot .btn {
   min-height: 40px;
   padding: 6px 12px;
-  font-size: 15px;
+  font-size: calc(15px * var(--text-scale, 1));
 }
 
 .pips {
@@ -420,7 +420,7 @@ dd.loss {
 
 .bank-section p {
   margin: 0;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .bank-section.teal {
@@ -453,7 +453,7 @@ dd.loss {
   justify-content: space-between;
   gap: 2px 12px;
   margin: 0;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .offer dt {
@@ -469,7 +469,7 @@ dd.loss {
 
 .offer dd.total {
   color: var(--gold);
-  font-size: 16px;
+  font-size: calc(16px * var(--text-scale, 1));
 }
 
 .active-loan {
@@ -486,7 +486,7 @@ dd.loss {
 
 .chips-label {
   min-width: 72px;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
   font-weight: 700;
 }
 
@@ -499,7 +499,7 @@ dd.loss {
   background: #1b2030;
   color: var(--text);
   font: inherit;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
   font-weight: 700;
   cursor: pointer;
 }
@@ -515,7 +515,7 @@ dd.loss {
   border-radius: 10px;
   border: 1px dashed var(--panel-edge);
   color: var(--muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--text-scale, 1));
   text-align: center;
 }
 
@@ -539,7 +539,7 @@ dd.loss {
   padding: 8px 10px;
   border-radius: 10px;
   background: #1b2030;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .lesson-book li.met strong {
@@ -580,11 +580,11 @@ dd.loss {
 .statement .line em {
   color: var(--teal);
   font-style: normal;
-  font-size: 13px;
+  font-size: calc(13px * var(--text-scale, 1));
 }
 
 .statement .line.notice {
-  color: #ff8a93;
+  color: var(--loss);
   font-weight: 800;
 }
 
@@ -644,7 +644,7 @@ dd.loss {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2px 12px;
-  font-size: 14px;
+  font-size: calc(14px * var(--text-scale, 1));
 }
 
 .choices {

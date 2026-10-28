@@ -10,8 +10,8 @@
 ## 1. Right now
 
 - **Active phase:** Phases 4–6 run (owner brief 2026-10-28: pre-approved per phase once acceptance + verify pass; owner checks deferred)
-- **Status:** Phase 4 built and verified; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review)
-- **Next step:** Phase 5 (Polish)
+- **Status:** Phases 4–5 built and verified; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review)
+- **Next step:** Phase 6 (App + Arabic)
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -22,8 +22,8 @@
 | 1 — Racing core | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner playtest deferred; car feel not frozen |
 | 2 — Money engine | Done (automatic gate) | 2026-10-28 | see build log | Auto + review (self-review done in this run) |
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
-| 4 — Seasons | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
-| 5 — Polish | Not started | | | Auto |
+| 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
+| 5 — Polish | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
 | 6 — App + Arabic (P1) | Not started | | | Owner install test |
 | 7 — Ghost Challenge (P1) | Not started | | | Owner two-phone test |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
@@ -35,7 +35,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-28 |
-| Tests | `npm test` | 101 passed (16 files) | 2026-10-28 |
+| Tests | `npm test` | 113 passed (18 files) | 2026-10-28 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-28 |
 | Build | `npm run build` | pass, relative `./assets` paths | 2026-10-28 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720 | taken, checked | 2026-10-28 |
@@ -65,6 +65,11 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Quick Season (5 min) in Mode select: seeded script (PRD §19) — race 1 starts straight away (2 taps from title); after race 1 the Pit Hub spotlights the turbo (Engine level 2, more than your cash), the Quick loan and insurance; after race 2 rent + a scripted crash bill always hit, then Desert Gold; race 3 is the free Sheikh Zayed final; an invested scam collapses before the recap. Same events every run; choices change the outcome.
 - Season recap (both seasons): grade A–F, final net worth with breakdown (cash, savings, fund, car value, owed), debt-free or not, races/wins/podiums, every lesson met or not, and "what if you had saved instead" (same finishes replayed through the engine with a saver policy).
 - Career save and continue: saved in the browser after every change outside a race; Mode select shows "Continue career (race N of 10, net worth)"; starting a new career replaces it; the save clears at the recap; unknown versions start fresh.
+- Title screen with a code-drawn Dubai-at-night skyline; How to Play (controls, the loop, one card per money system, modes, tips, simplified-numbers note) from the title and the pause menu; Settings; Credits.
+- Settings (all persist): music and effects volume, text size S/M/L, touch control size S/M/L, steering assist, auto-accelerate (off by default), Chill mode, colour-blind safe colours, reduce motion, left-handed layout, vibration, frame rate, reset hints.
+- Sound: engine synth whose pitch follows speed (louder/higher on nitro), CC0 crash/coin/thud/click, code-made nitro whoosh, countdown beeps, repossession drop and two music loops (hub, race); audio starts on the first tap; every sound has a visual cue and a file slot.
+- Race effects: skid marks when drifting, sparks on barrier hits, nitro flames; bolder upgrade looks at race zoom (dark stripes, red scoop, rear wing, wheels with gold rims sticking out, teal side tanks, a gold glow that grows with upgrades).
+- Hub art slots (title, garage, bank, Desert Gold poster) with code-drawn art until the owner's images arrive.
 - Event cards with each choice's cost before choosing; Desert Gold shows the red-flag checklist. Pit Lesson cards (one per stop) with the key number; Lesson Book (10); glossary words underlined in the Pit Hub open plain explanations.
 
 ## 5. Real vs simplified right now
@@ -106,7 +111,8 @@ See `REAL_VS_MOCKED.md`.
 
 - Balance numbers and grade thresholds are defaults from a headless sim, not a real playtest (owner check pending).
 - Quick Season snapshot is generated but pending owner review; it is not locked.
-- Upgrade looks are small at race zoom; clearer at the Garage preview.
+- Sound: only crash, coin, thud and click are recorded CC0 files; nitro, beeps, engine, repossession and both music loops are generated in code (owner may replace via file slots).
+- Hub art is code-drawn until the owner adds AI images.
 - Frame rate on a real phone not measured (headless only).
 
 ## 10. Handoff notes
@@ -158,3 +164,12 @@ See `REAL_VS_MOCKED.md`.
   - PRD updates: §16 rows (Quick Season script details, grade defaults "owner to tune", "what if" method, save format); §33 Q3 note.
   - Owner checks pending: full Quick + Career playtest and balance tuning; Quick Season snapshot approval.
   - Video acts: **Act 3 (crash → repo) and Act 4 (scam) can be recorded now** in Quick Season.
+- **2026-10-28 — Phase 5 report (Polish, PRD §27; built against FR-UI-001…002, FR-A11Y-001, FR-SND-001, §21 surfaces 1, 13, 14)**
+  - Files: config `src/game/config/{settings,audio,effects,art}.js` (+ `style.js` car looks, `car.js` unchanged); audio `src/game/audio/{audio,synth,music,engineSound,slots}.js` + `src/assets/audio/{hit,coin,thud,click}.mp3` (CC0); race `src/game/race/scenes/{RaceScene,raceEffects}.js`, `src/game/race/render/{carArt,carTexture}.js`, `src/game/race/sim/{carPhysics,walls,performance,raceSim}.js` (assist input, chill damage, hits/drift in telemetry); UI `src/ui/screens/{TitleScreen,HowToPlay,howToPlayCards,SettingsScreen,CreditsScreen,creditsList}.jsx|js`, `src/ui/art/*`, `src/ui/{applySettings,uiSounds,raceSetup}.js`, `src/ui/race/{RaceScreen,Overlays,useRaceSounds}`, `src/ui/season/{SeasonFlow,useMoneySounds,Garage,EventCard,bank/Bank}`, `src/ui/storage/settingsStore.js`, `src/styles/polish.css` (+ text-scale, colour vars, control-scale in existing CSS), `src/i18n/en.js`; tests `tests/ui/settings.test.jsx`, `tests/race/assists.test.js`, `tests/race/carPhysics.test.js`.
+  - Tests: `npm run verify` passed — lint clean, 113 tests in 18 files passed, build OK. New: settings defaults; every toggle persists across a reload; text/control size and volumes persist and set the page variables; flags become page classes; reset hints; How to Play has every section and money card with no unfilled numbers + the simplified note; credits name CC0 / MIT / Claude; assists off by default, Chill mode slows rivals and halves crash damage, steering assist and auto-accelerate reach the race; money sound choice; chill damage in the wall test.
+  - Manual checks: Playwright 844×390 (touch, DPR 2) and 1280×720 — title art, How to Play (controls, money), Settings, Credits, Bank and Garage art, upgraded car in a real race (stripes, scoop, wheels, tanks, glow), nitro flame, How to Play from the pause menu, Desert Gold poster, the Phase 4 Quick Season flow again. No page errors. Sound cannot be heard in headless Chromium: audio code paths ran without errors, but loudness and mix are an owner check.
+  - Every sound has a visual cue: engine ↔ speedometer; crash ↔ DMG in HUD + sparks; coin/thud ↔ ▲/▼ statement lines; nitro ↔ flame + nitro bar; beeps ↔ countdown numbers; repossession ↔ red statement line; click ↔ button press.
+  - Network: kenney.nl blocked (403) → CC0 pack from OpenGameArt used for 4 effects; the rest generated in code (PRD §16).
+  - PRD updates: §16 rows for sound sources + file slots, hub art slots, accessibility definitions.
+  - Still needs real files / owner images: hub art (4 slots), music (2 loops), optional nitro/beep/go/repo recordings.
+  - Video act: **Act 5 + recap can be recorded** (Quick Season, saver run).

@@ -2,6 +2,7 @@ import { eventChoices } from '../../game/engine/index.js';
 import { t } from '../../i18n/strings.js';
 import { formatAed } from '../format.js';
 import { Delta } from './Money.jsx';
+import { SceneArt } from '../art/SceneArt.jsx';
 import { RichText } from './RichText.jsx';
 import { EVENT_VARS, RED_FLAGS } from './eventText.js';
 
@@ -37,6 +38,7 @@ export function EventCard({ state, dispatch }) {
   return (
     <div className="screen pit-screen" data-testid="event-card">
       <div className={scam ? 'event-card scam' : 'event-card'}>
+        {scam && <SceneArt slot="scamAd" className="scam-ad" />}
         <h2>{t(`events.${eventId}`)}</h2>
         <p>{t(`events.${eventId}Body`, EVENT_VARS[eventId])}</p>
         {scam && <RedFlags />}

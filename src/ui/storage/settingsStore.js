@@ -1,12 +1,18 @@
+import { SETTING_DEFAULTS } from '../../game/config/settings.js';
+
 const KEY = 'dirham-drift:settings';
-const DEFAULTS = { showFps: false, hintsSeen: false, pitTipsSeen: false };
+
+function systemDefaults() {
+  const reduce = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return { ...SETTING_DEFAULTS, reduceMotion: reduce };
+}
 
 export function loadSettings() {
   try {
     const raw = window.localStorage.getItem(KEY);
-    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
+    return raw ? { ...systemDefaults(), ...JSON.parse(raw) } : systemDefaults();
   } catch {
-    return { ...DEFAULTS };
+    return systemDefaults();
   }
 }
 

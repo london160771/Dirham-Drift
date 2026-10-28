@@ -3,6 +3,7 @@ import { INSURANCE, UPGRADES } from '../../game/config/economy.js';
 import { carStats, carValue, levelOf, nextUpgradePrice, repairBill } from '../../game/engine/index.js';
 import { t } from '../../i18n/strings.js';
 import { formatAed } from '../format.js';
+import { SceneArt } from '../art/SceneArt.jsx';
 import { CarPreview } from './CarPreview.jsx';
 import { Aed } from './Money.jsx';
 
@@ -59,6 +60,7 @@ export function Garage({ state, dispatch }) {
   return (
     <div className="garage" data-testid="garage">
       <div className="lift">
+        <SceneArt slot="garage" className="backdrop" />
         <CarPreview levels={levels} />
         <span className="muted">
           {t('garage.carValue')} <Aed amount={carValue(state)} />

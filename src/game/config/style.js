@@ -62,7 +62,12 @@ export const CAR_COLORS = {
     { body: '#3e4452', trim: '#22252c', glass: '#3a4a5c' },
   ],
   tyre: '#0d0e12',
-  engineStripe: '#fff6d8',
+  engineStripe: '#15161c',
+  rim: '#f5c451',
+  wing: '#15161c',
+  scoop: '#e63946',
+  nitroTank: '#2ec4b6',
+  aura: 'rgba(245, 196, 81, {alpha})',
   headlight: '#fff6d8',
   tailLight: '#ff3b47',
   shadow: 'rgba(0, 0, 0, 0.45)',
@@ -107,5 +112,23 @@ export const DEPTH = {
 
 export const GARAGE_PREVIEW = {
   scale: 3.2,
-  pad: 16,
+  pad: 30,
+};
+
+export const CAR_LOOKS = {
+  texturePad: 30,
+  wheelLength: 11,
+  wheelBase: 4,
+  wheelPerLevel: 1.5,
+  wheelOut: 2,
+  stripeWidth: 0.2,
+  scoopLength: 0.32,
+  scoopWidth: 0.42,
+  wingDepth: 6,
+  wingOverhang: 5,
+  tankLength: 0.45,
+  tankWidth: 3.5,
+  tankPerLevel: 1,
+  auraPerLevel: 0.07,
+  auraRadius: 0.55,
 };

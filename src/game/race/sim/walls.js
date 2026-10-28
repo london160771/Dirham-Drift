@@ -42,7 +42,7 @@ export function collideWithWalls(track, car, loc, dt) {
   if (!track.closed && loc.s > track.length - END_BUFFER) {
     impact = Math.max(impact, applyImpact(car, tx, ty, loc.s - (track.length - END_BUFFER)));
   }
-  const damage = hitDamage(impact);
+  const damage = hitDamage(impact) * car.performance.damageTaken;
   if (damage > 0) {
     car.damage = Math.min(DAMAGE.max, car.damage + damage);
     car.hits += 1;

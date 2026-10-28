@@ -19,7 +19,7 @@
 }
 
 .turbo-text strong {
-  font-size: 16px;
+  font-size: calc(16px * var(--text-scale, 1));
   color: var(--gold);
 }
 
@@ -60,7 +60,7 @@
   display: grid;
   place-items: center;
   border-radius: 22px;
-  font-size: 54px;
+  font-size: calc(54px * var(--text-scale, 1));
   font-weight: 900;
   border: 3px solid var(--panel-edge);
   background: var(--panel);
@@ -79,7 +79,7 @@
 
 .grade-D,
 .grade-F {
-  color: #ff8a93;
+  color: var(--loss);
   border-color: var(--danger);
 }
 
@@ -90,7 +90,7 @@
 }
 
 .recap-headline strong {
-  font-size: 30px;
+  font-size: calc(30px * var(--text-scale, 1));
   color: var(--gold);
   font-variant-numeric: tabular-nums;
 }
@@ -130,7 +130,7 @@
 }
 
 .recap-breakdown .owed dd {
-  color: #ff8a93;
+  color: var(--loss);
 }
 
 .what-if {
@@ -147,7 +147,7 @@
   list-style: none;
   display: grid;
   gap: 2px;
-  font-size: 13px;
+  font-size: calc(13px * var(--text-scale, 1));
 }
 
 .recap-lessons li.locked {
@@ -170,6 +170,6 @@
   .grade {
     width: 64px;
     height: 64px;
-    font-size: 40px;
+    font-size: calc(40px * var(--text-scale, 1));
   }
 }

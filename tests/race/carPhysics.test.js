@@ -51,9 +51,9 @@ describe('car physics', () => {
 describe('barrier hits (FR-RACE-005)', () => {
   const track = buildTrack(TRACKS.marina);
 
-  function crashAt(speed) {
+  function crashAt(speed, damageTaken = 1) {
     const p = pointAt(track, 2000, track.halfWidth - 20);
-    const car = createCar({ id: 'p', x: p.x, y: p.y, heading: p.heading, performance: buildPerformance() });
+    const car = createCar({ id: 'p', x: p.x, y: p.y, heading: p.heading, performance: { ...buildPerformance(), damageTaken } });
     const nx = Math.sin(p.heading);
     const ny = -Math.cos(p.heading);
     car.x += nx * 20;
@@ -70,6 +70,10 @@ describe('barrier hits (FR-RACE-005)', () => {
     expect(car.damage).toBeGreaterThan(0);
     expect(car.hits).toBe(1);
     expect(Math.hypot(car.vx, car.vy)).toBeLessThan(400 * WALLS.speedKeptOnHit);
+  });
+
+  it('chill mode takes half the crash damage', () => {
+    expect(crashAt(400, 0.5).damage).toBeCloseTo(crashAt(400).damage / 2);
   });
 
   it('a gentle touch adds no damage', () => {

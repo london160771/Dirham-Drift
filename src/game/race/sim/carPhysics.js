@@ -76,8 +76,9 @@ export function stepCar(car, input, dt) {
   const turnFactor = Math.min(1, Math.abs(forward) / p.steerFullAtSpeed) * (1 - p.highSpeedSteerLoss * ratio);
   const direction = forward >= 0 ? 1 : -1;
   car.heading += car.steer * p.steerRate * car.performance.steerMultiplier * turnFactor * direction * dt;
-  if (p.steeringAssist > 0 && input.assistHeading !== undefined) {
-    car.heading += wrapAngle(input.assistHeading - car.heading) * p.steeringAssist * dt;
+  const assist = input.assist ?? p.steeringAssist;
+  if (assist > 0 && input.assistHeading !== undefined && forward > 0) {
+    car.heading += wrapAngle(input.assistHeading - car.heading) * assist * Math.min(1, ratio * 2) * dt;
   }
   car.heading = wrapAngle(car.heading);
   car.drifting = Math.abs(car.steer) > p.driftSteerThreshold && ratio > p.driftSpeedRatio;

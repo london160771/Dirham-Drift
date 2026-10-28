@@ -7,6 +7,8 @@ import { SeasonFlow } from './ui/season/SeasonFlow.jsx';
 import { ModeSelect } from './ui/screens/ModeSelect.jsx';
 import { modeCards } from './ui/screens/modes.js';
 import { QuickRaceResults } from './ui/screens/QuickRaceResults.jsx';
+import { CreditsScreen } from './ui/screens/CreditsScreen.jsx';
+import { HowToPlay } from './ui/screens/HowToPlay.jsx';
 import { SettingsScreen } from './ui/screens/SettingsScreen.jsx';
 import { TitleScreen } from './ui/screens/TitleScreen.jsx';
 import { TrackSelect } from './ui/screens/TrackSelect.jsx';
@@ -56,7 +58,11 @@ export function App() {
       return <QuickRaceResults results={screen.results} onAgain={() => startQuickRace(screen.trackId)} onMenu={() => go('modes')} />;
     case 'settings':
       return <SettingsScreen onBack={() => go('title')} />;
+    case 'howTo':
+      return <HowToPlay onBack={() => go('title')} />;
+    case 'credits':
+      return <CreditsScreen onBack={() => go('title')} />;
     default:
-      return <TitleScreen onPlay={() => go('modes')} onSettings={() => go('settings')} />;
+      return <TitleScreen onPlay={() => go('modes')} onHowTo={() => go('howTo')} onSettings={() => go('settings')} onCredits={() => go('credits')} />;
   }
 }

@@ -1,8 +1,9 @@
 import { CAR_PHYSICS } from '../../config/car.js';
+import { CAR_LOOKS } from '../../config/style.js';
 import { NO_UPGRADES, drawCarArt } from './carArt.js';
 
 const TEXTURE_SCALE = 2;
-const PAD = 10;
+const PAD = CAR_LOOKS.texturePad;
 
 export function createCarTexture(scene, name, colors, levels = NO_UPGRADES) {
   const key = `car-${name}-e${levels.engine}t${levels.tyres}n${levels.nitro}`;

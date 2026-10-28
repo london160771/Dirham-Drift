@@ -5,6 +5,7 @@ import { PitHub } from './PitHub.jsx';
 import { ResultsStatement } from './ResultsStatement.jsx';
 import { SeasonRace } from './SeasonRace.jsx';
 import { SeasonRecap } from './SeasonRecap.jsx';
+import { useMoneySounds } from './useMoneySounds.js';
 import { useSeason } from './useSeason.js';
 
 function Phase({ season, onExit, onAgain, RaceComponent }) {
@@ -25,6 +26,7 @@ function Phase({ season, onExit, onAgain, RaceComponent }) {
 
 export function SeasonFlow({ mode, seed, saved = null, onExit, onAgain = onExit, RaceComponent = RaceScreen }) {
   const season = useSeason({ mode, seed, saved });
+  useMoneySounds(season.state);
   return (
     <GlossaryProvider>
       <Phase season={season} onExit={onExit} onAgain={onAgain} RaceComponent={RaceComponent} />
