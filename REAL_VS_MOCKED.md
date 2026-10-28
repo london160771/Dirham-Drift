@@ -15,6 +15,6 @@ Dirham Drift is a game. Nothing in it moves real money. This page says plainly w
 
 **Not financial advice.** Rates and returns are not predictions.
 
-**Not built yet (2026-10-28):** Quick Season in the menu, season recap with grade and save (Phase 4), sound and settings (Phase 5), PWA + Arabic (Phase 6), Ghost Challenge (Phase 7). This file is updated as each phase is verified.
+**Not built yet (2026-10-28):** sound and full settings (Phase 5), PWA + Arabic (Phase 6), Ghost Challenge (Phase 7). Quick Season, season recap (grade + "what if") and Career save are built (Phase 4); grade thresholds are defaults the owner will tune. This file is updated as each phase is verified.
 
 This file, PRD §17 and the code agree. An honest "not yet" beats a fake green badge.

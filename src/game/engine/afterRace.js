@@ -1,11 +1,11 @@
 import { EVENTS, INDEX_FUND, INSURANCE, RENT, SAVINGS } from '../config/economy.js';
-import { seasonPlan, isSeasonOver, rentDueAfter } from './season.js';
+import { seasonPlan, isSeasonOver, rentDueAfter, scriptedBillAfter } from './season.js';
 import { RANDOM_EVENTS } from './events.js';
 import { record } from './ledger.js';
 import { meetLesson } from './lessons.js';
 import { EngineError, percentOf } from './money.js';
 import { randomInt } from './rng.js';
-import { trackDamage } from './repair.js';
+import { repairCost, trackDamage } from './repair.js';
 import { advanceScam } from './scam.js';
 import { collectOverdue, payOrMiss, settleStrikes } from './strikes.js';
 
@@ -65,6 +65,19 @@ function growth(state) {
   return advanceScam(next);
 }
 
+function scriptedBill(state, wasInsured) {
+  const bill = scriptedBillAfter(state, state.raceIndex + 1);
+  if (!bill) return state;
+  const cost = repairCost(bill.damage);
+  const due = wasInsured ? percentOf(cost, 100 - INSURANCE.coversPercent) : cost;
+  const next = payOrMiss(state, bill.kind, due);
+  return wasInsured ? meetLesson(next, 'insurance', cost - due) : next;
+}
+
+function logRace(state, race, results) {
+  return { ...state, raceLog: [...state.raceLog, { kind: race.kind, position: results.position, damage: results.damage }] };
+}
+
 function drawEvent(state) {
   if (isSeasonOver(state)) return state;
   if (state.scamOfferAt === state.raceIndex && !state.eventsSeen.includes('desertGold')) return { ...state, pendingEvent: 'desertGold' };
@@ -88,9 +101,10 @@ export function afterRace(state, results, carCount) {
   s = payLoan(s);
   if (wasInsured) s = payOrMiss(s, 'insurance', INSURANCE.premium);
   if (rentDueAfter(s, s.raceIndex + 1)) s = payOrMiss(s, 'rent', RENT.amount);
+  s = scriptedBill(s, wasInsured);
   s = sponsorAndFriend(s, results.position);
   s = closeLoanIfDone(settleStrikes(s));
   s = growth(s);
-  s = { ...s, raceIndex: s.raceIndex + 1, nextRace: null };
+  s = { ...logRace(s, race, results), raceIndex: s.raceIndex + 1, nextRace: null };
   return drawEvent(s);
 }

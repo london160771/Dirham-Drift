@@ -9,9 +9,9 @@
 
 ## 1. Right now
 
-- **Active phase:** none — Phases 0–3 built; waiting for the owner's phone test (Gate 0 + Phase 1 playtest)
-- **Status:** Phases 0–3 passed their automatic checks; Gate 0 and the Phase 1 owner playtest are deferred by the owner until now
-- **Next step:** owner phone test, then Phase 4 only on the owner's go
+- **Active phase:** Phases 4–6 run (owner brief 2026-10-28: pre-approved per phase once acceptance + verify pass; owner checks deferred)
+- **Status:** Phase 4 built and verified; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review)
+- **Next step:** Phase 5 (Polish)
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -22,7 +22,7 @@
 | 1 — Racing core | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner playtest deferred; car feel not frozen |
 | 2 — Money engine | Done (automatic gate) | 2026-10-28 | see build log | Auto + review (self-review done in this run) |
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
-| 4 — Seasons | Not started | | | 🛑 Owner |
+| 4 — Seasons | Built, verify passes | 2026-10-28 | see build log | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
 | 5 — Polish | Not started | | | Auto |
 | 6 — App + Arabic (P1) | Not started | | | Owner install test |
 | 7 — Ghost Challenge (P1) | Not started | | | Owner two-phone test |
@@ -35,11 +35,11 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-28 |
-| Tests | `npm test` | 83 passed (13 files) | 2026-10-28 |
+| Tests | `npm test` | 101 passed (16 files) | 2026-10-28 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-28 |
 | Build | `npm run build` | pass, relative `./assets` paths | 2026-10-28 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720 | taken, checked | 2026-10-28 |
-| Quick Season snapshot (PRD §19) | — | — | — |
+| Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28 — **pending owner review** (not locked yet) | 2026-10-28 |
 | Frame rate on real phone | — | — | — |
 
 ## 4. What works (verified)
@@ -62,6 +62,9 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Next race card: stage race (entry fee, win prize) or free Club Race; never stuck. Pre-race card warns about damage.
 - Race reads car stats + damage from the season and shows cash + loan left in the HUD; it returns results only. Quitting a season race retires (last place, no prize, damage kept).
 - Results statement: every ledger line since the race started (prize, entry fee, repayments, missed payments, late fee + strike, repossession, rent, growth, fund move, scam), cash now, repair-or-race-damaged choice (insured bill = 20%).
+- Quick Season (5 min) in Mode select: seeded script (PRD §19) — race 1 starts straight away (2 taps from title); after race 1 the Pit Hub spotlights the turbo (Engine level 2, more than your cash), the Quick loan and insurance; after race 2 rent + a scripted crash bill always hit, then Desert Gold; race 3 is the free Sheikh Zayed final; an invested scam collapses before the recap. Same events every run; choices change the outcome.
+- Season recap (both seasons): grade A–F, final net worth with breakdown (cash, savings, fund, car value, owed), debt-free or not, races/wins/podiums, every lesson met or not, and "what if you had saved instead" (same finishes replayed through the engine with a saver policy).
+- Career save and continue: saved in the browser after every change outside a race; Mode select shows "Continue career (race N of 10, net worth)"; starting a new career replaces it; the save clears at the recap; unknown versions start fresh.
 - Event cards with each choice's cost before choosing; Desert Gold shows the red-flag checklist. Pit Lesson cards (one per stop) with the key number; Lesson Book (10); glossary words underlined in the Pit Hub open plain explanations.
 
 ## 5. Real vs simplified right now
@@ -83,8 +86,8 @@ See `REAL_VS_MOCKED.md`.
 |---|---|---|---|
 | 1 — Hook (Marina win) | no | | |
 | 2 — Loan → faster car | no — can be recorded now (Career Season → Bank → loan → Garage → race) | | |
-| 3 — Crash → repo | no | | |
-| 4 — Scam | no | | |
+| 3 — Crash → repo | no — can be recorded now (Quick Season: loan + turbo, finish low in race 2, skip insurance) | | |
+| 4 — Scam | no — can be recorded now (Quick Season: invest in Desert Gold after race 2) | | |
 | 5 — Recover + recap | no | | |
 | Install + itch link | no | | |
 
@@ -101,7 +104,8 @@ See `REAL_VS_MOCKED.md`.
 
 ## 9. Known issues and limitations
 
-- Career Season is playable end to end but untuned, has no save/continue and ends on a stub "Season complete" card (recap with grade and "what if" is Phase 4). Quick Season is not in the menu yet (Phase 4).
+- Balance numbers and grade thresholds are defaults from a headless sim, not a real playtest (owner check pending).
+- Quick Season snapshot is generated but pending owner review; it is not locked.
 - Upgrade looks are small at race zoom; clearer at the Garage preview.
 - Frame rate on a real phone not measured (headless only).
 
@@ -146,3 +150,11 @@ See `REAL_VS_MOCKED.md`.
   - PRD updates: §16 rows for the test JSX setting and the Phase 3 UI clarifications.
   - Limits: see §9. Numbers untuned. No save yet.
   - Video act: **Act 2 (loan → faster car) can be recorded now.**
+- **2026-10-28 — Phase 4 report (Seasons, PRD §27; built against FR-MODE-001…005, §19 seeded scenario, §11 Career structure)**
+  - Files: `src/game/config/season.js` (Quick Season script, `GRADES`, `SAVER_PLAN`), `src/game/engine/{season,afterRace,recap,index}.js` (start cash/upgrades per mode, per-race entry fee override, rent list, scripted crash bill, race log, grade, "what if", recap summary; state version 2), `src/ui/storage/seasonStore.js`, `src/ui/season/{useSeason.js,SeasonFlow.jsx,SeasonRecap.jsx,TurboOffer.jsx,PitHub.jsx,Money.jsx}` (SeasonOver stub removed), `src/ui/screens/{modes.js,ModeSelect.jsx}`, `src/App.jsx`, `src/styles/season.css`, `src/i18n/en.js`, tests `tests/engine/{quickSeason,recap}.test.js` + snapshot, `tests/ui/seasons.test.jsx`, `tests/ui/{seasonHarness.jsx,pitHub.test.jsx}`.
+  - Tests: `npm run verify` passed — lint clean, 101 tests in 16 files passed, build OK. New: Quick Season script (turbo > cash after any race-1 result; race 2 crash bill + rent + Desert Gold; scam collapses before recap; same events every run; choices change the outcome; borrower loses the turbo), Quick Season snapshot (event order + full final state + recap), grade thresholds + in-debt drop, recap numbers = ledger, "what if" replay, race log; UI: Quick Season auto-starts race 1, turbo/loan/insurance spotlight, recap content, career save → resume at the Pit Hub with the same cash and upgrades, Continue only when saved, unknown versions ignored, save cleared at recap.
+  - Manual checks: Playwright 844×390 (touch, DPR 2) and 1280×720 through a real Quick Season (real Phaser races, retired via pause) — modes, race 1, statement, turbo spotlight, loan, statement with missed crash bill + late fee + repossession, Desert Gold, recap — then a career saved, left and continued. No page errors. Screenshots in project files `screenshots/phase-4/`.
+  - Config: Quick Season and grade values in `src/game/config/season.js`. No env vars.
+  - PRD updates: §16 rows (Quick Season script details, grade defaults "owner to tune", "what if" method, save format); §33 Q3 note.
+  - Owner checks pending: full Quick + Career playtest and balance tuning; Quick Season snapshot approval.
+  - Video acts: **Act 3 (crash → repo) and Act 4 (scam) can be recorded now** in Quick Season.

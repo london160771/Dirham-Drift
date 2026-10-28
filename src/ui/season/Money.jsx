@@ -1,8 +1,12 @@
 import { t } from '../../i18n/strings.js';
 import { formatAed } from '../format.js';
 
+export function aedText(amount) {
+  return amount < 0 ? t('money.negative', { amount: formatAed(-amount) }) : t('money.aed', { amount: formatAed(amount) });
+}
+
 export function Aed({ amount }) {
-  return <>{t('money.aed', { amount: formatAed(amount) })}</>;
+  return <>{aedText(amount)}</>;
 }
 
 export function Delta({ amount, owed = false }) {

@@ -3,11 +3,11 @@ import { EventCard } from './EventCard.jsx';
 import { GlossaryProvider } from './Glossary.jsx';
 import { PitHub } from './PitHub.jsx';
 import { ResultsStatement } from './ResultsStatement.jsx';
-import { SeasonOver } from './SeasonOver.jsx';
 import { SeasonRace } from './SeasonRace.jsx';
+import { SeasonRecap } from './SeasonRecap.jsx';
 import { useSeason } from './useSeason.js';
 
-function Phase({ season, onExit, RaceComponent }) {
+function Phase({ season, onExit, onAgain, RaceComponent }) {
   const { state, dispatch, statementFrom, error } = season;
   switch (state.phase) {
     case 'RACING':
@@ -17,17 +17,17 @@ function Phase({ season, onExit, RaceComponent }) {
     case 'EVENT':
       return <EventCard state={state} dispatch={dispatch} />;
     case 'RECAP':
-      return <SeasonOver state={state} onExit={onExit} />;
+      return <SeasonRecap state={state} onAgain={onAgain} onExit={onExit} />;
     default:
       return <PitHub state={state} dispatch={dispatch} error={error} onExit={onExit} />;
   }
 }
 
-export function SeasonFlow({ mode, seed, onExit, RaceComponent = RaceScreen }) {
-  const season = useSeason({ mode, seed });
+export function SeasonFlow({ mode, seed, saved = null, onExit, onAgain = onExit, RaceComponent = RaceScreen }) {
+  const season = useSeason({ mode, seed, saved });
   return (
     <GlossaryProvider>
-      <Phase season={season} onExit={onExit} RaceComponent={RaceComponent} />
+      <Phase season={season} onExit={onExit} onAgain={onAgain} RaceComponent={RaceComponent} />
     </GlossaryProvider>
   );
 }

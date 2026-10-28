@@ -19,13 +19,14 @@ function FakeRace({ setup, money, onFinish, onQuit }) {
   );
 }
 
-export function startSeason(mode, { seed = 42, tipsSeen = true } = {}) {
+export function startSeason(mode, { seed = 42, tipsSeen = true, saved = null } = {}) {
   cleanup();
+  if (!saved) window.localStorage.removeItem('dirham-drift:career');
   races.length = 0;
   nextResults.position = 5;
   nextResults.damage = 0;
   if (tipsSeen !== null) window.localStorage.setItem('dirham-drift:settings', JSON.stringify({ pitTipsSeen: tipsSeen }));
-  render(<SeasonFlow mode={mode} seed={seed} onExit={() => {}} RaceComponent={FakeRace} />);
+  render(<SeasonFlow mode={mode} seed={seed} saved={saved} onExit={() => {}} RaceComponent={FakeRace} />);
 }
 
 export function click(testId) {

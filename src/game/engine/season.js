@@ -1,9 +1,9 @@
-import { ENTRY_FEES, PRIZES, RENT, START } from '../config/economy.js';
+import { ENTRY_FEES, PRIZES, RENT, START, UPGRADES } from '../config/economy.js';
 import { CLUB_RACE, SEASONS } from '../config/season.js';
 import { randomInt } from './rng.js';
 import { EngineError } from './money.js';
 
-export const STATE_VERSION = 1;
+export const STATE_VERSION = 2;
 
 export function seasonPlan(mode) {
   const plan = SEASONS[mode];
@@ -20,6 +20,7 @@ export function createSeason({ mode, seed }) {
     rngSeed = roll.seed;
     scamOfferAt = plan.scamOfferAfterRace[roll.value];
   }
+  const startCash = plan.startCash ?? START.cash;
   return {
     version: STATE_VERSION,
     mode,
@@ -29,12 +30,12 @@ export function createSeason({ mode, seed }) {
     phase: 'PIT_HUB',
     raceIndex: 0,
     totalRaces: plan.races.length,
-    startingCash: START.cash,
-    cash: START.cash,
+    startingCash: startCash,
+    cash: startCash,
     savings: START.savings,
     fundValue: 0,
     overdue: 0,
-    upgrades: [],
+    upgrades: plan.startUpgrades.map((slot) => ({ slot, level: 1, price: UPGRADES.prices[0], starter: true })),
     loan: null,
     strikes: 0,
     insured: false,
@@ -54,6 +55,7 @@ export function createSeason({ mode, seed }) {
     lastResults: null,
     lastRepo: null,
     nextRace: null,
+    raceLog: [],
     ledger: [],
   };
 }
@@ -68,7 +70,7 @@ export function raceInfo(state, kind = 'stage') {
   const slot = seasonPlan(state.mode).races[state.raceIndex];
   if (!slot) return null;
   const stage = kind === 'club' ? CLUB_RACE.stage : slot.stage;
-  const entryFee = kind === 'club' ? ENTRY_FEES.club : ENTRY_FEES[slot.stage];
+  const entryFee = kind === 'club' ? ENTRY_FEES.club : (slot.entryFee ?? ENTRY_FEES[slot.stage]);
   return { index: state.raceIndex, kind, track: slot.track, stage, seasonStage: slot.stage, entryFee, prizes: prizeTable(slot.stage, kind) };
 }
 
@@ -87,5 +89,11 @@ export function isSeasonOver(state) {
 }
 
 export function rentDueAfter(state, raceNumber) {
-  return seasonPlan(state.mode).rentEveryRaces && raceNumber % RENT.everyRaces === 0;
+  const plan = seasonPlan(state.mode);
+  if (plan.rentEveryRaces) return raceNumber % RENT.everyRaces === 0;
+  return plan.rentAfterRaces.includes(raceNumber);
+}
+
+export function scriptedBillAfter(state, raceNumber) {
+  return seasonPlan(state.mode).scriptedBills[raceNumber] || null;
 }

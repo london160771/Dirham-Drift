@@ -6,7 +6,7 @@ export function ModeSelect({ modes, onPick, onBack }) {
       <h2>{t('modes.title')}</h2>
       <div className="card-row">
         {modes.map((mode) => (
-          <button key={mode.id} type="button" className="card" onClick={() => onPick(mode.id)} data-testid={`mode-${mode.id}`}>
+          <button key={mode.id} type="button" className={mode.featured ? 'card featured' : 'card'} onClick={() => onPick(mode.id)} data-testid={`mode-${mode.id}`}>
             <strong>{t(mode.title)}</strong>
             <span>{t(mode.info, mode.vars)}</span>
           </button>

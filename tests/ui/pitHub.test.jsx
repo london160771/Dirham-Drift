@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { LOANS, UPGRADES } from '../../src/game/config/economy.js';
-import { click, closeLessons, nextResults, raceOnce, races, startSeason, text } from './seasonHarness.jsx';
+import { click, closeLessons, nextResults, races, startSeason, text } from './seasonHarness.jsx';
 
 beforeAll(() => {
   HTMLCanvasElement.prototype.getContext = () => null;
@@ -49,22 +49,26 @@ describe('Pit Hub ↔ engine', () => {
 
   it('missed payments repossess the newest upgrade, remove its look and show a Pit Lesson', () => {
     startSeason('quick');
+    fireEvent.click(screen.getByText('finish'));
+    click('continue');
+    closeLessons();
     click('tab-bank');
     click('take-big');
     click('tab-garage');
-    for (const slot of ['engine', 'tyres', 'nitro', 'engine', 'tyres']) click(`buy-${slot}`);
+    for (const slot of ['engine', 'tyres', 'nitro', 'tyres']) click(`buy-${slot}`);
     expect(screen.getByTestId('slot-tyres').querySelectorAll('.pips i.on')).toHaveLength(2);
     click('tab-home');
-    raceOnce();
-    closeLessons();
     click('enter-stage');
     click('start-race');
     fireEvent.click(screen.getByText('finish'));
-    expect(screen.getByTestId('line-loanPaymentMissed')).toBeTruthy();
+    expect(screen.getByTestId('line-rentMissed')).toBeTruthy();
     expect(screen.getByTestId('line-repossessed').textContent).toContain('Tyres');
     click('continue');
-    expect(screen.getByTestId('pit-lesson').textContent).toContain('Missed payments');
+    click('choice-walkAway');
+    expect(screen.getByTestId('pit-lesson')).toBeTruthy();
     closeLessons();
+    click('tab-lessons');
+    expect(text('lesson-book')).toContain('✓ Missed payments');
     click('tab-garage');
     expect(screen.getByTestId('slot-tyres').querySelectorAll('.pips i.on')).toHaveLength(1);
     click('tab-home');

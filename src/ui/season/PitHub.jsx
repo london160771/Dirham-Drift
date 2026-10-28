@@ -8,6 +8,7 @@ import { LessonBook } from './LessonBook.jsx';
 import { MoneyBar } from './MoneyBar.jsx';
 import { NextRace, PreRaceCard } from './NextRace.jsx';
 import { PitLesson } from './PitLesson.jsx';
+import { TurboOffer } from './TurboOffer.jsx';
 
 const TABS = ['home', 'garage', 'bank', 'lessons'];
 const DOORS = [
@@ -19,6 +20,7 @@ const DOORS = [
 function Home({ state, dispatch, onTab }) {
   return (
     <div className="pit-home">
+      <TurboOffer state={state} onTab={onTab} />
       <div className="doors">
         {DOORS.map((door) => (
           <button key={door.tab} type="button" className={`door door-${door.tab}`} onClick={() => onTab(door.tab)} data-testid={`door-${door.tab}`}>
