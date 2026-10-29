@@ -1,9 +1,10 @@
 import { RACE } from '../../config/race.js';
-import { DECOR, PALETTE } from '../../config/style.js';
+import { DECOR, PALETTE, SCENE_ART } from '../../config/style.js';
 import { createRng } from '../../engine/rng.js';
 import { pointAt } from '../track/buildTrack.js';
 import { drawLamp, drawTower } from './decor.js';
 import { strokePath, trackOffset, withTransform } from './pathDraw.js';
+import { artList, tiledFill } from './raceArt.js';
 import { drawFinishLine, drawRoad, drawStartLine } from './road.js';
 
 const SCENE_SEED = 7300;
@@ -43,7 +44,7 @@ function drawMetro(ctx, track, layout) {
   for (const side of [-1, 1]) strokePath(ctx, trackOffset(track, layout.metroCenter + side * 9), { width: 3, color: PALETTE.overpassEdge });
 }
 
-function drawSides(ctx, track, layout, rng) {
+function drawSides(ctx, track, layout, rng, roofs) {
   for (let s = 0; s < track.length; s += DECOR.lampSpacing) {
     for (const lateral of [-(track.halfWidth + 24), layout.oncomingCenter + track.config.oncomingWidth / 2 + 24]) {
       const p = pointAt(track, s, lateral);
@@ -53,10 +54,10 @@ function drawSides(ctx, track, layout, rng) {
   for (let s = 0; s < track.length; s += DECOR.towerSpacing) {
     const size = rng.range(DECOR.towerMin, DECOR.towerMax);
     const north = pointAt(track, s, layout.oncomingCenter + track.config.oncomingWidth / 2 + 90 + size / 2);
-    drawTower(ctx, north.x, north.y, north.heading, size, rng);
+    drawTower(ctx, north.x, north.y, north.heading, size, rng, roofs);
     const southSize = rng.range(DECOR.towerMin, DECOR.towerMax);
     const south = pointAt(track, s + DECOR.towerSpacing / 2, layout.metroCenter - 70 - southSize / 2);
-    drawTower(ctx, south.x, south.y, south.heading, southSize, rng);
+    drawTower(ctx, south.x, south.y, south.heading, southSize, rng, roofs);
   }
 }
 
@@ -71,18 +72,18 @@ function drawInterchangeShadows(ctx, track) {
   }
 }
 
-export function drawSheikhZayed(ctx, track) {
+export function drawSheikhZayed(ctx, track, art) {
   const { bounds } = track;
   const rng = createRng(SCENE_SEED);
   const layout = sheikhZayedLayout(track);
-  ctx.fillStyle = PALETTE.sand;
+  ctx.fillStyle = tiledFill(ctx, art.sand, SCENE_ART.textureTiles.sand, PALETTE.sand);
   ctx.fillRect(bounds.minX, bounds.minY, bounds.maxX - bounds.minX, bounds.maxY - bounds.minY);
   drawMedian(ctx, track, layout);
   drawRoad(ctx, track, { lanes: track.config.laneCount });
   drawStartLine(ctx, track, RACE.carCount, RACE.gridRowSpacing, RACE.gridLaneOffset);
   drawFinishLine(ctx, track);
   drawMetro(ctx, track, layout);
-  drawSides(ctx, track, layout, rng);
+  drawSides(ctx, track, layout, rng, artList(art, SCENE_ART.roofs));
   drawInterchangeShadows(ctx, track);
 }
 

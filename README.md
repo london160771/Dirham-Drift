@@ -80,4 +80,4 @@ Design and development: Adesope (Ayyoweb3). Built with AI assistance (Claude by 
 - Sound effects (crash, coin, thud, click): "100 CC0 SFX" by rubberduck, OpenGameArt.org — CC0. Engine, nitro, beeps and both music loops are generated in code.
 - Fonts: system fonts for English; Cairo by Mohamed Gaber (SIL Open Font License 1.1, via Fontsource) for Arabic.
 - Arabic translation: AI-assisted (Claude), pending native review.
-- Art: tracks, cars and hub backgrounds drawn in code. AI-made hub images, if added, will be named here.
+- Art: title, garage, bank, scam poster, cars and track scenery made with Google Gemini image generation (AI), then cut out and resized for the game. Roads, lanes, barriers, the metro train and car upgrade parts are drawn in code.

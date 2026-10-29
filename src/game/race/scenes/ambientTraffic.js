@@ -1,4 +1,4 @@
-import { CAR_COLORS, DECOR, DEPTH, PALETTE } from '../../config/style.js';
+import { CAR_COLORS, CAR_SPRITES, DECOR, DEPTH, PALETTE } from '../../config/style.js';
 import { createRng } from '../../engine/rng.js';
 import { pointAt } from '../track/buildTrack.js';
 import { sheikhZayedLayout } from '../render/sheikhZayedScene.js';
@@ -24,7 +24,7 @@ function createTrainTexture(scene) {
   return key;
 }
 
-export function createAmbientTraffic(scene, track) {
+export function createAmbientTraffic(scene, track, art) {
   if (track.closed) return { update: () => {} };
   const rng = createRng(TRAFFIC_SEED);
   const layout = sheikhZayedLayout(track);
@@ -32,7 +32,7 @@ export function createAmbientTraffic(scene, track) {
   const cars = [];
   for (let i = 0; i < DECOR.trafficCount; i += 1) {
     const variant = i % CAR_COLORS.traffic.length;
-    const key = createCarTexture(scene, `traffic-${variant}`, CAR_COLORS.traffic[variant]);
+    const key = createCarTexture(scene, `traffic-${variant}`, CAR_COLORS.traffic[variant], undefined, art[CAR_SPRITES.traffic[variant]]);
     const lane = layout.oncomingCenter + (i % 2 === 0 ? -1 : 1) * (ONCOMING_LANE_SPREAD / 2);
     const sprite = scene.add.image(0, 0, key).setScale(CAR_TEXTURE_SCALE).setDepth(DEPTH.cars - 1);
     cars.push({ sprite, lane, s: rng.range(0, track.length), speed: DECOR.trafficSpeed * rng.range(0.8, 1.2) });

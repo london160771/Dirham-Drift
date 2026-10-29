@@ -35,9 +35,9 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-29 |
-| Tests | `npm test` | 128 passed (21 files) | 2026-10-29 |
+| Tests | `npm test` | 132 passed (22 files) | 2026-10-29 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-29 |
-| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 22 entries | 2026-10-29 |
+| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,335 KiB, images included) | 2026-10-29 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
 | Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
 | PWA install on a real phone | — | **owner check pending** | — |
@@ -70,7 +70,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Settings (all persist): music and effects volume, text size S/M/L, touch control size S/M/L, steering assist, auto-accelerate (off by default), Chill mode, colour-blind safe colours, reduce motion, left-handed layout, vibration, frame rate, reset hints.
 - Sound: engine synth whose pitch follows speed (louder/higher on nitro), CC0 crash/coin/thud/click, code-made nitro whoosh, countdown beeps, repossession drop and two music loops (hub, race); audio starts on the first tap; every sound has a visual cue and a file slot.
 - Race effects: skid marks when drifting, sparks on barrier hits, nitro flames; bolder upgrade looks at race zoom (dark stripes, red scoop, rear wing, wheels with gold rims sticking out, teal side tanks, a gold glow that grows with upgrades).
-- Hub art slots (title, garage, bank, Desert Gold poster) with code-drawn art until the owner's images arrive.
+- Game images (Google Gemini, made by the owner): title skyline, garage, Bank banner, Desert Gold poster; top-down car sprites for the player, rivals and traffic with upgrades still drawn on top; Marina water, promenade, palms, yachts and rooftops; Sheikh Zayed sand and rooftops. Each falls back to code art if its file is missing.
 - App install (website only): manifest, icons, offline service worker; "Install app" on the title and an install guide (Android, iPhone, desktop) only where install works; nothing registers on itch.io domains or inside an iframe.
 - Arabic toggle (title and Settings, remembered): every string has an Arabic version; menus and Pit Hub flip right-to-left; race HUD and touch controls keep their layout; Cairo Arabic font bundled for offline.
 - Interest-free loan in the Bank: AED 6,000, AED 660 × 10 races = AED 6,600, fixed fee AED 600 shown with "Interest-free doesn't mean free".
@@ -117,7 +117,7 @@ See `REAL_VS_MOCKED.md`.
 - Balance numbers and grade thresholds are defaults from a headless sim, not a real playtest (owner check pending).
 - Quick Season snapshot is generated but pending owner review; it is not locked.
 - Sound: only crash, coin, thud and click are recorded CC0 files; nitro, beeps, engine, repossession and both music loops are generated in code (owner may replace via file slots).
-- Hub art is code-drawn until the owner adds AI images.
+- Rival cars are recolours of the player car and traffic cars recolours of one grey car until top-down rival images are made; the metro train is still code-drawn (Gemini's train was a side view).
 - Frame rate on a real phone not measured (headless only).
 - PWA install not yet tested on a real Android or iPhone; the service worker only registers once deployed (or on `localhost`).
 - Arabic text is AI-assisted and pending native review (some number–noun agreement, e.g. "10 سباقات", needs a native pass).
@@ -192,3 +192,9 @@ See `REAL_VS_MOCKED.md`.
   - PRD updates: §11 loans table (interest-free row); §16 rows (PWA switch, Arabic + font, interest-free numbers, Zakat method); §17 rows (PWA, Arabic, Zakat).
   - Owner checks pending: PWA install on Android Chrome and iPhone Safari after deploy; Arabic native review.
   - Video act: install act can be recorded after the owner deploys to Vercel.
+- **2026-10-29 — Gemini images added (no phase; owner asked for it and to push to main)**
+  - Files: `src/assets/art/{title,garage,bank,scamAd}.webp`, `src/assets/race/*.webp` (17 files), `src/game/assets/fileSlots.js` (shared by audio, hub art and race art), `src/game/race/render/{raceArt,carSprite,carArt,carTexture,decor,marinaScene,sheikhZayedScene}.js`, `src/game/race/scenes/{RaceScene,ambientTraffic,trackVisuals}.js`, `src/game/config/style.js` (`CAR_SPRITES`, `SCENE_ART`, garage preview pixel ratio), `src/ui/season/{CarPreview.jsx,bank/Bank.jsx}`, `src/styles/{polish,pit}.css`, `src/i18n/{en,ar}.js` (credits), `tests/race/raceArt.test.js`.
+  - Tests: `npm run verify` passed — lint clean, 132 tests in 22 files passed (4 new: every car, scenery and hub image ships; code fallback), build OK. Quick Season snapshot unchanged.
+  - Manual checks: Playwright 844×390 (touch, DPR 3) and 1440×900 on the production build: title, Pit Hub, Garage before/after upgrades, Bank banner, Marina and Sheikh Zayed races. No page errors. The Desert Gold poster was not screenshotted (it needs a Quick Season run to race 2).
+  - Owner checks pending: look on a real phone; regenerate rival cars (top-down), metro train (top-down) and optionally the palm (flat background).
+

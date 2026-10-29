@@ -8,7 +8,7 @@ import { SavingsSection } from './SavingsSection.jsx';
 export function Bank({ state, dispatch }) {
   return (
     <div className="bank" data-testid="bank">
-      <SceneArt slot="bank" className="backdrop dim" />
+      <SceneArt slot="bank" className="bank-banner" />
       <LoanSection state={state} dispatch={dispatch} />
       <SavingsSection state={state} dispatch={dispatch} />
       <InsuranceSection state={state} dispatch={dispatch} />

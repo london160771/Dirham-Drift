@@ -2,12 +2,13 @@ import Phaser from 'phaser';
 import { CAMERA } from '../../config/camera.js';
 import { ASSISTS } from '../../config/settings.js';
 import { RACE } from '../../config/race.js';
-import { CAR_COLORS, DEPTH, PALETTE } from '../../config/style.js';
+import { CAR_COLORS, CAR_SPRITES, DEPTH, PALETTE } from '../../config/style.js';
 import { TRACKS } from '../../config/tracks/index.js';
 import { buildTrack, pointAt } from '../track/buildTrack.js';
 import { createRace, playerTelemetry, raceResults, stepRace } from '../sim/raceSim.js';
 import { topSpeedOf } from '../sim/carPhysics.js';
 import { CAR_TEXTURE_SCALE, createCarTexture } from '../render/carTexture.js';
+import { collectRaceArt, preloadRaceArt } from '../render/raceArt.js';
 import { createAmbientTraffic } from './ambientTraffic.js';
 import { createRaceEffects } from './raceEffects.js';
 import { createRaceCamera } from './raceCamera.js';
@@ -31,20 +32,27 @@ export class RaceScene extends Phaser.Scene {
     this.aim = {};
   }
 
+  preload() {
+    preloadRaceArt(this.load);
+  }
+
   create() {
+    const art = collectRaceArt(this.textures);
     const track = buildTrack(TRACKS[this.setup.trackId]);
     this.track = track;
     this.cameras.main.setBackgroundColor(PALETTE.night);
     const zoom = this.cameras.main.height / CAMERA.worldViewHeight;
-    buildTrackVisuals(this, track, bakeScaleFor(zoom));
+    buildTrackVisuals(this, track, bakeScaleFor(zoom), art);
     this.race = createRace({ track, ...this.setup.race });
     this.sprites = this.race.entries.map((entry, i) => {
-      const colors = entry.car.isPlayer ? CAR_COLORS.player : CAR_COLORS.rivals[(i - 1) % CAR_COLORS.rivals.length];
+      const rival = (i - 1) % CAR_COLORS.rivals.length;
+      const colors = entry.car.isPlayer ? CAR_COLORS.player : CAR_COLORS.rivals[rival];
+      const sprite = art[entry.car.isPlayer ? CAR_SPRITES.player : CAR_SPRITES.rivals[rival]];
       const levels = entry.car.isPlayer ? this.setup.looks : undefined;
-      const key = createCarTexture(this, entry.car.isPlayer ? 'player' : `rival-${i}`, colors, levels);
+      const key = createCarTexture(this, entry.car.isPlayer ? 'player' : `rival-${i}`, colors, levels, sprite);
       return this.add.image(entry.car.x, entry.car.y, key).setScale(CAR_TEXTURE_SCALE).setDepth(DEPTH.cars + (entry.car.isPlayer ? 1 : 0));
     });
-    this.traffic = createAmbientTraffic(this, track);
+    this.traffic = createAmbientTraffic(this, track, art);
     this.effects = createRaceEffects(this, this.race.entries, { reduceMotion: Boolean(this.setup.reduceMotion) });
     this.raceCamera = createRaceCamera(this.cameras.main, this.race.entries[0].car);
     this.scale.on('resize', this.fitCamera, this);
