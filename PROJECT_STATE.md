@@ -132,7 +132,7 @@ See `REAL_VS_MOCKED.md`.
 
 ## 11. Build log
 
-- **2026-10-29 — Owner phone-test fixes (branch `claude/project-thread-2p2nhg`, PR, not merged)**: mode menu Back returns to the Pit Hub you left (Home goes to the title); insurance "Tap to insure your car" line; Bank chips set an amount in an input + confirm button (16 px input, no iPhone zoom); race boots only in landscape and the camera resizes with the canvas. `npm run verify` passed — lint clean, 128 tests in 21 files, build OK. Playwright 390×844 → 844×390 rotate matches a direct landscape start (headless Chromium did not show the iPhone zoom bug, so the owner should re-test on the iPhone). Screenshots in project files `screenshots/fixes-menu-bank-rotate/`.
+- **2026-10-29 — Owner phone-test fixes (PR #1, merged to main by owner approval 2026-10-29)**: mode menu Back returns to the Pit Hub you left (Home goes to the title); insurance "Tap to insure your car" line; Bank chips set an amount in an input + confirm button (16 px input, no iPhone zoom); race boots only in landscape and the camera resizes with the canvas. `npm run verify` passed — lint clean, 128 tests in 21 files, build OK. Playwright 390×844 → 844×390 rotate matches a direct landscape start (headless Chromium did not show the iPhone zoom bug, so the owner should re-test on the iPhone). Screenshots in project files `screenshots/fixes-menu-bank-rotate/`.
 
 - **2026-10-25** — Planning complete. PRD v1.0 and doc set written. Concept brief archived to `docs/`.
 - **2026-10-28 — Phase 0 report (Setup + Gate 0, PRD §27; built against FR-RACE-001/002/008, FR-CTL-001/002/003, FR-I18N-001, §21 style)**
