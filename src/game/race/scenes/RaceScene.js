@@ -47,7 +47,13 @@ export class RaceScene extends Phaser.Scene {
     this.traffic = createAmbientTraffic(this, track);
     this.effects = createRaceEffects(this, this.race.entries, { reduceMotion: Boolean(this.setup.reduceMotion) });
     this.raceCamera = createRaceCamera(this.cameras.main, this.race.entries[0].car);
+    this.scale.on('resize', this.fitCamera, this);
+    this.events.once('shutdown', () => this.scale.off('resize', this.fitCamera, this));
     this.bridge.onReady?.();
+  }
+
+  fitCamera(gameSize) {
+    this.cameras.main.setSize(gameSize.width, gameSize.height);
   }
 
   applyAssists() {

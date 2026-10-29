@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { RENDER } from '../../game/config/race.js';
 import { createInputState } from '../../game/race/input/inputState.js';
 import { attachKeyboard } from '../../game/race/input/keyboard.js';
 import { t } from '../../i18n/strings.js';
@@ -25,6 +26,8 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
   const [paused, setPaused] = useState(false);
   const [ready, setReady] = useState(false);
   const [howTo, setHowTo] = useState(false);
+  const [canBoot, setCanBoot] = useState(!device.mustRotate);
+  if (!canBoot && !device.mustRotate) setCanBoot(true);
   const blocked = paused || device.mustRotate;
   const tuned = useMemo(() => ({ ...applyAssists(setup, settings), reduceMotion: settings.reduceMotion }), [setup, settings]);
   useRaceSounds(telemetry, settings, blocked);
@@ -35,6 +38,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
   }, [blocked, onFinish]);
 
   useEffect(() => {
+    if (!canBoot) return undefined;
     const bridge = {
       input,
       isPaused: () => pausedRef.current,
@@ -52,14 +56,24 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
     });
     const detach = attachKeyboard(input, { onPause: () => setPaused((p) => !p) });
     const hide = () => document.hidden && setPaused(true);
+    let settle = null;
+    const refit = () => {
+      clearTimeout(settle);
+      settle = setTimeout(() => game?.scale.refresh(), RENDER.rotateSettleMs);
+    };
     document.addEventListener('visibilitychange', hide);
+    window.addEventListener('resize', refit);
+    window.addEventListener('orientationchange', refit);
     return () => {
       detach();
       document.removeEventListener('visibilitychange', hide);
+      window.removeEventListener('resize', refit);
+      window.removeEventListener('orientationchange', refit);
+      clearTimeout(settle);
       cancelled = true;
       game?.destroy(true);
     };
-  }, [input, tuned]);
+  }, [input, tuned, canBoot]);
 
   return (
     <div className="race-screen" dir="ltr">

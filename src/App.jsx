@@ -24,10 +24,25 @@ function newCareerSeed() {
 export function App() {
   const [screen, setScreen] = useState({ name: 'title' });
   const [, setLanguage] = useState(getLanguage);
+  const [menuBack, setMenuBack] = useState(null);
   const go = (name, extra = {}) => setScreen({ name, ...extra });
+  const goHome = () => {
+    setMenuBack(null);
+    go('title');
+  };
+  const leaveSeason = (resume) => {
+    setMenuBack(resume && { name: 'season', mode: resume.state.mode, saved: { ...resume, seed: resume.state.seed }, run: Date.now() });
+    go('modes');
+  };
+  const menuGoBack = () => {
+    if (!menuBack) return goHome();
+    setMenuBack(null);
+    setScreen(menuBack);
+  };
   const startQuickRace = (trackId) => go('race', { trackId, setup: buildRaceSetup({ trackId }) });
   const startSeason = (mode, extra = {}) => go('season', { mode, seed: SEASONS.quick.seed, run: Date.now(), ...extra });
   const pickMode = (id) => {
+    setMenuBack(null);
     if (id === 'quickSeason') startSeason('quick');
     else if (id === 'career') startSeason('career', { seed: newCareerSeed() });
     else if (id === 'continue') startSeason('career', { saved: loadCareer() });
@@ -36,7 +51,7 @@ export function App() {
 
   switch (screen.name) {
     case 'modes':
-      return <ModeSelect modes={modeCards(loadCareer())} onPick={pickMode} onBack={() => go('title')} />;
+      return <ModeSelect modes={modeCards(loadCareer())} onPick={pickMode} onBack={menuGoBack} onHome={goHome} />;
     case 'season':
       return (
         <SeasonFlow
@@ -44,7 +59,7 @@ export function App() {
           mode={screen.mode}
           seed={screen.saved ? screen.saved.seed : screen.seed}
           saved={screen.saved}
-          onExit={() => go('modes')}
+          onExit={leaveSeason}
           onAgain={() => pickMode(screen.mode === 'quick' ? 'quickSeason' : 'career')}
         />
       );

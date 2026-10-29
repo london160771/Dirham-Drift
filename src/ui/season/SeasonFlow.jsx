@@ -18,9 +18,9 @@ function Phase({ season, onExit, onAgain, RaceComponent }) {
     case 'EVENT':
       return <EventCard state={state} dispatch={dispatch} />;
     case 'RECAP':
-      return <SeasonRecap state={state} onAgain={onAgain} onExit={onExit} />;
+      return <SeasonRecap state={state} onAgain={onAgain} onExit={() => onExit(null)} />;
     default:
-      return <PitHub state={state} dispatch={dispatch} error={error} onExit={onExit} />;
+      return <PitHub state={state} dispatch={dispatch} error={error} onExit={() => onExit({ state, statementFrom })} />;
   }
 }
 

@@ -21,6 +21,9 @@ export function InsuranceSection({ state, dispatch }) {
       >
         {state.insured ? `✓ ${t('bank.insuranceOn')}` : t('bank.insuranceOff')}
       </button>
+      <p className="tap-hint" data-testid="insurance-hint">
+        {t(state.insured ? 'bank.insuranceTapOff' : 'bank.insuranceTapOn')}
+      </p>
     </section>
   );
 }

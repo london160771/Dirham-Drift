@@ -13,8 +13,8 @@ export function FundSection({ state, dispatch }) {
       <p className="muted">
         <RichText text={t('bank.fundInfo', { min: INDEX_FUND.minChangePercent, max: INDEX_FUND.maxChangePercent })} />
       </p>
-      <AmountChips label={t('bank.invest')} max={state.cash} onPick={(amount) => dispatch({ type: 'investFund', amount })} testId="invest" />
-      <AmountChips label={t('bank.sell')} max={state.fundValue} onPick={(amount) => dispatch({ type: 'sellFund', amount })} testId="sell" />
+      <AmountChips label={t('bank.invest')} action={t('bank.invest')} max={state.cash} onConfirm={(amount) => dispatch({ type: 'investFund', amount })} testId="invest" />
+      <AmountChips label={t('bank.sell')} action={t('bank.sell')} max={state.fundValue} onConfirm={(amount) => dispatch({ type: 'sellFund', amount })} testId="sell" />
     </section>
   );
 }
