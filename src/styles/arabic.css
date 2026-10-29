@@ -1,0 +1,8 @@
+@import '@fontsource/cairo/arabic-400.css';
+@import '@fontsource/cairo/arabic-700.css';
+@import '@fontsource/cairo/arabic-900.css';
+
+:root[lang='ar'] {
+  --font: 'Cairo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+

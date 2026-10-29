@@ -1,11 +1,15 @@
 import { t } from '../../i18n/strings.js';
 import { SceneArt } from '../art/SceneArt.jsx';
+import { LanguageToggle } from './LanguageToggle.jsx';
 
-export function TitleScreen({ onPlay, onHowTo, onSettings, onCredits }) {
+export function TitleScreen({ onPlay, onHowTo, onSettings, onCredits, onInstall, onLanguage }) {
   return (
     <div className="screen title-screen">
       <SceneArt slot="title" className="backdrop" />
       <div className="title-glow" />
+      <div className="title-corner">
+        <LanguageToggle onChange={onLanguage} />
+      </div>
       <h1 className="logo">
         <span className="logo-gold">Dirham</span> Drift
       </h1>
@@ -25,6 +29,11 @@ export function TitleScreen({ onPlay, onHowTo, onSettings, onCredits }) {
           <button type="button" className="btn" onClick={onCredits} data-testid="open-credits">
             {t('title.credits')}
           </button>
+          {onInstall && (
+            <button type="button" className="btn" onClick={onInstall} data-testid="open-install">
+              {t('title.install')}
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { audio } from '../../game/audio/audio.js';
 import { t } from '../../i18n/strings.js';
 import { applySettings } from '../applySettings.js';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
+import { LanguageToggle } from './LanguageToggle.jsx';
 
 const TOGGLES = ['steeringAssist', 'autoAccelerate', 'chillMode', 'colorBlind', 'reduceMotion', 'leftHanded', 'vibration', 'showFps'];
 const VOLUMES = ['musicVolume', 'effectsVolume'];
@@ -50,7 +51,7 @@ function Volume({ id, value, onChange }) {
   );
 }
 
-export function SettingsScreen({ onBack }) {
+export function SettingsScreen({ onBack, onLanguage }) {
   const [settings, setSettings] = useState(loadSettings);
   const [hintNote, setHintNote] = useState(false);
   const change = (patch) => {
@@ -73,6 +74,10 @@ export function SettingsScreen({ onBack }) {
       </header>
       <div className="settings-grid">
         <section>
+          <div className="setting-row">
+            <strong>{t('settings.language')}</strong>
+            <LanguageToggle onChange={onLanguage} />
+          </div>
           <h3>{t('settings.sound')}</h3>
           {VOLUMES.map((id) => (
             <Volume key={id} id={id} value={settings[id]} onChange={(value) => change({ [id]: value })} />

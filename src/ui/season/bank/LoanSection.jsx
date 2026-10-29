@@ -8,7 +8,7 @@ import { RichText } from '../RichText.jsx';
 function Offer({ offer, disabled, dispatch }) {
   return (
     <div className="offer" data-testid={`offer-${offer.id}`}>
-      <strong>{t(offer.id === 'quick' ? 'bank.loanQuick' : 'bank.loanBig')}</strong>
+      <strong>{t(`bank.loan_${offer.id}`)}</strong>
       <dl>
         <dt>{t('bank.borrow')}</dt>
         <dd className="gain">
@@ -24,11 +24,12 @@ function Offer({ offer, disabled, dispatch }) {
         <dd className="total" data-testid={`total-${offer.id}`}>
           <Aed amount={offer.total} />
         </dd>
-        <dt>{t('bank.extra')}</dt>
-        <dd className="loss">
+        <dt>{t(offer.fixedFee ? 'bank.fixedFee' : 'bank.extra')}</dt>
+        <dd className="loss" data-testid={`cost-${offer.id}`}>
           <Aed amount={offer.cost} />
         </dd>
       </dl>
+      {offer.fixedFee && <p className="muted small" data-testid="interest-free-note">{t('bank.interestFreeNote', { fee: formatAed(offer.fixedFee) })}</p>}
       <button type="button" className="btn primary" disabled={disabled} onClick={() => dispatch({ type: 'takeLoan', loanId: offer.id })} data-testid={`take-${offer.id}`}>
         {t('bank.accept')}
       </button>

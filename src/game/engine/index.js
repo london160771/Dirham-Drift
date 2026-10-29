@@ -9,5 +9,5 @@ export { ledgerTotals, entriesForRace } from './ledger.js';
 export { LESSON_IDS } from './lessons.js';
 export { EngineError, percentOf } from './money.js';
 export { strikesToRepo } from './strikes.js';
-export { recapSummary, savedInstead, seasonGrade } from './recap.js';
+export { recapSummary, savedInstead, seasonGrade, zakatEstimate } from './recap.js';
 export { seasonPlan } from './season.js';

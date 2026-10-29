@@ -4,7 +4,7 @@ import { formatAed } from '../format.js';
 
 const quick = LOANS.quick;
 
-export const HOW_TO_SECTIONS = ['controls', 'loop', 'money', 'modes', 'tips'];
+export const HOW_TO_SECTIONS = ['controls', 'loop', 'money', 'modes', 'tips', 'install'];
 
 export const HOW_TO_CARDS = {
   controls: [
@@ -28,4 +28,5 @@ export const HOW_TO_CARDS = {
     { id: 'quickRace' },
   ],
   tips: [{ id: 'total' }, { id: 'buffer' }, { id: 'redFlags' }, { id: 'lessons' }],
+  install: [{ id: 'web' }, { id: 'itch' }],
 };

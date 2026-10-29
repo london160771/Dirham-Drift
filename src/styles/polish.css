@@ -183,3 +183,14 @@
     min-height: 100px;
   }
 }
+
+.title-screen .title-corner {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  inset-inline-end: max(12px, env(safe-area-inset-right));
+  z-index: 2;
+}
+
+.lang-toggle {
+  font-family: 'Cairo', var(--font);
+}

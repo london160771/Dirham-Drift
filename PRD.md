@@ -219,6 +219,7 @@ All numbers are simplified, illustrative and live in one config file (`src/game/
 |---|---|---|---|---|
 | Quick | 6,000 | 700 | 10 | 7,000 |
 | Big | 15,000 | 1,500 | 12 | 18,000 |
+| Interest-free (P1, FR-MON-011) | 6,000 | 660 | 10 | 6,600 (fixed fee 600) |
 
 **Payment order after each race:** prize in → loan repayment → insurance premium → rent (if due) → bills. Required payments use cash first, then savings automatically.
 
@@ -386,6 +387,10 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | 2026-10-28 | Sound sources (Phase 5, FR-SND-001): kenney.nl downloads are blocked from the build machine (HTTP 403 through the network proxy), so crash, coin, thud and click come from the CC0 pack "100 CC0 SFX" by rubberduck (OpenGameArt.org), converted to mono MP3; engine (pitch follows speed), nitro whoosh, countdown beeps, repossession drop and both music loops (hub, race) are generated in code with Web Audio. Every sound has a file slot: drop `src/assets/audio/<id>.mp3` (ids: hit, coin, thud, click, nitro, beep, go, repo, music-hub, music-race) and rebuild — no code change | MP3 plays on iPhone Safari; Ogg Vorbis support there is not guaranteed. Files are found at build time, so a missing file never causes a 404 |
 | 2026-10-28 | Hub art (Phase 5): the title skyline, garage, bank and Desert Gold poster are drawn in code (SVG) in the §21 style; each has an image slot `src/assets/art/{title,garage,bank,scamAd}.{png,jpg,webp,avif}` that replaces the code art after a rebuild, no code change | Owner's AI images are not made yet |
 | 2026-10-28 | Accessibility settings defined (FR-A11Y-001): steering assist nudges the car toward the road centre 140 px ahead; auto-accelerate holds gas unless braking; Chill mode = rivals 10% slower and half crash damage; text size S/M/L scales menu and Pit Hub text (race HUD unchanged); colour-blind safe = blue gains, orange losses (▲▼ signs always shown); reduce motion = no menu animation, fewer sparks, steady nitro flame (defaults to the device setting); left-handed = pedals left, steering right; touch control size S/M/L; vibration on crashes (Android only — iPhone has no vibration API); music and effects volume 0–100% | Each one is simple, testable and persists in browser storage |
+| 2026-10-29 | PWA (Phase 6, FR-PWA-001/002): vite-plugin-pwa 2.0.0 (generateSW, Workbox 7.4.1) builds the manifest and service worker, but registration is manual and only runs when the page is not in an iframe, the browser has service workers, and the host is not `itch.io`, `itch.zone` or `hwcdn.net` (`PWA_RULES` in `src/game/config/app.js`). The "Install app" button and guide only show where install works; Android/desktop get a one-tap Install when the browser offers it | itch.io serves games in an iframe on its own CDN domains; a service worker there would be wrong scope and can cache stale builds |
+| 2026-10-29 | Arabic (Phase 6, FR-I18N-002): `src/i18n/ar.js` mirrors every English key with the same `{variables}` and `[[glossary]]` words (tested); text is **AI-assisted, pending native review**. Arabic sets `<html lang="ar" dir="rtl">` so menus and Pit Hub flip; the race screen is forced `dir="ltr"` so the HUD and touch controls keep their layout. Font: Cairo (SIL OFL 1.1) Arabic subset, weights 400/700/900, bundled from @fontsource/cairo 5.3.0 so it works offline. Money reads "{amount} درهم"; digits stay Western | FR-I18N-002 asks for RTL menus with the HUD unchanged; a bundled font avoids a Google Fonts request (not allowed offline or by CLAUDE.md) |
+| 2026-10-29 | Interest-free loan (FR-MON-011): borrow AED 6,000, pay AED 660 after each of 10 races = AED 6,600; the AED 600 fixed fee is the whole cost and is shown as "Fixed fee (no interest)" with the note "Interest-free doesn't mean free". Same late-payment and repossession rules as other loans. **Default, owner to tune** (`LOANS.interestFree` in `src/game/config/economy.js`) | Cheaper than the Quick loan (AED 1,000 extra) so it is the sensible choice, but never free |
+| 2026-10-29 | Zakat note (recap, P1): estimate = 2.5% (`ZAKAT.perMille` 25) of cash + savings + index fund at season end, rounded down to whole AED; car parts and debts are not included. Shown as a simplified note with "Real Zakat rules have more detail"; it never changes money | A teaching note, not a ruling: nisab and the lunar-year rule are mentioned, not calculated |
 
 ---
 
@@ -399,7 +404,9 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | Banks, funds, sponsors | **Fictional** | Fictional names only, no real logos |
 | Desert Gold Racing Fund | **Fictional scam for teaching** | Red-flag checklist + lesson |
 | Ghost Challenge (P1) | Real server | "Waking server…" when Render is cold |
-| PWA install | Real (Vercel only) | Install guide; hidden on itch |
+| PWA install | Real (website only; off on itch.io and inside iframes) | Install guide; button hidden on itch |
+| Arabic text | AI-assisted translation, pending native review | Credits say so |
+| Zakat note | **Simplified estimate** (2.5% of cash + savings + fund) | "Simplified for learning" line under the note |
 
 `REAL_VS_MOCKED.md` copies this table.
 

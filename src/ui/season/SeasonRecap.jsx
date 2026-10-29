@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { ZAKAT } from '../../game/config/economy.js';
 import { LESSON_IDS, recapSummary } from '../../game/engine/index.js';
 import { t } from '../../i18n/strings.js';
 import { formatAed } from '../format.js';
@@ -37,6 +38,16 @@ function WhatIf({ saver }) {
       <p>{t('recap.whatIfBody', { money: aedText(saver.netWorth) })}</p>
       <p className={saver.difference > 0 ? 'danger-text' : 'note'}>{t(key, { amount: formatAed(Math.abs(saver.difference)) })}</p>
       <p className="muted small">{t('recap.whatIfHow')}</p>
+    </section>
+  );
+}
+
+function ZakatNote({ zakat }) {
+  return (
+    <section className="zakat-note" data-testid="zakat-note">
+      <strong>{t('recap.zakatTitle')}</strong>
+      <p>{t('recap.zakatBody', { percent: ZAKAT.perMille / 10, base: formatAed(zakat.base), amount: formatAed(zakat.amount) })}</p>
+      <p className="muted small">{t('recap.zakatSimplified')}</p>
     </section>
   );
 }
@@ -81,6 +92,7 @@ export function SeasonRecap({ state, onAgain, onExit }) {
         <Breakdown recap={recap} />
         <WhatIf saver={recap.saver} />
         <Lessons met={recap.lessonsMet} />
+        <ZakatNote zakat={recap.zakat} />
       </div>
       <div className="menu row">
         <button type="button" className="btn primary" onClick={onAgain} data-testid="play-again">

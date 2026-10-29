@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { hasString, t } from '../../src/i18n/strings.js';
+import { LANGUAGES, hasString, setLanguage, t } from '../../src/i18n/strings.js';
 
 function sourceFiles(dir) {
   return readdirSync(dir).flatMap((name) => {
@@ -23,5 +23,34 @@ describe('strings file', () => {
     }
     const missing = [...keys].filter((key) => !hasString(key));
     expect(missing).toEqual([]);
+  });
+});
+
+function leaves(node, prefix = '') {
+  return Object.entries(node).flatMap(([key, value]) => (typeof value === 'string' ? [[`${prefix}${key}`, value]] : leaves(value, `${prefix}${key}.`)));
+}
+
+function tokens(text) {
+  return [...text.matchAll(/\{\w+\}|\[\[\w+\]\]/g)].map((m) => m[0]).sort();
+}
+
+describe('Arabic strings (FR-I18N-002)', () => {
+  const en = new Map(leaves(LANGUAGES.en));
+  const ar = new Map(leaves(LANGUAGES.ar));
+
+  it('has every English key and no extra ones', () => {
+    expect([...ar.keys()].sort()).toEqual([...en.keys()].sort());
+  });
+
+  it('keeps the same variables and glossary words', () => {
+    const wrong = [...en].filter(([key, text]) => tokens(text).join() !== tokens(ar.get(key) ?? '').join());
+    expect(wrong.map(([key]) => key)).toEqual([]);
+  });
+
+  it('switches language and falls back to English for unknown ids', () => {
+    expect(setLanguage('ar')).toBe('ar');
+    expect(t('title.play')).toBe(LANGUAGES.ar.title.play);
+    expect(setLanguage('xx')).toBe('en');
+    expect(t('title.play')).toBe('Play');
   });
 });

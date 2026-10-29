@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { EVENTS, INSURANCE, LATE_PAYMENT, LOANS, PRIZES, RENT, UPGRADES } from '../../src/game/config/economy.js';
-import { carStats, carValue, createSeason, netWorth, percentOf, prizeTable } from '../../src/game/engine/index.js';
+import { carStats, carValue, createSeason, loanOffer, netWorth, percentOf, prizeTable } from '../../src/game/engine/index.js';
 import { act, career, race, raceAndReturn, toHub } from './helpers.js';
 
 const kinds = (s) => s.ledger.map((l) => l.kind);
@@ -73,6 +73,18 @@ describe('loans', () => {
     expect(s.lessonsMet).toContain('totalCostOfLoan');
     const paid = s.ledger.filter((l) => l.kind === 'loanPayment').reduce((a, l) => a - l.cash, 0);
     expect(paid).toBe(7000);
+  });
+
+  it('interest-free loan costs exactly its fixed fee (FR-MON-011)', () => {
+    const free = LOANS.interestFree;
+    const offer = loanOffer('interestFree');
+    expect(offer.total).toBe(free.borrow + free.fixedFee);
+    expect(offer.cost).toBe(free.fixedFee);
+    let s = act(createSeason({ mode: 'career', seed: 3 }), 'takeLoan', { loanId: 'interestFree' });
+    for (let i = 0; i < free.races; i += 1) s = raceAndReturn(s, { position: 1, kind: 'club' });
+    expect(s.loan).toBeNull();
+    const paid = s.ledger.filter((l) => l.kind === 'loanPayment').reduce((a, l) => a - l.cash, 0);
+    expect(paid).toBe(free.borrow + free.fixedFee);
   });
 });
 

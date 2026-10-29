@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { ZAKAT } from '../../src/game/config/economy.js';
 import { GRADES } from '../../src/game/config/season.js';
-import { createSeason, isDebtFree, ledgerTotals, netWorth, recapSummary, savedInstead, seasonGrade } from '../../src/game/engine/index.js';
+import { createSeason, isDebtFree, ledgerTotals, netWorth, recapSummary, savedInstead, seasonGrade, zakatEstimate } from '../../src/game/engine/index.js';
 import { act, career, race, raceAndReturn } from './helpers.js';
 
 function finishSeason(state, position, kind = 'club') {
@@ -50,5 +51,14 @@ describe('season recap (FR-MODE-004)', () => {
   it('logs each race result for the recap', () => {
     const s = race(career(), { position: 2, damage: 10 });
     expect(s.raceLog).toEqual([{ kind: 'stage', position: 2, damage: 10 }]);
+  });
+});
+
+describe('Zakat note (PRD §26 P1)', () => {
+  it('estimates whole dirhams on cash, savings and fund, rounding down', () => {
+    const s = { ...career(), cash: 1999, savings: 0, fundValue: 0 };
+    expect(zakatEstimate(s)).toEqual({ base: 1999, amount: Math.floor((1999 * ZAKAT.perMille) / 1000) });
+    expect(Number.isInteger(zakatEstimate(s).amount)).toBe(true);
+    expect(zakatEstimate({ ...s, cash: -500 })).toEqual({ base: 0, amount: 0 });
   });
 });

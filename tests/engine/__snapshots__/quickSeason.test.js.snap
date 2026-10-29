@@ -42,6 +42,10 @@ exports[`Quick Season seeded script (PRD §19, FR-MODE-001) > final state matche
     },
     "savings": 0,
     "wins": 1,
+    "zakat": {
+      "amount": 315,
+      "base": 12600,
+    },
   },
   "state": {
     "cash": 12600,

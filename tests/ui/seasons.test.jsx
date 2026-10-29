@@ -44,6 +44,7 @@ describe('Quick Season (FR-MODE-001)', () => {
     expect(text('what-if')).toContain('AED');
     expect(screen.getByTestId('recap-lessons').querySelectorAll('li')).toHaveLength(10);
     expect(text('recap-debt')).toMatch(/Debt-free|Still in debt/);
+    expect(text('zakat-note')).toContain('2.5%');
   });
 });
 

@@ -6,7 +6,7 @@ A top-down racing career game set in the UAE where every money choice — borrow
 
 Made for the Zoud GameLab FinLit Jam 2026 ("Make FinLit Fun").
 
-[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 113 passing (2026-10-28)
+[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 122 passing (2026-10-29)
 
 ## The problem
 
@@ -48,7 +48,7 @@ React shell (menus, Pit Hub) → Money engine (pure JS, tested) ↔ Phaser race 
 
 ## Tested, not claimed
 
-`npm run verify` on 2026-10-28: lint clean, **113 tests in 18 files passed**, build OK. Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, assists and engine ↔ Pit Hub screens (buy, borrow, repossession). Frame rate on real phones is not measured yet.
+`npm run verify` on 2026-10-29: lint clean, **122 tests in 20 files passed**, build OK. Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, Arabic string parity, the itch.io PWA switch, the interest-free loan, the Zakat estimate, assists and engine ↔ Pit Hub screens (buy, borrow, repossession). Frame rate on real phones is not measured yet.
 
 ## Run it locally
 
@@ -76,7 +76,8 @@ To be filled honestly before submission.
 
 Design and development: Adesope (Ayyoweb3). Built with AI assistance (Claude by Anthropic) for code.
 
-- Libraries: Phaser 4, React, Vite (MIT).
+- Libraries: Phaser 4, React, Vite, vite-plugin-pwa and Workbox (MIT).
 - Sound effects (crash, coin, thud, click): "100 CC0 SFX" by rubberduck, OpenGameArt.org — CC0. Engine, nitro, beeps and both music loops are generated in code.
-- Fonts: system fonts.
+- Fonts: system fonts for English; Cairo by Mohamed Gaber (SIL Open Font License 1.1, via Fontsource) for Arabic.
+- Arabic translation: AI-assisted (Claude), pending native review.
 - Art: tracks, cars and hub backgrounds drawn in code. AI-made hub images, if added, will be named here.

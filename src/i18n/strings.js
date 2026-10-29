@@ -1,7 +1,19 @@
+import { AR } from './ar.js';
 import { EN } from './en.js';
 
-const LANGUAGES = { en: EN };
+export const LANGUAGES = { en: EN, ar: AR };
+let currentId = 'en';
 let current = LANGUAGES.en;
+
+export function setLanguage(id) {
+  currentId = id in LANGUAGES ? id : 'en';
+  current = LANGUAGES[currentId];
+  return currentId;
+}
+
+export function getLanguage() {
+  return currentId;
+}
 
 function lookup(path) {
   return path.split('.').reduce((node, key) => (node && key in node ? node[key] : undefined), current);

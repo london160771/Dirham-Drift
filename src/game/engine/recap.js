@@ -1,3 +1,4 @@
+import { ZAKAT } from '../config/economy.js';
 import { GRADES, SAVER_PLAN } from '../config/season.js';
 import { applyAction } from './machine.js';
 import { carValue } from './garage.js';
@@ -47,6 +48,11 @@ export function savedInstead(state) {
   return { netWorth: netWorth(s), debtFree: isDebtFree(s) };
 }
 
+export function zakatEstimate(state) {
+  const base = Math.max(0, state.cash + state.savings + state.fundValue);
+  return { base, amount: Math.floor((base * ZAKAT.perMille) / 1000) };
+}
+
 export function recapSummary(state) {
   const worth = netWorth(state);
   const saver = savedInstead(state);
@@ -64,5 +70,6 @@ export function recapSummary(state) {
     podiums: state.raceLog.filter((r) => r.position <= 3).length,
     races: state.raceLog.length,
     saver: { ...saver, difference: saver.netWorth - worth },
+    zakat: zakatEstimate(state),
   };
 }

@@ -3,15 +3,15 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-10-28 · **By:** Claude (build) · **Commit:** see build log
+**Last updated:** 2026-10-29 · **By:** Claude (build) · **Commit:** see build log
 
 ---
 
 ## 1. Right now
 
 - **Active phase:** Phases 4–6 run (owner brief 2026-10-28: pre-approved per phase once acceptance + verify pass; owner checks deferred)
-- **Status:** Phases 4–5 built and verified; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review)
-- **Next step:** Phase 6 (App + Arabic)
+- **Status:** Phases 4–6 built, verified and pushed; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review, Phase 6 install test on Android + iPhone, Arabic native review)
+- **Next step:** owner checks; Phase 7 only when the owner says so
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -23,8 +23,8 @@
 | 2 — Money engine | Done (automatic gate) | 2026-10-28 | see build log | Auto + review (self-review done in this run) |
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
 | 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
-| 5 — Polish | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
-| 6 — App + Arabic (P1) | Not started | | | Owner install test |
+| 5 — Polish | Done (automatic gate) | 2026-10-28 | 39a9aaa | Auto + screenshots |
+| 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | see build log | Owner install test on Android + iPhone pending |
 | 7 — Ghost Challenge (P1) | Not started | | | Owner two-phone test |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
 
@@ -34,12 +34,13 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Full gate | `npm run verify` | pass | 2026-10-28 |
-| Tests | `npm test` | 113 passed (18 files) | 2026-10-28 |
-| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-28 |
-| Build | `npm run build` | pass, relative `./assets` paths | 2026-10-28 |
-| Phone landscape screenshots | Playwright 844×390 + 1280×720 | taken, checked | 2026-10-28 |
-| Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28 — **pending owner review** (not locked yet) | 2026-10-28 |
+| Full gate | `npm run verify` | pass | 2026-10-29 |
+| Tests | `npm test` | 122 passed (20 files) | 2026-10-29 |
+| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-29 |
+| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 22 entries | 2026-10-29 |
+| Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
+| Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
+| PWA install on a real phone | — | **owner check pending** | — |
 | Frame rate on real phone | — | — | — |
 
 ## 4. What works (verified)
@@ -70,6 +71,10 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Sound: engine synth whose pitch follows speed (louder/higher on nitro), CC0 crash/coin/thud/click, code-made nitro whoosh, countdown beeps, repossession drop and two music loops (hub, race); audio starts on the first tap; every sound has a visual cue and a file slot.
 - Race effects: skid marks when drifting, sparks on barrier hits, nitro flames; bolder upgrade looks at race zoom (dark stripes, red scoop, rear wing, wheels with gold rims sticking out, teal side tanks, a gold glow that grows with upgrades).
 - Hub art slots (title, garage, bank, Desert Gold poster) with code-drawn art until the owner's images arrive.
+- App install (website only): manifest, icons, offline service worker; "Install app" on the title and an install guide (Android, iPhone, desktop) only where install works; nothing registers on itch.io domains or inside an iframe.
+- Arabic toggle (title and Settings, remembered): every string has an Arabic version; menus and Pit Hub flip right-to-left; race HUD and touch controls keep their layout; Cairo Arabic font bundled for offline.
+- Interest-free loan in the Bank: AED 6,000, AED 660 × 10 races = AED 6,600, fixed fee AED 600 shown with "Interest-free doesn't mean free".
+- Zakat note in the season recap: simplified 2.5% estimate of cash + savings + fund.
 - Event cards with each choice's cost before choosing; Desert Gold shows the red-flag checklist. Pit Lesson cards (one per stop) with the key number; Lesson Book (10); glossary words underlined in the Pit Hub open plain explanations.
 
 ## 5. Real vs simplified right now
@@ -93,7 +98,7 @@ See `REAL_VS_MOCKED.md`.
 | 2 — Loan → faster car | no — can be recorded now (Career Season → Bank → loan → Garage → race) | | |
 | 3 — Crash → repo | no — can be recorded now (Quick Season: loan + turbo, finish low in race 2, skip insurance) | | |
 | 4 — Scam | no — can be recorded now (Quick Season: invest in Desert Gold after race 2) | | |
-| 5 — Recover + recap | no | | |
+| 5 — Recover + recap | no — can be recorded now (Quick Season, saver run; recap shows the Zakat note) | | |
 | Install + itch link | no | | |
 
 ## 8. Submission pack
@@ -114,11 +119,14 @@ See `REAL_VS_MOCKED.md`.
 - Sound: only crash, coin, thud and click are recorded CC0 files; nitro, beeps, engine, repossession and both music loops are generated in code (owner may replace via file slots).
 - Hub art is code-drawn until the owner adds AI images.
 - Frame rate on a real phone not measured (headless only).
+- PWA install not yet tested on a real Android or iPhone; the service worker only registers once deployed (or on `localhost`).
+- Arabic text is AI-assisted and pending native review (some number–noun agreement, e.g. "10 سباقات", needs a native pass).
+- Quick Season repo warning reads "1 strikes" in English (plural not handled); cosmetic.
 
 ## 10. Handoff notes
 
 - **Read first:** `CLAUDE.md`, PRD §27 Phase 0, PRD §10 (Racing + Controls), PRD §21 (visual style).
-- **Branch:** main · **Uncommitted work:** none (after the Phase 3 commit)
+- **Branch:** main · **Uncommitted work:** none (after the Phase 6 commit)
 - **Env vars needed:** none until Phase 7 (`MONGODB_URI`, `ALLOWED_ORIGINS` — names only)
 - **Watch out for:** CLAUDE.md §8 gotchas; `docs/CONCEPT-BRIEF.md` is outdated.
 
@@ -173,3 +181,12 @@ See `REAL_VS_MOCKED.md`.
   - PRD updates: §16 rows for sound sources + file slots, hub art slots, accessibility definitions.
   - Still needs real files / owner images: hub art (4 slots), music (2 loops), optional nitro/beep/go/repo recordings.
   - Video act: **Act 5 + recap can be recorded** (Quick Season, saver run).
+- **2026-10-29 — Phase 6 report (App + Arabic, PRD §27; built against FR-PWA-001…002, FR-I18N-002, FR-MON-011, §26 P1 Zakat note)**
+  - Files: `package.json` (exact: @fontsource/cairo 5.3.0, vite-plugin-pwa 2.0.0, workbox-build 7.4.1, workbox-window 7.4.1), `vite.config.js` (PWA plugin, manual registration, off in tests), `index.html` (icons, apple web-app tags), `public/icons/*`, `src/game/config/{app,economy}.js` (`PWA_RULES`, `LOANS.interestFree`, `ZAKAT`), `src/game/engine/{recap,index}.js` (`zakatEstimate`), `src/i18n/{ar,en,strings}.js`, `src/ui/{applyLanguage.js,pwa/*}`, `src/ui/screens/{InstallGuide,LanguageToggle,TitleScreen,SettingsScreen,howToPlayCards,creditsList}`, `src/ui/season/{SeasonRecap.jsx,bank/LoanSection.jsx}`, `src/ui/race/RaceScreen.jsx` (`dir="ltr"`), `src/App.jsx`, `src/main.jsx`, `src/styles/{arabic,pit,season,polish}.css`; tests `tests/ui/{arabic.test.jsx,pwa.test.js,strings.test.js,seasons.test.jsx}`, `tests/engine/{rules,recap}.test.js`, Quick Season snapshot (+ recap `zakat`).
+  - Tests: `npm run verify` passed — lint clean, 122 tests in 20 files passed, build OK (PWA: `sw.js`, `manifest.webmanifest`, 22 precache entries). New: Arabic has every English key with the same variables and glossary words; language switch + English fallback; toggle flips `dir`/`lang`, shows Arabic and persists; install button hidden where PWA is off; itch.io/itch.zone/hwcdn.net and iframes switch PWA off; interest-free total = borrow + fixed fee and repays exactly that; Zakat estimate whole AED, rounded down, never negative; recap shows the Zakat note.
+  - Snapshot: the Quick Season snapshot changed only by the new recap `zakat` field (`amount 315, base 12600`); event order and final state unchanged.
+  - Manual checks: Playwright 844×390 (touch, DPR 2) and 1280×720 in English and Arabic — title (language toggle, Install app), install guide, Settings, How to Play, modes, race HUD (unchanged layout in Arabic), statement, Pit Hub, Bank with three loans, recap with Zakat note. No page errors. Screenshots in project files `screenshots/phase-6/`.
+  - Config: `PWA_RULES` (`src/game/config/app.js`), `LOANS.interestFree` and `ZAKAT` (`src/game/config/economy.js`). No env vars.
+  - PRD updates: §11 loans table (interest-free row); §16 rows (PWA switch, Arabic + font, interest-free numbers, Zakat method); §17 rows (PWA, Arabic, Zakat).
+  - Owner checks pending: PWA install on Android Chrome and iPhone Safari after deploy; Arabic native review.
+  - Video act: install act can be recorded after the owner deploys to Vercel.

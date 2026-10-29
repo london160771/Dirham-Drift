@@ -62,7 +62,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
   }, [input, tuned]);
 
   return (
-    <div className="race-screen">
+    <div className="race-screen" dir="ltr">
       <div className="race-canvas" ref={hostRef} />
       {!ready && <div className="overlay loading">{t('common.loading')}</div>}
       <Hud telemetry={telemetry} money={money} onPause={() => setPaused(true)} />

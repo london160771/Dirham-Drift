@@ -19,6 +19,7 @@ export const UPGRADES = {
 export const LOANS = {
   quick: { id: 'quick', borrow: 6000, perRace: 700, races: 10 },
   big: { id: 'big', borrow: 15000, perRace: 1500, races: 12 },
+  interestFree: { id: 'interestFree', borrow: 6000, perRace: 660, races: 10, fixedFee: 600 },
 };
 
 export const LATE_PAYMENT = {
@@ -75,3 +76,7 @@ export const EVENTS = {
 };
 
 export const BANK_CHIPS = [500, 1000, 5000];
+
+export const ZAKAT = {
+  perMille: 25,
+};

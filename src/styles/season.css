@@ -104,7 +104,8 @@
 
 .recap-breakdown,
 .what-if,
-.recap-lessons {
+.recap-lessons,
+.zakat-note {
   margin: 0;
   padding: 10px 14px;
   border-radius: var(--radius);
@@ -137,8 +138,14 @@
   border-color: var(--teal);
 }
 
-.what-if p {
+.what-if p,
+.zakat-note p {
   margin: 6px 0 0;
+}
+
+.zakat-note {
+  grid-column: 1 / -1;
+  border-color: var(--gold);
 }
 
 .recap-lessons ul {

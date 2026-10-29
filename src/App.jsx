@@ -9,10 +9,13 @@ import { modeCards } from './ui/screens/modes.js';
 import { QuickRaceResults } from './ui/screens/QuickRaceResults.jsx';
 import { CreditsScreen } from './ui/screens/CreditsScreen.jsx';
 import { HowToPlay } from './ui/screens/HowToPlay.jsx';
+import { InstallGuide } from './ui/screens/InstallGuide.jsx';
 import { SettingsScreen } from './ui/screens/SettingsScreen.jsx';
 import { TitleScreen } from './ui/screens/TitleScreen.jsx';
 import { TrackSelect } from './ui/screens/TrackSelect.jsx';
 import { loadCareer } from './ui/storage/seasonStore.js';
+import { getLanguage } from './i18n/strings.js';
+import { currentPwaAllowed } from './ui/pwa/pwaHost.js';
 
 function newCareerSeed() {
   return Date.now() % SEED_RANGE;
@@ -20,6 +23,7 @@ function newCareerSeed() {
 
 export function App() {
   const [screen, setScreen] = useState({ name: 'title' });
+  const [, setLanguage] = useState(getLanguage);
   const go = (name, extra = {}) => setScreen({ name, ...extra });
   const startQuickRace = (trackId) => go('race', { trackId, setup: buildRaceSetup({ trackId }) });
   const startSeason = (mode, extra = {}) => go('season', { mode, seed: SEASONS.quick.seed, run: Date.now(), ...extra });
@@ -57,12 +61,23 @@ export function App() {
     case 'results':
       return <QuickRaceResults results={screen.results} onAgain={() => startQuickRace(screen.trackId)} onMenu={() => go('modes')} />;
     case 'settings':
-      return <SettingsScreen onBack={() => go('title')} />;
+      return <SettingsScreen onBack={() => go('title')} onLanguage={setLanguage} />;
     case 'howTo':
       return <HowToPlay onBack={() => go('title')} />;
     case 'credits':
       return <CreditsScreen onBack={() => go('title')} />;
+    case 'install':
+      return <InstallGuide onBack={() => go('title')} />;
     default:
-      return <TitleScreen onPlay={() => go('modes')} onHowTo={() => go('howTo')} onSettings={() => go('settings')} onCredits={() => go('credits')} />;
+      return (
+        <TitleScreen
+          onPlay={() => go('modes')}
+          onHowTo={() => go('howTo')}
+          onSettings={() => go('settings')}
+          onCredits={() => go('credits')}
+          onInstall={currentPwaAllowed() ? () => go('install') : null}
+          onLanguage={setLanguage}
+        />
+      );
   }
 }
