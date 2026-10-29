@@ -24,7 +24,7 @@
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
 | 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
 | 5 — Polish | Done (automatic gate) | 2026-10-28 | 39a9aaa | Auto + screenshots |
-| 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | see build log | Owner install test on Android + iPhone pending |
+| 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | 6c2c29e | Owner install test on Android + iPhone pending |
 | 7 — Ghost Challenge (P1) | Not started | | | Owner two-phone test |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
 
