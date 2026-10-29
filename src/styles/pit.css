@@ -695,3 +695,34 @@ dd.loss {
     display: none;
   }
 }
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-basis: 100%;
+}
+
+.amount-input {
+  width: 9.5em;
+  min-height: 40px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-edge);
+  background: #0f131d;
+  color: var(--text);
+  font: inherit;
+  font-size: max(16px, calc(16px * var(--text-scale, 1)));
+  font-weight: 700;
+}
+
+.amount-input:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.tap-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: calc(13px * var(--text-scale, 1));
+}

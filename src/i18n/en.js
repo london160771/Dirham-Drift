@@ -11,6 +11,7 @@ export const EN = {
     credits: 'Credits',
     install: 'Install app',
     back: 'Back',
+    home: 'Home',
   },
   language: {
     label: 'Language',
@@ -300,6 +301,9 @@ export const EN = {
     insuranceInfo: 'AED {premium} [[premium]] per race. Pays {percent}% of repair bills for damage taken while insured.',
     insuranceOn: 'Insured',
     insuranceOff: 'Not insured',
+    insuranceTapOn: 'Tap to insure your car',
+    insuranceTapOff: 'Tap to cancel insurance',
+    amount: 'Amount (AED)',
     fundTitle: 'Index fund',
     fundInfo: 'An [[indexFund]] moves every race, between {min}% and +{max}%. It can go down.',
     fundValue: 'Value AED {amount}',

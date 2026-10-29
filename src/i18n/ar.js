@@ -11,6 +11,7 @@ export const AR = {
     credits: 'الشكر والمصادر',
     install: 'ثبّت التطبيق',
     back: 'رجوع',
+    home: 'الرئيسية',
   },
   language: {
     label: 'اللغة',
@@ -300,6 +301,9 @@ export const AR = {
     insuranceInfo: '{premium} درهم [[premium]] لكل سباق. يدفع {percent}% من فواتير الإصلاح للضرر الذي حدث وأنت مؤمَّن.',
     insuranceOn: 'مؤمَّن',
     insuranceOff: 'غير مؤمَّن',
+    insuranceTapOn: 'اضغط لتأمين سيارتك',
+    insuranceTapOff: 'اضغط لإلغاء التأمين',
+    amount: 'المبلغ (درهم)',
     fundTitle: 'صندوق المؤشر',
     fundInfo: '[[indexFund]] يتحرك كل سباق، بين {min}% و +{max}%. قد ينخفض.',
     fundValue: 'القيمة {amount} درهم',

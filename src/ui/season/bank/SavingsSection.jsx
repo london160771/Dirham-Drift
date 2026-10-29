@@ -11,8 +11,8 @@ export function SavingsSection({ state, dispatch }) {
         <Term id="savings" /> · <Aed amount={state.savings} />
       </h3>
       <p className="muted">{t('bank.savingsInfo', { percent: SAVINGS.growthPercent })}</p>
-      <AmountChips label={t('bank.deposit')} max={state.cash} onPick={(amount) => dispatch({ type: 'deposit', amount })} testId="deposit" />
-      <AmountChips label={t('bank.withdraw')} max={state.savings} onPick={(amount) => dispatch({ type: 'withdraw', amount })} testId="withdraw" />
+      <AmountChips label={t('bank.deposit')} action={t('bank.deposit')} max={state.cash} onConfirm={(amount) => dispatch({ type: 'deposit', amount })} testId="deposit" />
+      <AmountChips label={t('bank.withdraw')} action={t('bank.withdraw')} max={state.savings} onConfirm={(amount) => dispatch({ type: 'withdraw', amount })} testId="withdraw" />
     </section>
   );
 }

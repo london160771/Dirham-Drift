@@ -55,4 +55,5 @@ export const GRID = {
 
 export const RENDER = {
   maxTextures: 1,
+  rotateSettleMs: 300,
 };

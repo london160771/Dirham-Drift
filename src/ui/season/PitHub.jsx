@@ -64,7 +64,7 @@ export function PitHub({ state, dispatch, error, onExit }) {
     <div className="pit-hub" data-testid="pit-hub">
       <header className="pit-header">
         <MoneyBar state={state} />
-        <button type="button" className="btn small-btn" onClick={onExit}>
+        <button type="button" className="btn small-btn" onClick={onExit} data-testid="pit-menu">
           {t('results.menu')}
         </button>
       </header>

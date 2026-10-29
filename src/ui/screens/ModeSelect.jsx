@@ -1,6 +1,6 @@
 import { t } from '../../i18n/strings.js';
 
-export function ModeSelect({ modes, onPick, onBack }) {
+export function ModeSelect({ modes, onPick, onBack, onHome }) {
   return (
     <div className="screen panel-screen">
       <h2>{t('modes.title')}</h2>
@@ -12,9 +12,14 @@ export function ModeSelect({ modes, onPick, onBack }) {
           </button>
         ))}
       </div>
-      <button type="button" className="btn" onClick={onBack}>
-        {t('title.back')}
-      </button>
+      <div className="menu row">
+        <button type="button" className="btn" onClick={onBack} data-testid="menu-back">
+          {t('title.back')}
+        </button>
+        <button type="button" className="btn" onClick={onHome} data-testid="menu-home">
+          {t('title.home')}
+        </button>
+      </div>
     </div>
   );
 }
