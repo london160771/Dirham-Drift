@@ -345,6 +345,7 @@ dd.loss {
 
 .car-preview {
   max-width: 100%;
+  height: auto;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
 }
 

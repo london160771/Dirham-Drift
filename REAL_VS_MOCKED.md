@@ -18,6 +18,6 @@ Dirham Drift is a game. Nothing in it moves real money. This page says plainly w
 
 **Not financial advice.** Rates and returns are not predictions.
 
-**Not built yet (2026-10-29):** Ghost Challenge (Phase 7). PWA, Arabic toggle, interest-free loan and Zakat note are built (Phase 6). Sound is part real CC0 recordings (crash, coin, thud, click) and part generated in code (engine, nitro, beeps, music); hub art is drawn in code until AI images are added. Quick Season, season recap (grade + "what if") and Career save are built (Phase 4); grade thresholds are defaults the owner will tune. This file is updated as each phase is verified.
+**Not built yet (2026-10-29):** Ghost Challenge (Phase 7). PWA, Arabic toggle, interest-free loan and Zakat note are built (Phase 6). Sound is part real CC0 recordings (crash, coin, thud, click) and part generated in code (engine, nitro, beeps, music); game images (hub screens, cars, track scenery) are AI-made with Google Gemini; roads and car upgrade parts are drawn in code. Quick Season, season recap (grade + "what if") and Career save are built (Phase 4); grade thresholds are defaults the owner will tune. This file is updated as each phase is verified.
 
 This file, PRD §17 and the code agree. An honest "not yet" beats a fake green badge.

@@ -18,20 +18,26 @@
   border-radius: inherit;
 }
 
-.scene-art.backdrop.dim {
-  opacity: 0.35;
-}
-
 .title-screen > :not(.backdrop),
-.lift > :not(.backdrop),
-.bank > :not(.backdrop) {
+.lift > :not(.backdrop) {
   position: relative;
   z-index: 1;
 }
 
-.lift,
-.bank {
+.lift {
   position: relative;
+}
+
+.bank-banner {
+  grid-column: 1 / -1;
+  height: clamp(76px, 24vh, 170px);
+  border-radius: var(--radius);
+  border: 1px solid var(--panel-edge);
+}
+
+.bank-banner img,
+.bank-banner .code-art {
+  object-position: center 64%;
 }
 
 .title-screen .title-glow {

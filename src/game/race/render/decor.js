@@ -1,7 +1,8 @@
-import { DECOR, PALETTE } from '../../config/style.js';
+import { DECOR, PALETTE, SCENE_ART } from '../../config/style.js';
 import { withTransform } from './pathDraw.js';
+import { drawImageCentered } from './raceArt.js';
 
-export function drawPalm(ctx, x, y, rng) {
+export function drawPalm(ctx, x, y, rng, image) {
   const r = DECOR.palmRadius * rng.range(0.8, 1.15);
   const leaves = 7;
   const turn = rng.range(0, Math.PI);
@@ -9,6 +10,10 @@ export function drawPalm(ctx, x, y, rng) {
   ctx.beginPath();
   ctx.arc(x + 6, y + 6, r * 0.9, 0, Math.PI * 2);
   ctx.fill();
+  if (image) {
+    withTransform(ctx, x, y, turn, (c) => drawImageCentered(c, image, r * SCENE_ART.palmSpan));
+    return;
+  }
   for (let i = 0; i < leaves; i += 1) {
     withTransform(ctx, x, y, turn + (i * Math.PI * 2) / leaves, (c) => {
       c.fillStyle = i % 2 === 0 ? PALETTE.palmLeaf : PALETTE.palmLeafLight;
@@ -72,12 +77,16 @@ function drawRoof(c, w, h, rng) {
   }
 }
 
-export function drawTower(ctx, x, y, angle, size, rng) {
+export function drawTower(ctx, x, y, angle, size, rng, roofs) {
   const w = size;
-  const h = size * rng.range(0.75, 1.25);
+  const h = roofs ? size : size * rng.range(0.75, 1.25);
   withTransform(ctx, x, y, angle, (c) => {
     c.fillStyle = 'rgba(0,0,0,0.45)';
     c.fillRect(-w / 2 + 14, -h / 2 + 14, w, h);
+    if (roofs) {
+      c.drawImage(rng.pick(roofs), -w / 2, -h / 2, w, h);
+      return;
+    }
     c.fillStyle = PALETTE.towerBase;
     c.fillRect(-w / 2, -h / 2, w, h);
     c.strokeStyle = PALETTE.towerEdge;
@@ -88,13 +97,17 @@ export function drawTower(ctx, x, y, angle, size, rng) {
   });
 }
 
-export function drawYacht(ctx, x, y, angle, length) {
+export function drawYacht(ctx, x, y, angle, length, image) {
   const w = length * 0.32;
   withTransform(ctx, x, y, angle, (c) => {
     c.fillStyle = 'rgba(0,0,0,0.3)';
     c.beginPath();
     c.ellipse(4, 4, length / 2, w / 2, 0, 0, Math.PI * 2);
     c.fill();
+    if (image) {
+      drawImageCentered(c, image, length);
+      return;
+    }
     c.fillStyle = PALETTE.yachtHull;
     c.beginPath();
     c.moveTo(length / 2, 0);
@@ -109,7 +122,7 @@ export function drawYacht(ctx, x, y, angle, length) {
   });
 }
 
-export function drawWater(ctx, points, rng) {
+export function drawWater(ctx, points, rng, fill = PALETTE.water) {
   const xs = points.map((p) => p[0]);
   const ys = points.map((p) => p[1]);
   ctx.save();
@@ -117,7 +130,7 @@ export function drawWater(ctx, points, rng) {
   ctx.moveTo(points[0][0], points[0][1]);
   for (const [x, y] of points) ctx.lineTo(x, y);
   ctx.closePath();
-  ctx.fillStyle = PALETTE.water;
+  ctx.fillStyle = fill;
   ctx.fill();
   ctx.clip();
   ctx.strokeStyle = PALETTE.waterShine;

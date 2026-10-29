@@ -113,6 +113,7 @@ export const DEPTH = {
 export const GARAGE_PREVIEW = {
   scale: 3.2,
   pad: 30,
+  maxPixelRatio: 3,
 };
 
 export const CAR_LOOKS = {
@@ -131,4 +132,18 @@ export const CAR_LOOKS = {
   tankPerLevel: 1,
   auraPerLevel: 0.07,
   auraRadius: 0.55,
+};
+
+export const CAR_SPRITES = {
+  player: 'car-player',
+  rivals: ['car-rival-teal', 'car-rival-red', 'car-rival-white', 'car-rival-purple'],
+  traffic: ['car-traffic-1', 'car-traffic-2', 'car-traffic-3'],
+};
+
+export const SCENE_ART = {
+  textureTiles: { water: 360, promenade: 320, sand: 460 },
+  palmSpan: 2.4,
+  roofs: ['roof-pool', 'roof-helipad', 'roof-garden', 'roof-plant'],
+  yacht: 'yacht',
+  palm: 'palm',
 };

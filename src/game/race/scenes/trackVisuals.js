@@ -45,8 +45,8 @@ export function bakeScaleFor(zoom) {
   return Math.min(DECOR.bakeScaleMax, Math.max(DECOR.bakeScaleMin, zoom * DECOR.bakeScalePerZoom));
 }
 
-export function buildTrackVisuals(scene, track, scale) {
-  const images = bakeLayer(scene, `track-${track.id}`, track.bounds, scale, (ctx) => DRAWERS[track.id](ctx, track), DEPTH.track);
+export function buildTrackVisuals(scene, track, scale, art) {
+  const images = bakeLayer(scene, `track-${track.id}`, track.bounds, scale, (ctx) => DRAWERS[track.id](ctx, track, art), DEPTH.track);
   images.push(bakeGantry(scene, track, 'gantry-start', track.startS + DECOR.startGantryDepth, scale));
   if (!track.closed) {
     images.push(bakeGantry(scene, track, 'gantry-finish', track.finishS, scale));
