@@ -3,6 +3,7 @@ import { SEASONS } from './game/config/season.js';
 import { SEED_RANGE } from './game/config/race.js';
 import { RaceScreen } from './ui/race/RaceScreen.jsx';
 import { buildRaceSetup } from './ui/raceSetup.js';
+import { GhostFlow } from './ui/ghost/GhostFlow.jsx';
 import { SeasonFlow } from './ui/season/SeasonFlow.jsx';
 import { ModeSelect } from './ui/screens/ModeSelect.jsx';
 import { modeCards } from './ui/screens/modes.js';
@@ -46,6 +47,7 @@ export function App() {
     if (id === 'quickSeason') startSeason('quick');
     else if (id === 'career') startSeason('career', { seed: newCareerSeed() });
     else if (id === 'continue') startSeason('career', { saved: loadCareer() });
+    else if (id === 'ghost') go('ghost');
     else go('tracks');
   };
 
@@ -63,6 +65,8 @@ export function App() {
           onAgain={() => pickMode(screen.mode === 'quick' ? 'quickSeason' : 'career')}
         />
       );
+    case 'ghost':
+      return <GhostFlow onExit={() => go('modes')} />;
     case 'tracks':
       return <TrackSelect onPick={startQuickRace} onBack={() => go('modes')} />;
     case 'race':

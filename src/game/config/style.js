@@ -50,6 +50,7 @@ export const PALETTE = {
 
 export const CAR_COLORS = {
   player: { body: '#f5c451', trim: '#15161c', glass: '#1d3b52' },
+  ghost: { body: '#bfe9ff', trim: '#4a6a80', glass: '#e9f7ff' },
   rivals: [
     { body: '#2ec4b6', trim: '#0e1a1c', glass: '#1d3b52' },
     { body: '#e63946', trim: '#1b0d0f', glass: '#1d3b52' },

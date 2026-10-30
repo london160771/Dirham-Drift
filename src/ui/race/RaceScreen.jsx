@@ -14,7 +14,7 @@ import { useDevice } from './useDevice.js';
 import { useRaceSounds } from './useRaceSounds.js';
 import { useUsedControls } from './useUsedControls.js';
 
-export function RaceScreen({ setup, money, onFinish, onQuit }) {
+export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
   const hostRef = useRef(null);
   const pausedRef = useRef(false);
   const finishRef = useRef(onFinish);
@@ -79,7 +79,7 @@ export function RaceScreen({ setup, money, onFinish, onQuit }) {
     <div className="race-screen" dir="ltr">
       <div className="race-canvas" ref={hostRef} />
       {!ready && <div className="overlay loading">{t('common.loading')}</div>}
-      <Hud telemetry={telemetry} money={money} onPause={() => setPaused(true)} />
+      <Hud telemetry={telemetry} money={money} ghostTimeMs={ghostTimeMs} onPause={() => setPaused(true)} />
       <Countdown telemetry={telemetry} />
       {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} />}
       {!settings.hintsSeen && !device.touch && <KeyboardHint used={used} />}

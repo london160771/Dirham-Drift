@@ -1,0 +1,99 @@
+.ghost-screen {
+  justify-content: safe center;
+}
+
+.ghost-lead {
+  margin: 0;
+  max-width: 560px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.ghost-join {
+  cursor: default;
+}
+
+.ghost-join label {
+  color: var(--muted);
+  font-size: calc(14px * var(--text-scale, 1));
+}
+
+.ghost-code-input {
+  min-height: 44px;
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--panel-edge);
+  background: #0f131d;
+  color: var(--text);
+  font: inherit;
+  font-size: max(16px, calc(20px * var(--text-scale, 1)));
+  font-weight: 800;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  direction: ltr;
+}
+
+.ghost-code-input:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.ghost-status {
+  margin: 0;
+  max-width: 560px;
+  color: var(--teal);
+  text-align: center;
+}
+
+.ghost-status.error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 8px;
+  color: var(--loss);
+}
+
+.ghost-join .ghost-status {
+  font-size: calc(13px * var(--text-scale, 1));
+}
+
+.ghost-status.error span {
+  color: var(--muted);
+}
+
+.ghost-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--teal);
+  background: var(--panel);
+  color: var(--muted);
+  text-align: center;
+}
+
+.ghost-code {
+  font-size: calc(36px * var(--text-scale, 1));
+  letter-spacing: 6px;
+  color: var(--gold);
+  direction: ltr;
+}
+
+.hud-time strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-ghost {
+  display: block;
+  font-size: 12px;
+  color: #bfe9ff;
+}
+
+.ghost-status.error strong {
+  color: var(--loss);
+  font-size: inherit;
+}

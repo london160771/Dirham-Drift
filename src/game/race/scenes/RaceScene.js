@@ -10,6 +10,7 @@ import { topSpeedOf } from '../sim/carPhysics.js';
 import { CAR_TEXTURE_SCALE, createCarTexture } from '../render/carTexture.js';
 import { collectRaceArt, preloadRaceArt } from '../render/raceArt.js';
 import { createAmbientTraffic } from './ambientTraffic.js';
+import { createGhostRun } from './ghostRun.js';
 import { createRaceEffects } from './raceEffects.js';
 import { createRaceCamera } from './raceCamera.js';
 import { bakeScaleFor, buildTrackVisuals } from './trackVisuals.js';
@@ -52,6 +53,7 @@ export class RaceScene extends Phaser.Scene {
       const key = createCarTexture(this, entry.car.isPlayer ? 'player' : `rival-${i}`, colors, levels, sprite);
       return this.add.image(entry.car.x, entry.car.y, key).setScale(CAR_TEXTURE_SCALE).setDepth(DEPTH.cars + (entry.car.isPlayer ? 1 : 0));
     });
+    this.ghostRun = createGhostRun(this, this.setup);
     this.traffic = createAmbientTraffic(this, track, art);
     this.effects = createRaceEffects(this, this.race.entries, { reduceMotion: Boolean(this.setup.reduceMotion) });
     this.raceCamera = createRaceCamera(this.cameras.main, this.race.entries[0].car);
@@ -80,6 +82,7 @@ export class RaceScene extends Phaser.Scene {
     this.applyAssists();
     while (this.accumulator >= RACE.fixedStep) {
       stepRace(this.race, this.playerInput, RACE.fixedStep);
+      this.ghostRun.record(this.race);
       this.accumulator -= RACE.fixedStep;
     }
   }
@@ -88,6 +91,7 @@ export class RaceScene extends Phaser.Scene {
     this.race.entries.forEach((entry, i) => {
       this.sprites[i].setPosition(entry.car.x, entry.car.y).setRotation(entry.car.heading);
     });
+    this.ghostRun.sync(this.race);
   }
 
   publish(dt) {
@@ -111,7 +115,7 @@ export class RaceScene extends Phaser.Scene {
     this.publish(dt);
     if (this.race.phase === 'done' && !this.reported) {
       this.reported = true;
-      this.bridge.onFinish(raceResults(this.race));
+      this.bridge.onFinish(this.ghostRun.attach(raceResults(this.race)));
     }
   }
 }

@@ -6,7 +6,7 @@ A top-down racing career game set in the UAE where every money choice — borrow
 
 Made for the Zoud GameLab FinLit Jam 2026 ("Make FinLit Fun").
 
-[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 128 passing (2026-10-29)
+[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 149 game + 23 server passing (2026-10-30)
 
 ## The problem
 
@@ -21,7 +21,7 @@ Money lessons are usually cards and menus, and people skip text. In Dirham Drift
 - Life happens between races: repair bills, rent, a fake bank text, a "30% a week" fund.
 - Short lessons appear after each consequence and collect in your Lesson Book.
 
-**Modes:** Quick Season (5 min) · Career Season (10 races) · Quick Race · Ghost Challenge (if built)
+**Modes:** Quick Season (5 min) · Career Season (10 races) · Quick Race · Ghost Challenge (record a run, share a 6-character code, race a friend's ghost)
 
 ## Judge path (60 seconds)
 
@@ -43,12 +43,12 @@ Racing and the money engine are real game code. All rates and prices are simplif
 
 ```
 React shell (menus, Pit Hub) → Money engine (pure JS, tested) ↔ Phaser race scene
-                                                    Ghost API (Node + Express + MongoDB) — optional
+                                                    Ghost API (Node + Express + MongoDB, server/) — optional
 ```
 
 ## Tested, not claimed
 
-`npm run verify` on 2026-10-29: lint clean, **128 tests in 21 files passed**, build OK. Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, Arabic string parity, the itch.io PWA switch, the interest-free loan, the Zakat estimate, assists, menu Back/Home, Bank amount inputs and engine ↔ Pit Hub screens (buy, borrow, repossession). Frame rate on real phones is not measured yet.
+`npm run verify` on 2026-10-30: lint clean, **149 tests in 24 files passed**, build OK. Ghost server: **23 API tests passed** (`cd server && npm test`, in-memory MongoDB). Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, Arabic string parity, the itch.io PWA switch, the interest-free loan, the Zakat estimate, assists, menu Back/Home, Bank amount inputs, engine ↔ Pit Hub screens (buy, borrow, repossession), ghost recording/playback and the Ghost API (validation, size limit, not-found, rate limit, CORS). Frame rate on real phones is not measured yet.
 
 ## Run it locally
 
@@ -57,6 +57,15 @@ npm install
 npm run dev
 npm run verify
 ```
+
+Ghost server (optional, needs MongoDB; copy `server/.env.example` to `server/.env`):
+
+```bash
+cd server
+npm install && npm run dev && npm test
+```
+
+Point the game at it with `VITE_GHOST_API_URL=http://localhost:8080 npm run dev`. Without that variable the Ghost Challenge mode is hidden.
 
 ## Accessibility
 

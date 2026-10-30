@@ -1,6 +1,6 @@
 import { SPEED_TO_KMH } from '../../game/config/car.js';
 import { t } from '../../i18n/strings.js';
-import { formatAed } from '../format.js';
+import { formatAed, formatTime } from '../format.js';
 
 function Bar({ value, className }) {
   return (
@@ -10,17 +10,32 @@ function Bar({ value, className }) {
   );
 }
 
-export function Hud({ telemetry, money, onPause }) {
+function Standing({ telemetry, ghostTimeMs }) {
+  if (telemetry.carCount > 1) {
+    return (
+      <div className="hud-pos">
+        <span className="hud-label">{t('hud.position')}</span>
+        <strong>{telemetry.position}</strong>
+        <span>/{telemetry.carCount}</span>
+      </div>
+    );
+  }
+  return (
+    <div className="hud-pos hud-time" data-testid="hud-time">
+      <span className="hud-label">{t('hud.time')}</span>
+      <strong>{formatTime(telemetry.timeMs)}</strong>
+      {ghostTimeMs !== undefined && <span className="hud-ghost">{t('hud.ghost', { time: formatTime(ghostTimeMs) })}</span>}
+    </div>
+  );
+}
+
+export function Hud({ telemetry, money, ghostTimeMs, onPause }) {
   if (!telemetry) return null;
   const sprint = telemetry.laps === 1;
   return (
     <div className="hud" data-testid="hud">
       <div className="hud-left">
-        <div className="hud-pos">
-          <span className="hud-label">{t('hud.position')}</span>
-          <strong>{telemetry.position}</strong>
-          <span>/{telemetry.carCount}</span>
-        </div>
+        <Standing telemetry={telemetry} ghostTimeMs={ghostTimeMs} />
         <div className="hud-lap">
           {sprint ? t('hud.progress', { percent: Math.round(telemetry.progress * 100) }) : t('hud.lap', { current: telemetry.lap, total: telemetry.laps })}
         </div>

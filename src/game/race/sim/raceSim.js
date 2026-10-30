@@ -33,10 +33,12 @@ function makeEntry(track, car, slot, brain) {
 export function createRace({ track, player, rivals, seed, startDamage = 0, rivalPace = 1 }) {
   const rng = createRng(seed);
   const entries = [makeEntry(track, createCar({ id: 'player', performance: player, damage: startDamage, isPlayer: true }), GRID.playerSlot, null)];
-  rivalSlots().forEach((slot, i) => {
-    const car = createCar({ id: `rival${i + 1}`, performance: rivals[i] });
-    entries.push(makeEntry(track, car, slot, createAiBrain(AI.lanes[i % AI.lanes.length], createRng(rng.int(1, 2 ** 30)))));
-  });
+  rivalSlots()
+    .slice(0, rivals.length)
+    .forEach((slot, i) => {
+      const car = createCar({ id: `rival${i + 1}`, performance: rivals[i] });
+      entries.push(makeEntry(track, car, slot, createAiBrain(AI.lanes[i % AI.lanes.length], createRng(rng.int(1, 2 ** 30)))));
+    });
   return { track, entries, rivalPace, phase: 'countdown', countdown: RACE.countdownSeconds, time: 0, finishOrder: [], firstFinishAt: null, doneAt: null };
 }
 
