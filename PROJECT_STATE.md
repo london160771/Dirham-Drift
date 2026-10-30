@@ -10,8 +10,8 @@
 ## 1. Right now
 
 - **Active phase:** Phase 7 — Ghost Challenge (owner approved starting it 2026-10-30; branch + PR, owner merges)
-- **Status:** Phase 7 built and verified locally on branch `claude/project-thread-dnj9pv` (PR open); server not deployed. Phases 4–6 built, verified and pushed; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review, Phase 6 install test on Android + iPhone, Arabic native review)
-- **Next step:** owner merges the PR, sets up Atlas + Render + `VITE_GHOST_API_URL` on Vercel, then the two-phone code test (Phase 7 gate)
+- **Status:** Phases 0–7 built and merged (Phase 7 PR #3, 84128fd); ghost server live on Render and checked. Owner confirmed 2026-10-30: PWA install works, Arabic review passed. Owner checks still open: Phase 4 Quick/Career season playtest + balance, Quick Season snapshot review, Phase 7 two-phone test (Gate 0 / Phase 1 car-feel sign-off not recorded)
+- **Next step:** owner sets `VITE_GHOST_API_URL` on Vercel + GitHub variable `GHOST_API_URL`, does the two-phone code test and the Quick Season playthrough; then Phase 8
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -24,8 +24,8 @@
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
 | 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
 | 5 — Polish | Done (automatic gate) | 2026-10-28 | 39a9aaa | Auto + screenshots |
-| 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | 6c2c29e | Owner install test on Android + iPhone pending |
-| 7 — Ghost Challenge (P1) | Built, verify + server tests pass | 2026-10-30 | see PR | Owner two-phone test pending (needs deploy) |
+| 6 — App + Arabic (P1) | Done | 2026-10-30 | 6c2c29e | Owner: install works, Arabic review passed (2026-10-30) |
+| 7 — Ghost Challenge (P1) | Built, merged, server live | 2026-10-30 | 84128fd | Owner two-phone test pending |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
 
 Never mark a phase Done until its acceptance criteria pass and the owner approves.
@@ -41,7 +41,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
 | Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
-| PWA install on a real phone | — | **owner check pending** | — |
+| PWA install on a real phone | owner test | works (owner, 2026-10-30) | 2026-10-30 |
 | Frame rate on real phone | — | — | — |
 
 ## 4. What works (verified)
@@ -86,9 +86,9 @@ See `REAL_VS_MOCKED.md`.
 
 | Item | Value |
 |---|---|
-| Vercel (app install) | not deployed |
+| Vercel (app install) | https://dirham-drift.vercel.app |
 | itch.io page | not created |
-| Ghost API (Render) | not deployed (code ready in `server/`) |
+| Ghost API (Render) | https://dirham-drift.onrender.com (health, CORS, save/load checked 2026-10-30) |
 | Video | not recorded |
 
 ## 7. Demo recordings (PRD §22)
@@ -120,14 +120,13 @@ See `REAL_VS_MOCKED.md`.
 - Sound: only crash, coin, thud and click are recorded CC0 files; nitro, beeps, engine, repossession and both music loops are generated in code (owner may replace via file slots).
 - Rival cars are recolours of the player car and traffic cars recolours of one grey car until top-down rival images are made; the metro train is still code-drawn (Gemini's train was a side view).
 - Frame rate on a real phone not measured (headless only).
-- PWA install not yet tested on a real Android or iPhone; the service worker only registers once deployed (or on `localhost`).
-- Arabic text is AI-assisted and pending native review (some number–noun agreement, e.g. "10 سباقات", needs a native pass).
+- Arabic text is AI-assisted; owner review passed 2026-10-30.
 - Quick Season repo warning reads "1 strikes" in English (plural not handled); cosmetic.
 
 ## 10. Handoff notes
 
 - **Read first:** `CLAUDE.md`, PRD §27 Phase 0, PRD §10 (Racing + Controls), PRD §21 (visual style).
-- **Branch:** `claude/project-thread-dnj9pv` (Phase 7 PR) · **Uncommitted work:** none
+- **Branch:** main · **Uncommitted work:** none
 - **Env vars needed:** Render: `MONGODB_URI`, `ALLOWED_ORIGINS` (see `server/.env.example`). Vercel: `VITE_GHOST_API_URL` (public URL, no secret). GitHub repo variable `GHOST_API_URL` for the keepalive.
 - **Watch out for:** CLAUDE.md §8 gotchas; `docs/CONCEPT-BRIEF.md` is outdated.
 

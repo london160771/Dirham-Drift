@@ -409,7 +409,7 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | Desert Gold Racing Fund | **Fictional scam for teaching** | Red-flag checklist + lesson |
 | Ghost Challenge (P1) | Real server | "Waking server…" when Render is cold |
 | PWA install | Real (website only; off on itch.io and inside iframes) | Install guide; button hidden on itch |
-| Arabic text | AI-assisted translation, pending native review | Credits say so |
+| Arabic text | AI-assisted translation, reviewed by the owner | Credits say so |
 | Zakat note | **Simplified estimate** (2.5% of cash + savings + fund) | "Simplified for learning" line under the note |
 
 `REAL_VS_MOCKED.md` copies this table.

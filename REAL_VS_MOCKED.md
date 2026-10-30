@@ -10,14 +10,14 @@ Dirham Drift is a game. Nothing in it moves real money. This page says plainly w
 | Interest, fees, returns, prices | **Simplified and illustrative** | All numbers in `src/game/config/economy.js`; note on Bank screen and How to Play |
 | Banks, funds, sponsors | **Fictional** | No real names or logos |
 | Desert Gold Racing Fund | **Fictional scam, for teaching** | Red-flag checklist + Pit Lesson |
-| Ghost Challenge (P1) | Real server (Express + MongoDB), not deployed yet | `server/` with 23 API tests on an in-memory MongoDB; client recording/playback in `src/game/race/ghost/`, tests in `tests/race/ghost.test.js` and `tests/ui/ghost.test.jsx` (2026-10-30). Shows "Waking server…" when Render is cold |
-| App install (PWA, P1) | Real, from the website only; off on itch.io domains and inside iframes | `vite.config.js`, `src/ui/pwa/`; tests in `tests/ui/pwa.test.js` (2026-10-29). Install on Android/iPhone not yet tested on a real phone |
+| Ghost Challenge (P1) | Real server (Express + MongoDB on Render) | `server/` with 23 API tests on an in-memory MongoDB; client recording/playback in `src/game/race/ghost/`, tests in `tests/race/ghost.test.js` and `tests/ui/ghost.test.jsx` (2026-10-30). Shows "Waking server…" when Render is cold |
+| App install (PWA, P1) | Real, from the website only; off on itch.io domains and inside iframes | `vite.config.js`, `src/ui/pwa/`; tests in `tests/ui/pwa.test.js` (2026-10-29). Install works on a real phone (owner, 2026-10-30) |
 | Interest-free loan (P1) | Real game code; fixed fee is **simplified** | `LOANS.interestFree` in `src/game/config/economy.js`; test in `tests/engine/rules.test.js` |
 | Zakat note (P1) | **Simplified estimate** (2.5% of cash + savings + fund) | `zakatEstimate` in `src/game/engine/recap.js`; "Simplified for learning" shown under it |
-| Arabic text (P1) | **AI-assisted translation, pending native review** | `src/i18n/ar.js`; key and variable parity tested in `tests/ui/strings.test.js`; disclosed in Credits |
+| Arabic text (P1) | **AI-assisted translation, reviewed by the owner (2026-10-30)** | `src/i18n/ar.js`; key and variable parity tested in `tests/ui/strings.test.js`; disclosed in Credits |
 
 **Not financial advice.** Rates and returns are not predictions.
 
-**Not deployed yet (2026-10-30):** the Ghost Challenge server (built in Phase 7; the mode is hidden until the build has a server URL). PWA, Arabic toggle, interest-free loan and Zakat note are built (Phase 6). Sound is part real CC0 recordings (crash, coin, thud, click) and part generated in code (engine, nitro, beeps, music); game images (hub screens, cars, track scenery) are AI-made with Google Gemini; roads and car upgrade parts are drawn in code. Quick Season, season recap (grade + "what if") and Career save are built (Phase 4); grade thresholds are defaults the owner will tune. This file is updated as each phase is verified.
+**Ghost Challenge (2026-10-30):** server live on Render; the mode shows once the Vercel build has `VITE_GHOST_API_URL`. PWA, Arabic toggle, interest-free loan and Zakat note are built (Phase 6). Sound is part real CC0 recordings (crash, coin, thud, click) and part generated in code (engine, nitro, beeps, music); game images (hub screens, cars, track scenery) are AI-made with Google Gemini; roads and car upgrade parts are drawn in code. Quick Season, season recap (grade + "what if") and Career save are built (Phase 4); grade thresholds are defaults the owner will tune. This file is updated as each phase is verified.
 
 This file, PRD §17 and the code agree. An honest "not yet" beats a fake green badge.
