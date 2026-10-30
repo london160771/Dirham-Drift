@@ -1,0 +1,21 @@
+{
+  "name": "dirham-drift-ghost-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --env-file-if-exists=.env --watch src/index.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "express": "5.3.0",
+    "mongoose": "9.11.4"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "11.3.0"
+  }
+}

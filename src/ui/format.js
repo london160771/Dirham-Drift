@@ -8,6 +8,11 @@ export function formatTime(ms) {
   return `${minutes}:${String(seconds).padStart(2, '0')}.${tenths}`;
 }
 
+export function formatGap(ms) {
+  const hundredths = Math.floor((ms % MS_PER_SECOND) / 10);
+  return `${Math.floor(ms / MS_PER_SECOND)}.${String(hundredths).padStart(2, '0')}`;
+}
+
 const GROUPING = new Intl.NumberFormat('en-US');
 
 export function formatAed(amount) {

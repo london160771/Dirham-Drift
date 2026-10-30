@@ -11,6 +11,7 @@ import './styles/race.css';
 import './styles/pit.css';
 import './styles/season.css';
 import './styles/polish.css';
+import './styles/ghost.css';
 import './styles/arabic.css';
 
 const settings = loadSettings();

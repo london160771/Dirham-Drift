@@ -3,15 +3,15 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-10-29 · **By:** Claude (build) · **Commit:** see build log
+**Last updated:** 2026-10-30 · **By:** Claude (build) · **Commit:** see build log
 
 ---
 
 ## 1. Right now
 
-- **Active phase:** Phases 4–6 run (owner brief 2026-10-28: pre-approved per phase once acceptance + verify pass; owner checks deferred)
-- **Status:** Phases 4–6 built, verified and pushed; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review, Phase 6 install test on Android + iPhone, Arabic native review)
-- **Next step:** owner checks; Phase 7 only when the owner says so
+- **Active phase:** Phase 7 — Ghost Challenge (owner approved starting it 2026-10-30; branch + PR, owner merges)
+- **Status:** Phase 7 built and verified locally on branch `claude/project-thread-dnj9pv` (PR open); server not deployed. Phases 4–6 built, verified and pushed; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review, Phase 6 install test on Android + iPhone, Arabic native review)
+- **Next step:** owner merges the PR, sets up Atlas + Render + `VITE_GHOST_API_URL` on Vercel, then the two-phone code test (Phase 7 gate)
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -25,7 +25,7 @@
 | 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
 | 5 — Polish | Done (automatic gate) | 2026-10-28 | 39a9aaa | Auto + screenshots |
 | 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | 6c2c29e | Owner install test on Android + iPhone pending |
-| 7 — Ghost Challenge (P1) | Not started | | | Owner two-phone test |
+| 7 — Ghost Challenge (P1) | Built, verify + server tests pass | 2026-10-30 | see PR | Owner two-phone test pending (needs deploy) |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
 
 Never mark a phase Done until its acceptance criteria pass and the owner approves.
@@ -34,10 +34,11 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Full gate | `npm run verify` | pass | 2026-10-29 |
-| Tests | `npm test` | 132 passed (22 files) | 2026-10-29 |
+| Full gate | `npm run verify` | pass | 2026-10-30 |
+| Tests | `npm test` | 149 passed (24 files) | 2026-10-30 |
+| Ghost server tests | `cd server && npm test` | 23 passed (in-memory MongoDB 8.2) | 2026-10-30 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-29 |
-| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,335 KiB, images included) | 2026-10-29 |
+| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
 | Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
 | PWA install on a real phone | — | **owner check pending** | — |
@@ -87,7 +88,7 @@ See `REAL_VS_MOCKED.md`.
 |---|---|
 | Vercel (app install) | not deployed |
 | itch.io page | not created |
-| Ghost API (Render) | not deployed |
+| Ghost API (Render) | not deployed (code ready in `server/`) |
 | Video | not recorded |
 
 ## 7. Demo recordings (PRD §22)
@@ -126,11 +127,19 @@ See `REAL_VS_MOCKED.md`.
 ## 10. Handoff notes
 
 - **Read first:** `CLAUDE.md`, PRD §27 Phase 0, PRD §10 (Racing + Controls), PRD §21 (visual style).
-- **Branch:** main · **Uncommitted work:** none (after the Phase 6 commit)
-- **Env vars needed:** none until Phase 7 (`MONGODB_URI`, `ALLOWED_ORIGINS` — names only)
+- **Branch:** `claude/project-thread-dnj9pv` (Phase 7 PR) · **Uncommitted work:** none
+- **Env vars needed:** Render: `MONGODB_URI`, `ALLOWED_ORIGINS` (see `server/.env.example`). Vercel: `VITE_GHOST_API_URL` (public URL, no secret). GitHub repo variable `GHOST_API_URL` for the keepalive.
 - **Watch out for:** CLAUDE.md §8 gotchas; `docs/CONCEPT-BRIEF.md` is outdated.
 
 ## 11. Build log
+
+- **2026-10-30 — Phase 7 report (Ghost Challenge, PRD §27; built against FR-MODE-006, §11 ghost errors, §12 security, §14 API)**
+  - Files: server `server/{package.json,package-lock.json,.env.example}`, `server/src/{index,app,config,codes,cors,errors,rateLimit,validateGhost,ghostStore}.js`, `server/test/*`; client `src/game/config/ghost.js`, `src/game/race/ghost/{recorder,playback}.js`, `src/game/race/scenes/{ghostRun,RaceScene}.js`, `src/game/race/sim/raceSim.js` (any rival count), `src/ui/ghost/*`, `src/ui/{raceSetup.js,race/Hud.jsx,race/RaceScreen.jsx,screens/modes.js,format.js}`, `src/App.jsx`, `src/styles/ghost.css`, `src/i18n/{en,ar}.js`, `.github/workflows/ghost-keepalive.yml`; tests `tests/race/ghost.test.js`, `tests/ui/ghost.test.jsx`.
+  - Tests: `npm run verify` passed — lint clean, 149 tests in 24 files, build OK. `cd server && npm test` — 23 passed against an in-memory MongoDB: save → 6-character code → load back, lower-case codes, only track/time/path + 30-day TTL stored, not-found, 10 kinds of invalid ghost, broken JSON, 413 over the size limit, longest allowed run fits, CORS preflight + itch wildcard + blocked origins, rate limit + Retry-After + reset, `server_waking` and `/health` while the DB is down. Client: a recorded run on each track passes the server's own validator, same run → same path, client/server config agree, playback interpolation and ±π seam; UI: mode card only with a server URL, code clean-up, not-found, waking → retry, share code, dead heat, rate limit.
+  - Manual checks: real server (in-memory MongoDB) + dev build in Playwright: phone 844×390 recorded a Sheikh Zayed run and got a code; desktop 1280×720 entered that code and raced the ghost (ghost car visible pulling away), got its own code; unknown code shows the error in English and Arabic. Screenshots in project files `screenshots/phase-7/`. Quick Season snapshot unchanged.
+  - PRD updates: §11 `origin_not_allowed` row; §16 Phase 7 row.
+  - Limits: server not deployed; the two-phone test needs Atlas + Render + `VITE_GHOST_API_URL`. Render free sleeps 15 min after the last request (first load ~30–60 s, shown as "Waking server…"). Server-side checks stop broken paths, not a determined cheater. Ghost Arabic strings AI-translated, pending review.
+  - Video act: none new (Ghost is P1, not in the 2-minute script).
 
 - **2026-10-29 — Owner phone-test fixes (PR #1, merged to main by owner approval 2026-10-29)**: mode menu Back returns to the Pit Hub you left (Home goes to the title); insurance "Tap to insure your car" line; Bank chips set an amount in an input + confirm button (16 px input, no iPhone zoom); race boots only in landscape and the camera resizes with the canvas. `npm run verify` passed — lint clean, 128 tests in 21 files, build OK. Playwright 390×844 → 844×390 rotate matches a direct landscape start (headless Chromium did not show the iPhone zoom bug, so the owner should re-test on the iPhone). Screenshots in project files `screenshots/fixes-menu-bank-rotate/`.
 

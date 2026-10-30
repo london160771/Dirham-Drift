@@ -4,14 +4,14 @@ import { buildPerformance } from '../game/race/sim/performance.js';
 
 const RIVALS = 4;
 
-export function buildRaceSetup({ trackId, carStats = { engine: 0, tyres: 0, nitro: 0, damage: 0 }, stage = 'rookie', seed = RACE_SEEDS.quickRace }) {
+export function buildRaceSetup({ trackId, carStats = { engine: 0, tyres: 0, nitro: 0, damage: 0 }, stage = 'rookie', seed = RACE_SEEDS.quickRace, rivals = RIVALS }) {
   const pace = RIVAL_PACE[stage];
   return {
     trackId,
     looks: { engine: carStats.engine, tyres: carStats.tyres, nitro: carStats.nitro },
     race: {
       player: buildPerformance(carStats),
-      rivals: Array.from({ length: RIVALS }, () => buildPerformance({}, pace)),
+      rivals: Array.from({ length: rivals }, () => buildPerformance({}, pace)),
       rivalPace: pace,
       seed,
       startDamage: carStats.damage,
@@ -32,4 +32,8 @@ export function applyAssists(setup, settings) {
       rivalPace: chill ? setup.race.rivalPace * ASSISTS.chillRivalPace : setup.race.rivalPace,
     },
   };
+}
+
+export function buildGhostSetup({ trackId, ghost = null }) {
+  return { ...buildRaceSetup({ trackId, rivals: 0 }), recordGhost: true, ghost };
 }
