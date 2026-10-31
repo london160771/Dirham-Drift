@@ -3,7 +3,7 @@ import { DifficultyPicker } from './DifficultyPicker.jsx';
 
 export function ModeSelect({ modes, difficulty, onDifficulty, onPick, onBack, onHome }) {
   return (
-    <div className="screen panel-screen">
+    <div className="screen panel-screen mode-select">
       <h2>{t('modes.title')}</h2>
       <DifficultyPicker value={difficulty} onChange={onDifficulty} />
       <div className="card-row">

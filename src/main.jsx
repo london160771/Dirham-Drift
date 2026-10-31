@@ -13,6 +13,7 @@ import './styles/season.css';
 import './styles/polish.css';
 import './styles/ghost.css';
 import './styles/arabic.css';
+import './styles/compact.css';
 
 const settings = loadSettings();
 applySettings(settings);
