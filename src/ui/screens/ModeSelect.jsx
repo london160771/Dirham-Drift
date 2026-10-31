@@ -1,9 +1,11 @@
 import { t } from '../../i18n/strings.js';
+import { DifficultyPicker } from './DifficultyPicker.jsx';
 
-export function ModeSelect({ modes, onPick, onBack, onHome }) {
+export function ModeSelect({ modes, difficulty, onDifficulty, onPick, onBack, onHome }) {
   return (
     <div className="screen panel-screen">
       <h2>{t('modes.title')}</h2>
+      <DifficultyPicker value={difficulty} onChange={onDifficulty} />
       <div className="card-row">
         {modes.map((mode) => (
           <button key={mode.id} type="button" className={mode.featured ? 'card featured' : 'card'} onClick={() => onPick(mode.id)} data-testid={`mode-${mode.id}`}>

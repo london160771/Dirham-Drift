@@ -3,7 +3,7 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-10-30 · **By:** Claude (build) · **Commit:** see build log
+**Last updated:** 2026-10-31 · **By:** Claude (build) · **Commit:** see build log
 
 ---
 
@@ -35,7 +35,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 | Check | Command | Result | Date |
 |---|---|---|---|
 | Full gate | `npm run verify` | pass | 2026-10-31 |
-| Tests | `npm test` | 154 passed (25 files) | 2026-10-31 |
+| Tests | `npm test` | 165 passed (27 files) | 2026-10-31 |
 | Ghost server tests | `cd server && npm test` | 23 passed (in-memory MongoDB 8.2) | 2026-10-30 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-31 |
 | Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
@@ -52,6 +52,7 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 - Touch controls (steer pad, Gas, Brake, Nitro) and keyboard (arrows/WASD, Shift, Space, P). Two-finger steer + gas checked with a two-point touch event in headless Chromium.
 - Rotate-your-phone screen in portrait; frame-rate debug overlay (Settings → Show frame rate).
 - 4 AI rivals on a racing line with lane changes to pass, seeded pace variation and stage pace (Rookie / Pro / Final); unstick reset.
+- Difficulty Easy / Medium / Hard (FR-MODE-007) on Mode select for Quick Race, Career and Quick Season: faster, steadier rivals with more nitro and catch-up on harder levels; Easy matches the old race exactly (checked by comparing finish times before and after); a season keeps its level in the save.
 - Ordered checkpoints and laps (3 on Marina), sprint finish line on Sheikh Zayed, live positions, 3-2-1-GO countdown.
 - Barrier hits add damage (0–100%) that lowers top speed; wall scraping bleeds speed; nitro fills, bursts and empties.
 - Sheikh Zayed sprint: 4 lanes, lit median, oncoming traffic, metro line with moving train, 2 overhead interchanges, finish gantry.
@@ -133,6 +134,7 @@ See `REAL_VS_MOCKED.md`.
 
 ## 11. Build log
 
+- **2026-10-31 — Difficulty Easy / Medium / Hard (owner request, FR-MODE-007, PRD §16)**: picker on Mode select for Quick Race, Career and Quick Season; AI-only tuning in `DIFFICULTY` (`src/game/config/race.js`): rival pace, pace wobble, nitro use, catch-up. Easy finish times match the old code exactly (same seeds, compared before/after). Season level saved in the career save and shown on the pre-race card, Continue card and recap. `npm run verify`: lint clean, 165 tests in 27 files, build OK; Quick Season snapshot unchanged. Screenshots 844×390 and 1280×720 (English + Arabic) in project files `screenshots/difficulty/`. Owner check: play Hard on a phone and say if it feels right (numbers are first guesses).
 - **2026-10-31 — Closer race camera (owner request, FR-RACE-001, PRD §16)**: camera 2.5× closer when stopped and pulls back more at top speed; look-ahead scales with the view; nitro now pulls the camera back (it used to zoom in for a moment). Files: `src/game/config/camera.js`, `src/game/race/scenes/{raceCamera,RaceScene}.js`, `tests/race/raceCamera.test.js`. `npm run verify` passed (lint clean, 154 tests in 25 files, build OK). Playwright screenshots 844×390 and 1280×720 on both tracks (start, speed, nitro) in project files `screenshots/camera-zoom/final/`. Owner check: drive it on a real phone (turn warning, frame rate, road sharpness).
 - **2026-10-30 — Phase 7 report (Ghost Challenge, PRD §27; built against FR-MODE-006, §11 ghost errors, §12 security, §14 API)**
   - Files: server `server/{package.json,package-lock.json,.env.example}`, `server/src/{index,app,config,codes,cors,errors,rateLimit,validateGhost,ghostStore}.js`, `server/test/*`; client `src/game/config/ghost.js`, `src/game/race/ghost/{recorder,playback}.js`, `src/game/race/scenes/{ghostRun,RaceScene}.js`, `src/game/race/sim/raceSim.js` (any rival count), `src/ui/ghost/*`, `src/ui/{raceSetup.js,race/Hud.jsx,race/RaceScreen.jsx,screens/modes.js,format.js}`, `src/App.jsx`, `src/styles/ghost.css`, `src/i18n/{en,ar}.js`, `.github/workflows/ghost-keepalive.yml`; tests `tests/race/ghost.test.js`, `tests/ui/ghost.test.jsx`.

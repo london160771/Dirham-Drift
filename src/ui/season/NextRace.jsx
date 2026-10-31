@@ -41,12 +41,14 @@ export function NextRace({ state, dispatch }) {
   );
 }
 
-export function PreRaceCard({ state, dispatch }) {
+export function PreRaceCard({ state, difficulty, dispatch }) {
   const race = state.nextRace;
   return (
     <div className="modal-backdrop" data-testid="pre-race">
       <div className="modal" role="dialog">
-        <span className="kicker">{race.kind === 'club' ? t('pit.clubRace') : t(`pit.stage_${race.seasonStage}`)}</span>
+        <span className="kicker">
+          {race.kind === 'club' ? t('pit.clubRace') : t(`pit.stage_${race.seasonStage}`)} · {t(`difficulty.${difficulty}`)}
+        </span>
         <h2>{t(`tracks.${race.track}`)}</h2>
         <p className="muted">{t(`tracks.${race.track}Info`)}</p>
         <p>

@@ -2,11 +2,12 @@ import { RACE, RACE_SEEDS } from '../../game/config/race.js';
 import { carStats, loanOwed } from '../../game/engine/index.js';
 import { buildRaceSetup } from '../raceSetup.js';
 
-export function seasonRaceSetup(state) {
+export function seasonRaceSetup(state, difficulty) {
   return buildRaceSetup({
     trackId: state.nextRace.track,
     carStats: carStats(state),
     stage: state.nextRace.stage,
+    difficulty,
     seed: state.seed + state.raceIndex * RACE_SEEDS.perRaceStep,
   });
 }

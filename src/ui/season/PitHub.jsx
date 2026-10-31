@@ -46,14 +46,14 @@ function TabBody({ tab, state, dispatch, onTab }) {
   return <Home state={state} dispatch={dispatch} onTab={onTab} />;
 }
 
-function Modals({ state, dispatch, tipsSeen, onTipsSeen }) {
+function Modals({ state, difficulty, dispatch, tipsSeen, onTipsSeen }) {
   if (state.pendingLesson) return <PitLesson lesson={state.pendingLesson} onClose={() => dispatch({ type: 'dismissLesson' })} />;
   if (!tipsSeen) return <FirstVisitTips onClose={onTipsSeen} />;
-  if (state.phase === 'PRE_RACE') return <PreRaceCard state={state} dispatch={dispatch} />;
+  if (state.phase === 'PRE_RACE') return <PreRaceCard state={state} difficulty={difficulty} dispatch={dispatch} />;
   return null;
 }
 
-export function PitHub({ state, dispatch, error, onExit }) {
+export function PitHub({ state, difficulty, dispatch, error, onExit }) {
   const [tab, setTab] = useState('home');
   const [tipsSeen, setTipsSeen] = useState(() => loadSettings().pitTipsSeen);
   const seeTips = () => {
@@ -79,7 +79,7 @@ export function PitHub({ state, dispatch, error, onExit }) {
       <main className="pit-body">
         <TabBody tab={tab} state={state} dispatch={dispatch} onTab={setTab} />
       </main>
-      <Modals state={state} dispatch={dispatch} tipsSeen={tipsSeen} onTipsSeen={seeTips} />
+      <Modals state={state} difficulty={difficulty} dispatch={dispatch} tipsSeen={tipsSeen} onTipsSeen={seeTips} />
     </div>
   );
 }

@@ -15,6 +15,7 @@ import { SettingsScreen } from './ui/screens/SettingsScreen.jsx';
 import { TitleScreen } from './ui/screens/TitleScreen.jsx';
 import { TrackSelect } from './ui/screens/TrackSelect.jsx';
 import { loadCareer } from './ui/storage/seasonStore.js';
+import { loadSettings, updateSettings } from './ui/storage/settingsStore.js';
 import { getLanguage } from './i18n/strings.js';
 import { currentPwaAllowed } from './ui/pwa/pwaHost.js';
 
@@ -26,6 +27,8 @@ export function App() {
   const [screen, setScreen] = useState({ name: 'title' });
   const [, setLanguage] = useState(getLanguage);
   const [menuBack, setMenuBack] = useState(null);
+  const [difficulty, setDifficulty] = useState(() => loadSettings().difficulty);
+  const pickDifficulty = (id) => setDifficulty(updateSettings({ difficulty: id }).difficulty);
   const go = (name, extra = {}) => setScreen({ name, ...extra });
   const goHome = () => {
     setMenuBack(null);
@@ -40,8 +43,8 @@ export function App() {
     setMenuBack(null);
     setScreen(menuBack);
   };
-  const startQuickRace = (trackId) => go('race', { trackId, setup: buildRaceSetup({ trackId }) });
-  const startSeason = (mode, extra = {}) => go('season', { mode, seed: SEASONS.quick.seed, run: Date.now(), ...extra });
+  const startQuickRace = (trackId) => go('race', { trackId, setup: buildRaceSetup({ trackId, difficulty }) });
+  const startSeason = (mode, extra = {}) => go('season', { mode, seed: SEASONS.quick.seed, difficulty, run: Date.now(), ...extra });
   const pickMode = (id) => {
     setMenuBack(null);
     if (id === 'quickSeason') startSeason('quick');
@@ -53,7 +56,7 @@ export function App() {
 
   switch (screen.name) {
     case 'modes':
-      return <ModeSelect modes={modeCards(loadCareer())} onPick={pickMode} onBack={menuGoBack} onHome={goHome} />;
+      return <ModeSelect modes={modeCards(loadCareer())} difficulty={difficulty} onDifficulty={pickDifficulty} onPick={pickMode} onBack={menuGoBack} onHome={goHome} />;
     case 'season':
       return (
         <SeasonFlow
@@ -61,6 +64,7 @@ export function App() {
           mode={screen.mode}
           seed={screen.saved ? screen.saved.seed : screen.seed}
           saved={screen.saved}
+          difficulty={screen.difficulty}
           onExit={leaveSeason}
           onAgain={() => pickMode(screen.mode === 'quick' ? 'quickSeason' : 'career')}
         />

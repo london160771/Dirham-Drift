@@ -1,10 +1,11 @@
+import { DEFAULT_DIFFICULTY, DIFFICULTY } from '../../game/config/race.js';
 import { STATE_VERSION } from '../../game/engine/index.js';
 
 const KEY = 'dirham-drift:career';
 export const SAVE_VERSION = 1;
 
-export function saveCareer({ state, statementFrom }) {
-  const save = { version: SAVE_VERSION, mode: state.mode, seed: state.seed, raceIndex: state.raceIndex, state, statementFrom };
+export function saveCareer({ state, statementFrom, difficulty = DEFAULT_DIFFICULTY }) {
+  const save = { version: SAVE_VERSION, mode: state.mode, seed: state.seed, raceIndex: state.raceIndex, state, statementFrom, difficulty };
   try {
     window.localStorage.setItem(KEY, JSON.stringify(save));
   } catch {
@@ -30,4 +31,8 @@ export function clearCareer() {
     return false;
   }
   return true;
+}
+
+export function savedDifficulty(saved) {
+  return saved && DIFFICULTY[saved.difficulty] ? saved.difficulty : DEFAULT_DIFFICULTY;
 }
