@@ -58,7 +58,7 @@ export function LoanSection({ state, dispatch }) {
       </div>
       {state.loan && <p className="muted">{t('bank.oneLoan')}</p>}
       <p className="muted small">
-        <RichText text={t('bank.extraInfo')} /> <RichText text={t('bank.repoWarning', { fee: formatAed(LATE_PAYMENT.fee), strikes: strikesToRepo(state) })} />
+        <RichText text={t('bank.extraInfo')} /> <RichText text={t(strikesToRepo(state) === 1 ? 'bank.repoWarningOne' : 'bank.repoWarning', { fee: formatAed(LATE_PAYMENT.fee), strikes: strikesToRepo(state) })} />
       </p>
     </section>
   );

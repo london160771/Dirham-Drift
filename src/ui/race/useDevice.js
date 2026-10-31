@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 
+function matches(query) {
+  return typeof window.matchMedia === 'function' && window.matchMedia(query).matches;
+}
+
 function detectTouch() {
-  return window.matchMedia('(pointer: coarse)').matches || navigator.maxTouchPoints > 0;
+  return matches('(pointer: coarse)') || navigator.maxTouchPoints > 0;
 }
 
 function detectPortrait() {
-  return window.matchMedia('(orientation: portrait)').matches;
+  return matches('(orientation: portrait)');
 }
 
 export function useDevice() {

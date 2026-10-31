@@ -2,7 +2,7 @@ import { t } from '../../i18n/strings.js';
 
 export function RotateOverlay() {
   return (
-    <div className="overlay rotate" data-testid="rotate">
+    <div className="overlay rotate rotate-gate" data-testid="rotate" role="alertdialog" aria-modal="true">
       <div className="rotate-icon">⟳</div>
       <h2>{t('rotate.title')}</h2>
       <p>{t('rotate.body')}</p>

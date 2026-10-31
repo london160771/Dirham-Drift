@@ -19,3 +19,8 @@ function isFramed() {
 export function currentPwaAllowed() {
   return pwaAllowed({ hostname: window.location.hostname, framed: isFramed(), hasServiceWorker: 'serviceWorker' in navigator });
 }
+
+export function isStandalone() {
+  const standaloneDisplay = typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches;
+  return standaloneDisplay || window.navigator.standalone === true;
+}
