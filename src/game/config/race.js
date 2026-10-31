@@ -34,11 +34,9 @@ export const AI = {
   cornerGrip: 820,
   minCornerSpeed: 150,
   brakeMargin: 1.06,
-  paceVariation: 0.03,
   variationMinSeconds: 2,
   variationMaxSeconds: 4.5,
   nitroCurvature: 0.0008,
-  nitroChancePerSecond: 0.35,
   stuckSpeed: 25,
   stuckSeconds: 2,
   jumpLimit: 100,
@@ -47,6 +45,17 @@ export const AI = {
   passOffset: 46,
   edgeMargin: 26,
   laneChangeRate: 2.5,
+  catchUpFullGap: 600,
+};
+
+export const DIFFICULTY_IDS = ['easy', 'medium', 'hard'];
+
+export const DEFAULT_DIFFICULTY = 'easy';
+
+export const DIFFICULTY = {
+  easy: { pace: 1, paceVariation: 0.03, nitroChancePerSecond: 0.35, catchUp: 0 },
+  medium: { pace: 1.05, paceVariation: 0.02, nitroChancePerSecond: 1, catchUp: 0.03 },
+  hard: { pace: 1.1, paceVariation: 0.01, nitroChancePerSecond: 4, catchUp: 0.06 },
 };
 
 export const GRID = {

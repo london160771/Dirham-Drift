@@ -1,21 +1,21 @@
 import { useEffect, useReducer } from 'react';
 import { EngineError, applyAction, createSeason, seasonPlan } from '../../game/engine/index.js';
-import { clearCareer, saveCareer } from '../storage/seasonStore.js';
+import { clearCareer, saveCareer, savedDifficulty } from '../storage/seasonStore.js';
 
 export function seasonReducer(store, action) {
   try {
     const state = applyAction(store.state, action);
     const statementFrom = action.type === 'startRace' ? store.state.ledger.length : store.statementFrom;
-    return { state, statementFrom, error: null };
+    return { ...store, state, statementFrom, error: null };
   } catch (err) {
     if (!(err instanceof EngineError)) throw err;
     return { ...store, error: err.code };
   }
 }
 
-function init({ mode, seed, saved }) {
-  if (saved) return { state: saved.state, statementFrom: saved.statementFrom, error: null };
-  const store = { state: createSeason({ mode, seed }), statementFrom: 0, error: null };
+function init({ mode, seed, saved, difficulty }) {
+  if (saved) return { state: saved.state, statementFrom: saved.statementFrom, difficulty: savedDifficulty(saved), error: null };
+  const store = { state: createSeason({ mode, seed }), statementFrom: 0, difficulty, error: null };
   if (!seasonPlan(mode).autoStartFirstRace) return store;
   return seasonReducer(seasonReducer(store, { type: 'chooseRace', kind: 'stage' }), { type: 'startRace' });
 }

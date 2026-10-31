@@ -67,11 +67,13 @@ function Lessons({ met }) {
   );
 }
 
-export function SeasonRecap({ state, onAgain, onExit }) {
+export function SeasonRecap({ state, difficulty, onAgain, onExit }) {
   const recap = useMemo(() => recapSummary(state), [state]);
   return (
     <div className="screen pit-screen recap-screen" data-testid="recap">
-      <span className="kicker">{t(`recap.mode_${state.mode}`)}</span>
+      <span className="kicker">
+        {t(`recap.mode_${state.mode}`)} · {t(`difficulty.${difficulty}`)}
+      </span>
       <h2>{t('recap.title')}</h2>
       <div className="recap-top">
         <div className={`grade grade-${recap.grade}`} data-testid="grade" aria-label={t('recap.gradeLabel', { grade: recap.grade })}>

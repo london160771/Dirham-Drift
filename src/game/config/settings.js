@@ -1,3 +1,5 @@
+import { DEFAULT_DIFFICULTY } from './race.js';
+
 export const SETTING_DEFAULTS = {
   showFps: false,
   hintsSeen: false,
@@ -14,6 +16,7 @@ export const SETTING_DEFAULTS = {
   musicVolume: 60,
   effectsVolume: 80,
   language: 'en',
+  difficulty: DEFAULT_DIFFICULTY,
 };
 
 export const SIZE_STEPS = {

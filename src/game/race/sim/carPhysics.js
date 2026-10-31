@@ -17,6 +17,7 @@ export function createCar({ id, x, y, heading, performance, damage = 0, isPlayer
     drifting: false,
     damage,
     hits: 0,
+    catchUp: 1,
     performance,
   };
 }
@@ -24,7 +25,7 @@ export function createCar({ id, x, y, heading, performance, damage = 0, isPlayer
 export function topSpeedOf(car) {
   const damageLoss = 1 - (car.damage / DAMAGE.max) * DAMAGE.topSpeedLossAtMax;
   const boost = car.nitroActive ? 1 + car.performance.nitroBoost : 1;
-  return car.performance.topSpeed * damageLoss * boost;
+  return car.performance.topSpeed * damageLoss * boost * car.catchUp;
 }
 
 function updateNitro(car, wantsNitro, dt) {

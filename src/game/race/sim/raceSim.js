@@ -1,8 +1,8 @@
 import { CAR_PHYSICS, CAR_CONTACT } from '../../config/car.js';
-import { AI, GRID, RACE } from '../../config/race.js';
+import { AI, DIFFICULTY, GRID, RACE } from '../../config/race.js';
 import { createRng } from '../../engine/rng.js';
 import { locate, pointAt } from '../track/buildTrack.js';
-import { createAiBrain, driveAi, updateStuck } from './aiDriver.js';
+import { catchUpFactor, createAiBrain, driveAi, updateStuck } from './aiDriver.js';
 import { createCar, stepCar } from './carPhysics.js';
 import { createLapState, progressOf, raceLength, updateLap } from './lapTracker.js';
 import { sortPositions } from './positions.js';
@@ -30,14 +30,14 @@ function makeEntry(track, car, slot, brain) {
   return { car, brain, loc, lap: createLapState(track, loc.s), finishTime: 0, input: { steer: 0, gas: 0, brake: 0, nitro: false } };
 }
 
-export function createRace({ track, player, rivals, seed, startDamage = 0, rivalPace = 1 }) {
+export function createRace({ track, player, rivals, seed, startDamage = 0, rivalPace = 1, skill = DIFFICULTY.easy }) {
   const rng = createRng(seed);
   const entries = [makeEntry(track, createCar({ id: 'player', performance: player, damage: startDamage, isPlayer: true }), GRID.playerSlot, null)];
   rivalSlots()
     .slice(0, rivals.length)
     .forEach((slot, i) => {
       const car = createCar({ id: `rival${i + 1}`, performance: rivals[i] });
-      entries.push(makeEntry(track, car, slot, createAiBrain(AI.lanes[i % AI.lanes.length], createRng(rng.int(1, 2 ** 30)))));
+      entries.push(makeEntry(track, car, slot, createAiBrain(AI.lanes[i % AI.lanes.length], createRng(rng.int(1, 2 ** 30)), skill)));
     });
   return { track, entries, rivalPace, phase: 'countdown', countdown: RACE.countdownSeconds, time: 0, finishOrder: [], firstFinishAt: null, doneAt: null };
 }
@@ -109,6 +109,7 @@ function stepEntry(race, entry, playerInput, dt) {
     entry.input.steer = 0;
   } else if (entry.brain) {
     avoidTraffic(race, entry, dt);
+    entry.car.catchUp = catchUpFactor(entry.brain, race.entries[0].lap.distance - entry.lap.distance);
     driveAi(track, entry.car, entry.loc, entry.brain, race.rivalPace, dt, entry.input);
     if (updateStuck(entry.brain, entry.car, dt)) resetToTrack(track, entry);
   }

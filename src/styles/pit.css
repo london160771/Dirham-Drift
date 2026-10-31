@@ -727,3 +727,17 @@ dd.loss {
   color: var(--muted);
   font-size: calc(13px * var(--text-scale, 1));
 }
+
+.difficulty-picker {
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.difficulty-picker .chip {
+  min-width: 84px;
+}
+
+.difficulty-info {
+  flex-basis: 100%;
+  text-align: center;
+}
