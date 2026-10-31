@@ -8,7 +8,7 @@ import { HowToPlay } from '../screens/HowToPlay.jsx';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
 import { KeyboardHint } from './Hints.jsx';
 import { Countdown, DebugOverlay, Hud } from './Hud.jsx';
-import { PauseOverlay, RotateOverlay } from './Overlays.jsx';
+import { PauseOverlay } from './Overlays.jsx';
 import { TouchControls } from './TouchControls.jsx';
 import { useDevice } from './useDevice.js';
 import { useRaceSounds } from './useRaceSounds.js';
@@ -86,7 +86,6 @@ export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
       {settings.showFps && <DebugOverlay telemetry={telemetry} input={input} />}
       {paused && !device.mustRotate && !howTo && <PauseOverlay onResume={() => setPaused(false)} onHowTo={() => setHowTo(true)} onQuit={() => onQuit(telemetry)} />}
       {paused && howTo && <HowToPlay overlay onBack={() => setHowTo(false)} />}
-      {device.mustRotate && <RotateOverlay />}
     </div>
   );
 }

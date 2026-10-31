@@ -176,6 +176,10 @@ dd.loss {
   height: 100%;
 }
 
+.pit-home:has(> .turbo-offer) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
 .doors {
   display: flex;
   flex-direction: column;

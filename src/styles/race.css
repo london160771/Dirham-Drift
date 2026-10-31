@@ -320,6 +320,12 @@
   padding: 24px;
 }
 
+.overlay.rotate-gate {
+  position: fixed;
+  z-index: 1000;
+  touch-action: none;
+}
+
 .rotate-icon {
   font-size: 64px;
   color: var(--gold);
