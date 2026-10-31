@@ -6,7 +6,7 @@ A top-down racing career game set in the UAE where every money choice — borrow
 
 Made for the Zoud GameLab FinLit Jam 2026 ("Make FinLit Fun").
 
-[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 149 game + 23 server passing (2026-10-30)
+[Play on itch.io](#) · [Install as an app](#) · [Gameplay video](#) · Tests: 154 game + 23 server passing (2026-10-31)
 
 ## The problem
 
@@ -48,7 +48,7 @@ React shell (menus, Pit Hub) → Money engine (pure JS, tested) ↔ Phaser race 
 
 ## Tested, not claimed
 
-`npm run verify` on 2026-10-30: lint clean, **149 tests in 24 files passed**, build OK. Ghost server: **23 API tests passed** (`cd server && npm test`, in-memory MongoDB). Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, Arabic string parity, the itch.io PWA switch, the interest-free loan, the Zakat estimate, assists, menu Back/Home, Bank amount inputs, engine ↔ Pit Hub screens (buy, borrow, repossession), ghost recording/playback and the Ghost API (validation, size limit, not-found, rate limit, CORS). Frame rate on real phones is not measured yet.
+`npm run verify` on 2026-10-31: lint clean, **154 tests in 25 files passed**, build OK. Ghost server: **23 API tests passed** (`cd server && npm test`, in-memory MongoDB). Covers lap logic, race determinism, the money engine (all 7 PRD §18 consequence checks, 300 random seasons), the Quick Season script and snapshot, the season recap, career save, settings persistence, Arabic string parity, the itch.io PWA switch, the interest-free loan, the Zakat estimate, assists, menu Back/Home, Bank amount inputs, engine ↔ Pit Hub screens (buy, borrow, repossession), ghost recording/playback, race camera framing and the Ghost API (validation, size limit, not-found, rate limit, CORS). Frame rate on real phones is not measured yet.
 
 ## Run it locally
 

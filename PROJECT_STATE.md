@@ -34,10 +34,10 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Full gate | `npm run verify` | pass | 2026-10-30 |
-| Tests | `npm test` | 149 passed (24 files) | 2026-10-30 |
+| Full gate | `npm run verify` | pass | 2026-10-31 |
+| Tests | `npm test` | 154 passed (25 files) | 2026-10-31 |
 | Ghost server tests | `cd server && npm test` | 23 passed (in-memory MongoDB 8.2) | 2026-10-30 |
-| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-29 |
+| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-31 |
 | Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
 | Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
@@ -133,6 +133,7 @@ See `REAL_VS_MOCKED.md`.
 
 ## 11. Build log
 
+- **2026-10-31 — Closer race camera (owner request, FR-RACE-001, PRD §16)**: camera 2.5× closer when stopped and pulls back more at top speed; look-ahead scales with the view; nitro now pulls the camera back (it used to zoom in for a moment). Files: `src/game/config/camera.js`, `src/game/race/scenes/{raceCamera,RaceScene}.js`, `tests/race/raceCamera.test.js`. `npm run verify` passed (lint clean, 154 tests in 25 files, build OK). Playwright screenshots 844×390 and 1280×720 on both tracks (start, speed, nitro) in project files `screenshots/camera-zoom/final/`. Owner check: drive it on a real phone (turn warning, frame rate, road sharpness).
 - **2026-10-30 — Phase 7 report (Ghost Challenge, PRD §27; built against FR-MODE-006, §11 ghost errors, §12 security, §14 API)**
   - Files: server `server/{package.json,package-lock.json,.env.example}`, `server/src/{index,app,config,codes,cors,errors,rateLimit,validateGhost,ghostStore}.js`, `server/test/*`; client `src/game/config/ghost.js`, `src/game/race/ghost/{recorder,playback}.js`, `src/game/race/scenes/{ghostRun,RaceScene}.js`, `src/game/race/sim/raceSim.js` (any rival count), `src/ui/ghost/*`, `src/ui/{raceSetup.js,race/Hud.jsx,race/RaceScreen.jsx,screens/modes.js,format.js}`, `src/App.jsx`, `src/styles/ghost.css`, `src/i18n/{en,ar}.js`, `.github/workflows/ghost-keepalive.yml`; tests `tests/race/ghost.test.js`, `tests/ui/ghost.test.jsx`.
   - Tests: `npm run verify` passed — lint clean, 149 tests in 24 files, build OK. `cd server && npm test` — 23 passed against an in-memory MongoDB: save → 6-character code → load back, lower-case codes, only track/time/path + 30-day TTL stored, not-found, 10 kinds of invalid ghost, broken JSON, 413 over the size limit, longest allowed run fits, CORS preflight + itch wildcard + blocked origins, rate limit + Retry-After + reset, `server_waking` and `/health` while the DB is down. Client: a recorded run on each track passes the server's own validator, same run → same path, client/server config agree, playback interpolation and ±π seam; UI: mode card only with a server URL, code clean-up, not-found, waking → retry, share code, dead heat, rate limit.

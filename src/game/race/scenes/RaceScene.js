@@ -6,13 +6,12 @@ import { CAR_COLORS, CAR_SPRITES, DEPTH, PALETTE } from '../../config/style.js';
 import { TRACKS } from '../../config/tracks/index.js';
 import { buildTrack, pointAt } from '../track/buildTrack.js';
 import { createRace, playerTelemetry, raceResults, stepRace } from '../sim/raceSim.js';
-import { topSpeedOf } from '../sim/carPhysics.js';
 import { CAR_TEXTURE_SCALE, createCarTexture } from '../render/carTexture.js';
 import { collectRaceArt, preloadRaceArt } from '../render/raceArt.js';
 import { createAmbientTraffic } from './ambientTraffic.js';
 import { createGhostRun } from './ghostRun.js';
 import { createRaceEffects } from './raceEffects.js';
-import { createRaceCamera } from './raceCamera.js';
+import { cameraSpeedRatio, createRaceCamera } from './raceCamera.js';
 import { bakeScaleFor, buildTrackVisuals } from './trackVisuals.js';
 
 export const RACE_SCENE_KEY = 'race';
@@ -111,7 +110,7 @@ export class RaceScene extends Phaser.Scene {
     }
     this.syncSprites();
     const car = this.race.entries[0].car;
-    this.raceCamera.update(car, Math.min(1, Math.abs(car.speed) / topSpeedOf(car)), paused ? 0 : dt);
+    this.raceCamera.update(car, cameraSpeedRatio(car), paused ? 0 : dt);
     this.publish(dt);
     if (this.race.phase === 'done' && !this.reported) {
       this.reported = true;
