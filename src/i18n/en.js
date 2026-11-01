@@ -11,6 +11,7 @@ export const EN = {
     credits: 'Credits',
     install: 'Install app',
     installNote: 'Install it on your phone for a better experience.',
+    update: 'New version ready. Tap to update.',
     back: 'Back',
     home: 'Home',
   },
