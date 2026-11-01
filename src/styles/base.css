@@ -68,15 +68,24 @@ body {
 
 .install-note {
   margin: 0;
-  padding: 4px 10px;
-  border: 0;
-  background: none;
-  color: var(--muted);
+  padding: 6px 16px;
+  border: 1px solid rgba(245, 196, 81, 0.55);
+  border-radius: 999px;
+  background: rgba(11, 13, 20, 0.82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
   font: inherit;
-  font-size: calc(13px * var(--text-scale, 1));
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  font-size: calc(14px * var(--text-scale, 1));
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   cursor: pointer;
+}
+
+.install-note:hover,
+.install-note:focus-visible {
+  border-color: var(--gold);
+  background: rgba(11, 13, 20, 0.95);
 }
 
 .tagline {
