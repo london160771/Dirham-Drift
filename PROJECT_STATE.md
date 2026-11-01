@@ -3,7 +3,7 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-10-31 · **By:** Claude (build) · **Commit:** see build log
+**Last updated:** 2026-11-01 · **By:** Claude (build) · **Commit:** see build log
 
 ---
 
@@ -34,8 +34,8 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Full gate | `npm run verify` | pass | 2026-10-31 |
-| Tests | `npm test` | 172 passed (28 files) | 2026-10-31 |
+| Full gate | `npm run verify` | pass | 2026-11-01 |
+| Tests | `npm test` | 178 passed (29 files) | 2026-11-01 |
 | Ghost server tests | `cd server && npm test` | 23 passed (in-memory MongoDB 8.2) | 2026-10-30 |
 | Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-31 |
 | Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
@@ -134,6 +134,7 @@ See `REAL_VS_MOCKED.md`.
 
 ## 11. Build log
 
+- **2026-11-01 — New version bar (owner request, FR-PWA-001, PRD §16)**: service worker switched to prompt mode with `clientsClaim`; update checks on open, on return to the screen and every 30 min (`src/ui/pwa/appUpdate.js`, `registerSw.js`); `UpdateBar` shows "New version ready. Tap to update." (EN + AR) on menu screens only, never in a race/season/ghost run. Checked in Chromium with two real builds on a local server: bar appears after an update check, stays hidden in a race, tap reloads into the new build, a full close and reopen also gets it, offline reload still works. Note: the first deploy after this one still needs one full close of the app, because older installs run the old service worker code.
 - **2026-10-31 — Portrait block, install note, two fixes (owner request, FR-CTL-003, FR-PWA-003, PRD §16)**: the rotate screen now sits over the whole app on a touch phone in portrait, from the title on (moved from the race screen to `App.jsx`; the race still pauses); title has a small "Install it on your phone for a better experience" note that opens the install guide, only where install works and not inside the installed app (`isStandalone` in `pwaHost.js`); desktop Pit Hub Turbo banner keeps its text height (`pit.css`); Bank says "One strike" in Quick Season (EN + AR `bank.repoWarningOne`). New `tests/ui/landscapeAndInstall.test.jsx`. `npm run verify`: lint clean, 172 tests in 28 files, build OK. Owner check: open the site on a phone held upright and confirm nothing is playable until rotated.
 - **2026-10-31 — Phone landscape fit (owner request, PRD §21 screens, no feature change)**: new `src/styles/compact.css` (only applies when the screen is 500 px tall or less, plus a global `text-size-adjust: 100%` so iPhone Safari stops enlarging small text in landscape). Mode select now fits 844×390 and 667×375 with no scroll (cards in one row, difficulty info on the same line); Pit Hub home fits with no scroll; Bank is about half as tall (smaller banner, tighter offers, Savings / Insurance / Index fund side by side) but still scrolls. Desktop screenshots are byte-identical before and after. `npm run verify`: lint clean, 165 tests in 27 files, build OK. Screenshots (English + Arabic, 844×390, 667×375, 1366×768) in project files `screenshots/phone-fit/`. Owner check: open both screens on the iPhone (the text enlarging only happens on a real iPhone, not in headless Chromium).
 - **2026-10-31 — Difficulty Easy / Medium / Hard (owner request, FR-MODE-007, PRD §16)**: picker on Mode select for Quick Race, Career and Quick Season; AI-only tuning in `DIFFICULTY` (`src/game/config/race.js`): rival pace, pace wobble, nitro use, catch-up. Easy finish times match the old code exactly (same seeds, compared before/after). Season level saved in the career save and shown on the pre-race card, Continue card and recap. `npm run verify`: lint clean, 165 tests in 27 files, build OK; Quick Season snapshot unchanged. Screenshots 844×390 and 1280×720 (English + Arabic) in project files `screenshots/difficulty/`. Owner check: play Hard on a phone and say if it feels right (numbers are first guesses).

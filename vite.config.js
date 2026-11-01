@@ -23,13 +23,14 @@ const manifest = {
 
 const pwa = VitePWA({
   injectRegister: false,
-  registerType: 'autoUpdate',
+  registerType: 'prompt',
   includeAssets: ['icons/apple-touch-icon.png', 'icons/icon.svg'],
   manifest,
   workbox: {
     globPatterns: ['**/*.{js,css,html,png,svg,mp3,woff2,webp,jpg,avif}'],
     maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
     navigateFallback: 'index.html',
+    clientsClaim: true,
   },
 });
 

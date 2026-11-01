@@ -20,6 +20,8 @@ import { loadCareer } from './ui/storage/seasonStore.js';
 import { loadSettings, updateSettings } from './ui/storage/settingsStore.js';
 import { getLanguage } from './i18n/strings.js';
 import { currentPwaAllowed, isStandalone } from './ui/pwa/pwaHost.js';
+import { showsUpdateBar } from './ui/pwa/appUpdate.js';
+import { UpdateBar } from './ui/pwa/UpdateBar.jsx';
 
 function newCareerSeed() {
   return Date.now() % SEED_RANGE;
@@ -113,6 +115,7 @@ export function App() {
   return (
     <>
       {view()}
+      {showsUpdateBar(screen.name) && <UpdateBar />}
       {device.mustRotate && <RotateOverlay />}
     </>
   );
