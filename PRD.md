@@ -33,7 +33,7 @@ RACE → EARN → BORROW → CRASH → REPO → SCAM → RECOVER
 ## 2. The story (the video's spine)
 
 - **Act 1 — The hook.** Driver view on the Marina street circuit at night. Win the race, earn AED.
-- **Act 2 — The shortcut.** Pit Hub: the turbo costs more than you have. Take the quick loan: borrow AED 6,000, pay back AED 7,000. The car is visibly faster.
+- **Act 2 — The shortcut.** Pit Hub: the turbo costs more than you have. Take the big loan: borrow AED 15,000, pay back AED 18,000. The car is visibly faster.
 - **Act 3 — The bill.** Crash with no insurance. Repair bill. Missed payment. **The bank repossesses the turbo** — the next race feels slower.
 - **Act 4 — The scam.** "Desert Gold Racing Fund" promises 30% a week. Red flags shown. Invest → first payout → "withdrawals paused" → money gone.
 - **Act 5 — Recover.** Second run: save, insure, invest steadily. Win the Sheikh Zayed sprint final debt-free. Season recap.
@@ -401,6 +401,7 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | 2026-10-31 | Difficulty (FR-MODE-007, owner request): three levels change the AI rivals only (`DIFFICULTY` in `src/game/config/race.js`). Easy = the game as it was (rival pace ×1.00, pace wobble ±3%, nitro chance 0.35/s, no catch-up). Medium = pace ×1.05, wobble ±2%, nitro 1/s, catch-up up to +3%. Hard = pace ×1.10, wobble ±1%, nitro 4/s (on almost every straight), catch-up up to +6%. Pace multiplies top speed, acceleration and corner speed and stacks on stage pace (Rookie/Pro/Final) and on Chill mode. Catch-up raises the top speed of a rival who is behind the player, scaling to full at 600 px behind (`AI.catchUpFullGap`); leaders are never slowed. The last choice is kept in settings (`difficulty`); a season stores its level in the career save (`difficulty`, missing = Easy), so Continue keeps it and it can't be changed mid-season. Shown on Mode select, the pre-race card, the Continue card and the recap. No money changes: Quick Season events stay identical | Owner wants harder, more interesting AI; AI-only keeps the money engine and the Quick Season snapshot untouched, and a locked level stops dropping to Easy just for the Grand Final |
 | 2026-10-31 | Owner request: the rotate screen covers the whole app on a touch phone in portrait (title, menus, Pit Hub, race), not only the race; the title shows a small install note (FR-PWA-003) that opens the install guide, hidden on itch.io and inside the installed app; desktop Pit Hub keeps the Turbo banner to its text height; the Bank says "One strike" in Quick Season instead of "1 strikes" | Owner wants no play at all until the phone is landscape, and to nudge phone players to the installed app |
 | 2026-11-01 | Owner request: new deploys reached players only after many refreshes, and the installed app needed a reinstall. The service worker now uses vite-plugin-pwa `registerType: 'prompt'` with `clientsClaim`; the app checks for a new version on open, when it comes back to the screen and every `PWA_RULES.updateCheckMinutes` (30); when one is ready a small "New version ready. Tap to update." bar shows on menu screens only (`PWA_RULES.updateBarScreens`), never in a race, season or ghost run; tapping reloads into the new build, otherwise it applies on the next full close and reopen. Offline play and localStorage saves are unchanged; itch.io still gets no service worker | The old `autoUpdate` setup only checked on page load and could reload the page at any time, including mid-race. Vercel headers were already `max-age=0, must-revalidate` for `index.html` and `sw.js`, so no header change was needed |
+| 2026-11-01 | Demo video (§22, owner request): add a voiceover (owner generates it with ElevenLabs from Claude's timed script, disclosed as AI voice) on top of the captions; Act 2 uses the big loan (borrow AED 15,000, pay back AED 18,000) instead of the quick loan | Owner asked for a voiceover. The recorded Act 2/3 footage uses the big loan, and in Quick Season the big loan is the path that leaves cash to invest in Desert Gold after the scripted crash, so the scam act can be shot in the same style; both loans are real config values (`LOANS` in `src/game/config/economy.js`) |
 
 ---
 
@@ -495,7 +496,7 @@ Scripted tests through the real money engine. Each must pass:
 |---|---|---|
 | 0:00–0:10 | Marina driver view, overtake into hairpin, cross line 1st | "Race for money." |
 | 0:10–0:15 | Title card over gameplay | "Dirham Drift — don't let money race you" |
-| 0:15–0:35 | Pit Hub → quick loan → buy turbo; total-to-repay screen | "Borrow AED 6,000. Pay back AED 7,000." |
+| 0:15–0:35 | Pit Hub → big loan → buy turbo; total-to-repay screen | "Borrow AED 15,000. Pay back AED 18,000." |
 | 0:35–0:45 | Faster race, nitro flames | "Faster now…" |
 | 0:45–1:05 | Crash, no insurance → bill → missed payment → turbo repossessed | "…until the bill comes." |
 | 1:05–1:10 | Pit Lesson card | (lesson text) |
@@ -504,7 +505,7 @@ Scripted tests through the real money engine. Each must pass:
 | 1:45–1:55 | Season recap | "Feel the lesson. Then learn it." |
 | 1:55–2:00 | Installing the app + itch link | "Play free in your browser" |
 
-Recorded with the Quick Season seed. Desktop: OBS 1080p60. Phone: built-in recorder, landscape. Edit: CapCut or DaVinci Resolve. Captions, no voiceover. Record each moment the day it works.
+Recorded with the Quick Season seed. Desktop: OBS 1080p60. Phone: built-in recorder, landscape. Edit: ffmpeg. Captions always on screen (judges may watch muted), plus a voiceover the owner generates with an AI voice (ElevenLabs) from the timed script; game audio sits under the voiceover. Record each moment the day it works.
 
 ---
 
@@ -691,7 +692,7 @@ One phase at a time. Claude may run automatic-check phases back to back, but **s
 | Concept doc / GDD | Official 6-section template → PDF, public link |
 | Video | 2-minute cut (§22), YouTube embed |
 | Budget | Locked plan → PDF (tiers $5K / $15K / ~$45K, line items, milestones, revenue model) |
-| AI disclosure | Code and Arabic translation help: Claude; game images (title, garage, bank, scam poster, cars, track scenery): Google Gemini |
+| AI disclosure | Code, Arabic translation help and the video edit and voiceover script: Claude; game images (title, garage, bank, scam poster, cars, track scenery): Google Gemini; video voiceover voice: ElevenLabs |
 | Screenshots | Marina race, Sheikh Zayed sprint, Pit Hub, scam red flags, season recap |
 
 ---
