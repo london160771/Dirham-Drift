@@ -35,12 +35,12 @@ export function TitleScreen({ onPlay, onHowTo, onSettings, onCredits, onInstall,
             </button>
           )}
         </div>
-        {installNote && onInstall && (
-          <button type="button" className="install-note" onClick={onInstall} data-testid="install-note">
-            {t('title.installNote')}
-          </button>
-        )}
       </div>
+      {installNote && onInstall && (
+        <button type="button" className="install-note" onClick={onInstall} data-testid="install-note">
+          {t('title.installNote')}
+        </button>
+      )}
     </div>
   );
 }
