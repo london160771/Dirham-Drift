@@ -255,7 +255,7 @@ export const EN = {
     fonts: 'Fonts',
     systemFonts: "English text uses your device's system font.",
     cairo: 'Arabic text uses Cairo by Mohamed Gaber — SIL Open Font License 1.1, bundled from Fontsource.',
-    arabic: 'Arabic translation: AI-assisted (Claude), pending native review.',
+    arabic: 'Arabic translation: AI-assisted (Claude), reviewed by the developer.',
     sound: 'Sound',
     sfx100: 'Crash, coin, thud and click sounds: "100 CC0 SFX" by rubberduck, OpenGameArt.org — CC0.',
     synth: 'Engine, nitro, countdown beeps and both music loops are generated in code.',

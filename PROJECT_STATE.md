@@ -3,15 +3,16 @@
 > Where the project actually stands. A progress log, not requirements (those live in `PRD.md`).
 > Update at the end of every phase. Only write what was verified. If this file and the repo disagree, the repo wins.
 
-**Last updated:** 2026-11-01 · **By:** Claude (build) · **Commit:** see build log
+**Last updated:** 2026-11-02 · **By:** Claude (docs) · **Commit:** see build log
 
 ---
 
 ## 1. Right now
 
-- **Active phase:** Phase 7 — Ghost Challenge (owner approved starting it 2026-10-30; branch + PR, owner merges)
-- **Status:** Phase 7 built and verified locally on branch `claude/project-thread-dnj9pv` (PR open); server not deployed. Phases 4–6 built, verified and pushed; owner checks pending (Gate 0 phone test, Phase 4 full-season playtest + balance, Quick Season snapshot review, Phase 6 install test on Android + iPhone, Arabic native review)
-- **Next step:** owner merges the PR, sets up Atlas + Render + `VITE_GHOST_API_URL` on Vercel, then the two-phone code test (Phase 7 gate)
+- **Active phase:** between Phase 7 (merged and deployed) and Phase 8 — Ship (planned Nov 12–15, PRD §27). Phase 8 not started.
+- **Status:** all P0 and P1 features are built and merged to `main`. The game is live on Vercel, the Ghost API is live on Render, and the itch.io project exists as a draft. The 2-minute video (v4, voiced) is approved and on YouTube: https://youtu.be/FEmNQwNXv-w
+- **Owner checks still open:** full Quick Season playthrough on a real phone, two-phone Ghost Challenge test (Phase 7 gate), Quick Season snapshot review, balance tuning.
+- **Next step:** Phase 8 (itch.io build + real-phone test, GDD and budget PDFs, itch page, submit).
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -24,8 +25,8 @@
 | 3 — Pit Hub | Done (automatic gate) | 2026-10-28 | see build log | Auto + screenshots |
 | 4 — Seasons | Built, verify passes | 2026-10-28 | 781af4d | 🛑 Owner full-season playtest + tuning pending; snapshot pending owner review |
 | 5 — Polish | Done (automatic gate) | 2026-10-28 | 39a9aaa | Auto + screenshots |
-| 6 — App + Arabic (P1) | Built, verify passes | 2026-10-29 | 6c2c29e | Owner install test on Android + iPhone pending |
-| 7 — Ghost Challenge (P1) | Built, verify + server tests pass | 2026-10-30 | see PR | Owner two-phone test pending (needs deploy) |
+| 6 — App + Arabic (P1) | Done | 2026-10-30 | 6c2c29e | Owner install test and Arabic review passed 2026-10-30 |
+| 7 — Ghost Challenge (P1) | Built, merged, deployed on Render | 2026-10-30 | 84128fd (PR #3) | Owner two-phone test pending |
 | 8 — Ship | Not started | | | 🛑 Owner + review |
 
 Never mark a phase Done until its acceptance criteria pass and the owner approves.
@@ -34,15 +35,16 @@ Never mark a phase Done until its acceptance criteria pass and the owner approve
 
 | Check | Command | Result | Date |
 |---|---|---|---|
-| Full gate | `npm run verify` | pass | 2026-11-01 |
-| Tests | `npm test` | 178 passed (29 files) | 2026-11-01 |
-| Ghost server tests | `cd server && npm test` | 23 passed (in-memory MongoDB 8.2) | 2026-10-30 |
-| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-10-31 |
-| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,348 KiB, images included) | 2026-10-30 |
+| Full gate | `npm run verify` | pass | 2026-11-02 |
+| Tests | `npm test` | 178 passed (29 files) | 2026-11-02 |
+| Ghost server tests | `cd server && npm test` | 23 passed (4 suites, in-memory MongoDB) | 2026-11-02 |
+| Lint | `npm run lint` | 0 errors, 0 warnings | 2026-11-02 |
+| Build | `npm run build` | pass, relative `./assets` paths; PWA precache 43 entries (2,357 KiB, images included) | 2026-11-02 |
+| Live links | `curl` | Vercel 200, Render `/health` 200, Vercel bundle has the Render URL (Ghost mode on); itch.io page 404 while it is a draft | 2026-11-02 |
 | Phone landscape screenshots | Playwright 844×390 + 1280×720, English and Arabic | taken, checked | 2026-10-29 |
 | Quick Season snapshot (PRD §19) | `tests/engine/quickSeason.test.js` | generated 2026-10-28; Phase 6 added the recap `zakat` field (event order unchanged) — **pending owner review** (not locked yet) | 2026-10-29 |
-| PWA install on a real phone | — | **owner check pending** | — |
-| Frame rate on real phone | — | — | — |
+| PWA install on a real phone | — | passed (owner) | 2026-10-30 |
+| Frame rate on real phone | — | not measured | — |
 
 ## 4. What works (verified)
 
@@ -87,21 +89,23 @@ See `REAL_VS_MOCKED.md`.
 
 | Item | Value |
 |---|---|
-| Vercel (app install) | not deployed |
-| itch.io page | not created |
-| Ghost API (Render) | not deployed (code ready in `server/`) |
-| Video | not recorded |
+| Vercel (play + app install) | https://dirham-drift.vercel.app (`main` auto-deploys) |
+| itch.io page | https://ayyoweb3.itch.io/dirham-drift (draft, not public yet) |
+| Ghost API (Render) | https://dirham-drift.onrender.com (`/health`; free tier, sleeps after 15 min) |
+| Video | https://youtu.be/FEmNQwNXv-w (v4, approved 2026-11-02) |
 
 ## 7. Demo recordings (PRD §22)
 
+All acts are in the approved 2-minute cut (`videos/dirham-drift-demo-v4.mp4` in the project files, voiced with ElevenLabs). Gameplay was captured from the real game; the install clip is the owner's own recording.
+
 | Act | Recorded? | File / link | Date |
 |---|---|---|---|
-| 1 — Hook (Marina win) | no | | |
-| 2 — Loan → faster car | no — can be recorded now (Career Season → Bank → loan → Garage → race) | | |
-| 3 — Crash → repo | no — can be recorded now (Quick Season: loan + turbo, finish low in race 2, skip insurance) | | |
-| 4 — Scam | no — can be recorded now (Quick Season: invest in Desert Gold after race 2) | | |
-| 5 — Recover + recap | no — can be recorded now (Quick Season, saver run; recap shows the Zakat note) | | |
-| Install + itch link | no | | |
+| 1 — Hook (Marina win) | yes | demo v4 | 2026-11-02 |
+| 2 — Loan → faster car | yes (big loan: borrow AED 15,000, pay back 18,000) | demo v4 | 2026-11-02 |
+| 3 — Crash → repo | yes | demo v4 | 2026-11-02 |
+| 4 — Scam | yes | demo v4 | 2026-11-02 |
+| 5 — Recover + recap | yes | demo v4 | 2026-11-02 |
+| Install + itch link | install yes; the end card has no itch.io link yet | demo v4 | 2026-11-02 |
 
 ## 8. Submission pack
 
@@ -110,30 +114,31 @@ See `REAL_VS_MOCKED.md`.
 | Registration form (each jammer) | [ ] |
 | GDD (official template, PDF, public link) | not started |
 | Budget PDF | plan locked, not written |
-| 2-minute video | not started |
-| itch.io page | not started |
-| AI disclosure | not started |
+| 2-minute video | v4 approved 2026-11-02; on YouTube: https://youtu.be/FEmNQwNXv-w |
+| itch.io page | draft project created; build upload and page text pending (Phase 8) |
+| AI disclosure | written: README "Credits and AI disclosure" and the in-game Credits screen |
 
 ## 9. Known issues and limitations
 
 - Balance numbers and grade thresholds are defaults from a headless sim, not a real playtest (owner check pending).
 - Quick Season snapshot is generated but pending owner review; it is not locked.
 - Sound: only crash, coin, thud and click are recorded CC0 files; nitro, beeps, engine, repossession and both music loops are generated in code (owner may replace via file slots).
-- Rival cars are recolours of the player car and traffic cars recolours of one grey car until top-down rival images are made; the metro train is still code-drawn (Gemini's train was a side view).
+- Rival and traffic car images are recolours of the Gemini car images; the metro train is still code-drawn (Gemini's train was a side view).
 - Frame rate on a real phone not measured (headless only).
-- PWA install not yet tested on a real Android or iPhone; the service worker only registers once deployed (or on `localhost`).
-- Arabic text is AI-assisted and pending native review (some number–noun agreement, e.g. "10 سباقات", needs a native pass).
-- Quick Season repo warning reads "1 strikes" in English (plural not handled); cosmetic.
+- Ghost API is on Render's free tier: it sleeps 15 min after the last request, so the first Ghost Challenge call can take about 30–60 s ("Waking server…"). Two-phone test still pending.
+- Career save lives in the browser only; clearing site data loses it.
+- Arabic text is AI-assisted; the owner reviewed it on 2026-10-30.
 
 ## 10. Handoff notes
 
 - **Read first:** `CLAUDE.md`, PRD §27 Phase 0, PRD §10 (Racing + Controls), PRD §21 (visual style).
-- **Branch:** `claude/project-thread-dnj9pv` (Phase 7 PR) · **Uncommitted work:** none
+- **Branch:** `main` (work goes via branch + PR; owner merges) · **Uncommitted work:** none
 - **Env vars needed:** Render: `MONGODB_URI`, `ALLOWED_ORIGINS` (see `server/.env.example`). Vercel: `VITE_GHOST_API_URL` (public URL, no secret). GitHub repo variable `GHOST_API_URL` for the keepalive.
 - **Watch out for:** CLAUDE.md §8 gotchas; `docs/CONCEPT-BRIEF.md` is outdated.
 
 ## 11. Build log
 
+- **2026-11-02 — Docs for judges (owner request, text only)**: PROJECT_STATE, README and REAL_VS_MOCKED updated with the live links (Vercel, Render, itch.io draft), the approved video (https://youtu.be/FEmNQwNXv-w), real test counts (`npm run verify`: lint clean, 178 tests in 29 files, build OK; server 23 passed), known limits and credits (Gemini art, ElevenLabs voiceover, CC0 SFX, code-made music). PRD §17 Arabic row and the in-game Credits line (EN + AR) updated to match the owner's review.
 - **2026-11-01 — New version bar (owner request, FR-PWA-001, PRD §16)**: service worker switched to prompt mode with `clientsClaim`; update checks on open, on return to the screen and every 30 min (`src/ui/pwa/appUpdate.js`, `registerSw.js`); `UpdateBar` shows "New version ready. Tap to update." (EN + AR) on menu screens only, never in a race/season/ghost run. Checked in Chromium with two real builds on a local server: bar appears after an update check, stays hidden in a race, tap reloads into the new build, a full close and reopen also gets it, offline reload still works. Note: the first deploy after this one still needs one full close of the app, because older installs run the old service worker code.
 - **2026-10-31 — Portrait block, install note, two fixes (owner request, FR-CTL-003, FR-PWA-003, PRD §16)**: the rotate screen now sits over the whole app on a touch phone in portrait, from the title on (moved from the race screen to `App.jsx`; the race still pauses); title has a small "Install it on your phone for a better experience" note that opens the install guide, only where install works and not inside the installed app (`isStandalone` in `pwaHost.js`); desktop Pit Hub Turbo banner keeps its text height (`pit.css`); Bank says "One strike" in Quick Season (EN + AR `bank.repoWarningOne`). New `tests/ui/landscapeAndInstall.test.jsx`. `npm run verify`: lint clean, 172 tests in 28 files, build OK. Owner check: open the site on a phone held upright and confirm nothing is playable until rotated.
 - **2026-10-31 — Phone landscape fit (owner request, PRD §21 screens, no feature change)**: new `src/styles/compact.css` (only applies when the screen is 500 px tall or less, plus a global `text-size-adjust: 100%` so iPhone Safari stops enlarging small text in landscape). Mode select now fits 844×390 and 667×375 with no scroll (cards in one row, difficulty info on the same line); Pit Hub home fits with no scroll; Bank is about half as tall (smaller banner, tighter offers, Savings / Insurance / Index fund side by side) but still scrolls. Desktop screenshots are byte-identical before and after. `npm run verify`: lint clean, 165 tests in 27 files, build OK. Screenshots (English + Arabic, 844×390, 667×375, 1366×768) in project files `screenshots/phone-fit/`. Owner check: open both screens on the iPhone (the text enlarging only happens on a real iPhone, not in headless Chromium).
