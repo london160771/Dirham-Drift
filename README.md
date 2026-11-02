@@ -6,14 +6,14 @@ A top-down racing career game set in the UAE where every money choice — borrow
 
 Made for the Zoud GameLab FinLit Jam 2026 ("Make FinLit Fun").
 
-**[Play in the browser / install as an app](https://dirham-drift.vercel.app)** · [itch.io page](https://ayyoweb3.itch.io/dirham-drift) · Gameplay video: _link coming soon_ · Tests: 178 game + 23 server passing (2026-11-02)
+**[Play in the browser / install as an app](https://dirham-drift.vercel.app)** · [itch.io page](https://ayyoweb3.itch.io/dirham-drift) · [Gameplay video (2 min)](https://youtu.be/FEmNQwNXv-w) · Tests: 178 game + 23 server passing (2026-11-02)
 
 | Link | What it is |
 |---|---|
 | https://dirham-drift.vercel.app | The game. Plays in any browser; on a phone it can be installed as an app. |
 | https://ayyoweb3.itch.io/dirham-drift | The jam page (being prepared for submission). |
 | https://dirham-drift.onrender.com/health | Ghost Challenge server. On the free tier it sleeps when idle, so the first call can take 30–60 s. |
-| Gameplay video (2 min) | _Link coming soon._ |
+| Gameplay video (2 min) | https://youtu.be/FEmNQwNXv-w |
 
 ## The problem
 

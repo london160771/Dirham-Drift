@@ -10,9 +10,9 @@
 ## 1. Right now
 
 - **Active phase:** between Phase 7 (merged and deployed) and Phase 8 — Ship (planned Nov 12–15, PRD §27). Phase 8 not started.
-- **Status:** all P0 and P1 features are built and merged to `main`. The game is live on Vercel, the Ghost API is live on Render, and the itch.io project exists as a draft. The 2-minute video (v4, voiced) is approved by the owner but not uploaded yet.
+- **Status:** all P0 and P1 features are built and merged to `main`. The game is live on Vercel, the Ghost API is live on Render, and the itch.io project exists as a draft. The 2-minute video (v4, voiced) is approved and on YouTube: https://youtu.be/FEmNQwNXv-w
 - **Owner checks still open:** full Quick Season playthrough on a real phone, two-phone Ghost Challenge test (Phase 7 gate), Quick Season snapshot review, balance tuning.
-- **Next step:** owner uploads the video and shares its link; then Phase 8 (itch.io build + real-phone test, GDD and budget PDFs, itch page, submit).
+- **Next step:** Phase 8 (itch.io build + real-phone test, GDD and budget PDFs, itch page, submit).
 - **Blocked by:** nothing
 
 ## 2. Phase tracker
@@ -92,7 +92,7 @@ See `REAL_VS_MOCKED.md`.
 | Vercel (play + app install) | https://dirham-drift.vercel.app (`main` auto-deploys) |
 | itch.io page | https://ayyoweb3.itch.io/dirham-drift (draft, not public yet) |
 | Ghost API (Render) | https://dirham-drift.onrender.com (`/health`; free tier, sleeps after 15 min) |
-| Video | v4 approved 2026-11-02; public link not added yet |
+| Video | https://youtu.be/FEmNQwNXv-w (v4, approved 2026-11-02) |
 
 ## 7. Demo recordings (PRD §22)
 
@@ -114,7 +114,7 @@ All acts are in the approved 2-minute cut (`videos/dirham-drift-demo-v4.mp4` in 
 | Registration form (each jammer) | [ ] |
 | GDD (official template, PDF, public link) | not started |
 | Budget PDF | plan locked, not written |
-| 2-minute video | v4 approved by owner 2026-11-02; not uploaded (no public link yet) |
+| 2-minute video | v4 approved 2026-11-02; on YouTube: https://youtu.be/FEmNQwNXv-w |
 | itch.io page | draft project created; build upload and page text pending (Phase 8) |
 | AI disclosure | written: README "Credits and AI disclosure" and the in-game Credits screen |
 
@@ -138,7 +138,7 @@ All acts are in the approved 2-minute cut (`videos/dirham-drift-demo-v4.mp4` in 
 
 ## 11. Build log
 
-- **2026-11-02 — Docs for judges (owner request, text only)**: PROJECT_STATE, README and REAL_VS_MOCKED updated with the live links (Vercel, Render, itch.io draft), the approved video, real test counts (`npm run verify`: lint clean, 178 tests in 29 files, build OK; server 23 passed), known limits and credits (Gemini art, ElevenLabs voiceover, CC0 SFX, code-made music). PRD §17 Arabic row and the in-game Credits line (EN + AR) updated to match the owner's review.
+- **2026-11-02 — Docs for judges (owner request, text only)**: PROJECT_STATE, README and REAL_VS_MOCKED updated with the live links (Vercel, Render, itch.io draft), the approved video (https://youtu.be/FEmNQwNXv-w), real test counts (`npm run verify`: lint clean, 178 tests in 29 files, build OK; server 23 passed), known limits and credits (Gemini art, ElevenLabs voiceover, CC0 SFX, code-made music). PRD §17 Arabic row and the in-game Credits line (EN + AR) updated to match the owner's review.
 - **2026-11-01 — New version bar (owner request, FR-PWA-001, PRD §16)**: service worker switched to prompt mode with `clientsClaim`; update checks on open, on return to the screen and every 30 min (`src/ui/pwa/appUpdate.js`, `registerSw.js`); `UpdateBar` shows "New version ready. Tap to update." (EN + AR) on menu screens only, never in a race/season/ghost run. Checked in Chromium with two real builds on a local server: bar appears after an update check, stays hidden in a race, tap reloads into the new build, a full close and reopen also gets it, offline reload still works. Note: the first deploy after this one still needs one full close of the app, because older installs run the old service worker code.
 - **2026-10-31 — Portrait block, install note, two fixes (owner request, FR-CTL-003, FR-PWA-003, PRD §16)**: the rotate screen now sits over the whole app on a touch phone in portrait, from the title on (moved from the race screen to `App.jsx`; the race still pauses); title has a small "Install it on your phone for a better experience" note that opens the install guide, only where install works and not inside the installed app (`isStandalone` in `pwaHost.js`); desktop Pit Hub Turbo banner keeps its text height (`pit.css`); Bank says "One strike" in Quick Season (EN + AR `bank.repoWarningOne`). New `tests/ui/landscapeAndInstall.test.jsx`. `npm run verify`: lint clean, 172 tests in 28 files, build OK. Owner check: open the site on a phone held upright and confirm nothing is playable until rotated.
 - **2026-10-31 — Phone landscape fit (owner request, PRD §21 screens, no feature change)**: new `src/styles/compact.css` (only applies when the screen is 500 px tall or less, plus a global `text-size-adjust: 100%` so iPhone Safari stops enlarging small text in landscape). Mode select now fits 844×390 and 667×375 with no scroll (cards in one row, difficulty info on the same line); Pit Hub home fits with no scroll; Bank is about half as tall (smaller banner, tighter offers, Savings / Insurance / Index fund side by side) but still scrolls. Desktop screenshots are byte-identical before and after. `npm run verify`: lint clean, 165 tests in 27 files, build OK. Screenshots (English + Arabic, 844×390, 667×375, 1366×768) in project files `screenshots/phone-fit/`. Owner check: open both screens on the iPhone (the text enlarging only happens on a real iPhone, not in headless Chromium).
