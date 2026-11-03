@@ -408,8 +408,14 @@
   opacity: 0.7;
 }
 
-.minimap-player {
+.minimap-rival {
   stroke: #0b0d14;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.minimap-player {
+  stroke: #ffffff;
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
 }

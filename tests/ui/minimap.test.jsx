@@ -18,14 +18,15 @@ const telemetry = { phase: 'racing', position: 1, carCount: 3, lap: 1, laps: 3, 
 beforeEach(cleanup);
 
 describe('race minimap', () => {
-  it('draws the track and one dot per car, player on top in the player colour', () => {
+  it('draws the track and one dot per car, rivals over the bigger player dot', () => {
     const { container } = render(<Minimap outline={outline} cars={cars} />);
     expect(container.querySelector('polygon')).toBeTruthy();
     expect(container.querySelectorAll('.minimap-rival')).toHaveLength(2);
     const player = screen.getByTestId('minimap-player');
     expect([Number(player.getAttribute('cx')), Number(player.getAttribute('cy'))]).toEqual(mapPoint(outline, 10, 20));
     expect(player.getAttribute('fill')).toBe(CAR_COLORS.player.body);
-    expect(container.querySelector('svg').lastElementChild).toBe(player);
+    expect(container.querySelector('svg').lastElementChild.getAttribute('class')).toBe('minimap-rival');
+    expect(Number(player.getAttribute('r'))).toBeGreaterThan(Number(container.querySelector('.minimap-rival').getAttribute('r')));
     expect(screen.queryByTestId('minimap-ghost')).toBeNull();
   });
 

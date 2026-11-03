@@ -28,10 +28,6 @@ export function Minimap({ outline, cars, ghost }) {
       <Line points={path} className="minimap-edge" strokeWidth={MINIMAP.edgeStrokePx} vectorEffect="non-scaling-stroke" />
       <Line points={path} className="minimap-road" strokeWidth={MINIMAP.roadStrokePx} vectorEffect="non-scaling-stroke" />
       <rect className="minimap-finish" x={outline.finish[0] - finish / 2} y={outline.finish[1] - finish / 2} width={finish} height={finish} />
-      {ghostAt && <circle className="minimap-ghost" data-testid="minimap-ghost" cx={ghostAt[0]} cy={ghostAt[1]} r={dot} fill={CAR_COLORS.ghost.body} />}
-      {rivals.map(([x, y], i) => (
-        <circle key={i} className="minimap-rival" cx={x} cy={y} r={dot} fill={rivalColor(i + 1)} />
-      ))}
       <circle
         className="minimap-player"
         data-testid="minimap-player"
@@ -40,6 +36,10 @@ export function Minimap({ outline, cars, ghost }) {
         r={dot * MINIMAP.playerDotScale}
         fill={CAR_COLORS.player.body}
       />
+      {ghostAt && <circle className="minimap-ghost" data-testid="minimap-ghost" cx={ghostAt[0]} cy={ghostAt[1]} r={dot} fill={CAR_COLORS.ghost.body} />}
+      {rivals.map(([x, y], i) => (
+        <circle key={i} className="minimap-rival" cx={x} cy={y} r={dot} fill={rivalColor(i + 1)} />
+      ))}
     </svg>
   );
 }
