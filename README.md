@@ -41,6 +41,7 @@ Money lessons are usually cards and menus, and people skip text. In Dirham Drift
 
 - **Phone (landscape):** left thumb steers; right thumb Gas, Brake, Nitro.
 - **Keyboard:** arrows / WASD, Space = nitro, Shift = brake, P = pause.
+- **Tilt (optional):** on a phone, turn on Tilt steering in Settings and steer by tilting the phone.
 
 ## What's real
 

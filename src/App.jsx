@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { SEASONS } from './game/config/season.js';
 import { SEED_RANGE } from './game/config/race.js';
 import { RotateOverlay } from './ui/race/Overlays.jsx';
@@ -30,6 +30,7 @@ function newCareerSeed() {
 export function App() {
   const [screen, setScreen] = useState({ name: 'title' });
   const device = useDevice();
+  const raceRuns = useRef(0);
   const [, setLanguage] = useState(getLanguage);
   const [menuBack, setMenuBack] = useState(null);
   const [difficulty, setDifficulty] = useState(() => loadSettings().difficulty);
@@ -48,7 +49,7 @@ export function App() {
     setMenuBack(null);
     setScreen(menuBack);
   };
-  const startQuickRace = (trackId) => go('race', { trackId, setup: buildRaceSetup({ trackId, difficulty }) });
+  const startQuickRace = (trackId) => go('race', { trackId, run: ++raceRuns.current, setup: buildRaceSetup({ trackId, difficulty }) });
   const startSeason = (mode, extra = {}) => go('season', { mode, seed: SEASONS.quick.seed, difficulty, run: Date.now(), ...extra });
   const pickMode = (id) => {
     setMenuBack(null);
@@ -82,9 +83,11 @@ export function App() {
       case 'race':
         return (
           <RaceScreen
+            key={screen.run}
             setup={screen.setup}
             onFinish={(results) => go('results', { trackId: screen.trackId, results })}
             onQuit={() => go('modes')}
+            onRestart={() => startQuickRace(screen.trackId)}
           />
         );
       case 'results':

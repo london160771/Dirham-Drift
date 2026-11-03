@@ -68,10 +68,10 @@ function HoldButton({ input, control, hints, used }) {
   );
 }
 
-export function TouchControls({ input, hints, used }) {
+export function TouchControls({ input, hints, used, tilt = false }) {
   return (
     <div className="touch-layer">
-      <SteerPad input={input} hints={hints} used={used} />
+      {!tilt && <SteerPad input={input} hints={hints} used={used} />}
       <div className="pedals">
         {['nitro', 'brake', 'gas'].map((control) => (
           <HoldButton key={control} input={input} control={control} hints={hints} used={used} />

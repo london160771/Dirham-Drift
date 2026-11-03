@@ -20,7 +20,7 @@
 | 2026-10-25 | More cities and tracks (Abu Dhabi first) | Career depth | Two tracks for the jam | H |
 | 2026-10-25 | Credit score system | Money depth | Scope | M |
 | 2026-10-25 | Classroom mode + teacher pack + class progress view | School use | After funding | H |
-| 2026-10-25 | Tilt steering and gamepad support | Controls | Scope | M |
+| 2026-10-25 | Gamepad support | Controls | Scope | M |
 | 2026-10-25 | Leaderboards and accounts | Replay value | Privacy and scope | L |
 | 2026-10-25 | App store release (Apple / Google Play) | Reach | After funding | M |
 | 2026-10-25 | Taxes, remittances, budgeting screens | Money topics | Out of focus: we teach 5 concepts deeply | L |

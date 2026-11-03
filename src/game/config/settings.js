@@ -2,9 +2,11 @@ import { DEFAULT_DIFFICULTY } from './race.js';
 
 export const SETTING_DEFAULTS = {
   showFps: false,
+  showMinimap: true,
   hintsSeen: false,
   pitTipsSeen: false,
   steeringAssist: false,
+  tiltSteering: false,
   autoAccelerate: false,
   chillMode: false,
   textSize: 'M',

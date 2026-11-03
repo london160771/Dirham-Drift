@@ -20,6 +20,9 @@ export function createGhostRun(scene, setup) {
       ghostPose(frames, race.time, pose);
       sprite.setPosition(pose.x, pose.y).setRotation(pose.heading);
     },
+    position() {
+      return sprite ? [Math.round(pose.x), Math.round(pose.y)] : null;
+    },
     attach(results) {
       return recorder ? { ...results, ghost: recorder.ghost(results.timeMs) } : results;
     },

@@ -29,38 +29,44 @@ function Standing({ telemetry, ghostTimeMs }) {
   );
 }
 
-export function Hud({ telemetry, money, ghostTimeMs, onPause }) {
+export function Hud({ telemetry, money, ghostTimeMs, onPause, map, mapSide = 'left' }) {
   if (!telemetry) return null;
   const sprint = telemetry.laps === 1;
   return (
     <div className="hud" data-testid="hud">
-      <div className="hud-left">
-        <Standing telemetry={telemetry} ghostTimeMs={ghostTimeMs} />
-        <div className="hud-lap">
-          {sprint ? t('hud.progress', { percent: Math.round(telemetry.progress * 100) }) : t('hud.lap', { current: telemetry.lap, total: telemetry.laps })}
-        </div>
-        {money && (
-          <div className="hud-money" data-testid="hud-money">
-            <span>{t('hud.cash', { amount: formatAed(money.cash) })}</span>
-            <span className={money.loanLeft > 0 ? 'owed' : ''}>
-              {money.loanLeft > 0 ? t('hud.loan', { amount: formatAed(money.loanLeft) }) : t('hud.noLoan')}
-            </span>
+      <div className="hud-col">
+        <div className="hud-left">
+          <Standing telemetry={telemetry} ghostTimeMs={ghostTimeMs} />
+          <div className="hud-lap">
+            {sprint ? t('hud.progress', { percent: Math.round(telemetry.progress * 100) }) : t('hud.lap', { current: telemetry.lap, total: telemetry.laps })}
           </div>
-        )}
+          {money && (
+            <div className="hud-money" data-testid="hud-money">
+              <span>{t('hud.cash', { amount: formatAed(money.cash) })}</span>
+              <span className={money.loanLeft > 0 ? 'owed' : ''}>
+                {money.loanLeft > 0 ? t('hud.loan', { amount: formatAed(money.loanLeft) }) : t('hud.noLoan')}
+              </span>
+            </div>
+          )}
+        </div>
+        {mapSide === 'left' && map}
       </div>
       <button type="button" className="hud-pause" onClick={onPause} aria-label={t('hud.pause')}>
         II
       </button>
-      <div className="hud-right">
-        <div className="hud-speed">
-          <strong>{Math.round(telemetry.speed * SPEED_TO_KMH)}</strong>
-          <span>{t('hud.speed')}</span>
+      <div className="hud-col right">
+        <div className="hud-right">
+          <div className="hud-speed">
+            <strong>{Math.round(telemetry.speed * SPEED_TO_KMH)}</strong>
+            <span>{t('hud.speed')}</span>
+          </div>
+          <div className="hud-meter">
+            <span>{t('hud.nitro')}</span>
+            <Bar value={telemetry.nitro} className={telemetry.nitroActive ? 'nitro active' : 'nitro'} />
+          </div>
+          <div className={telemetry.damage > 0 ? 'hud-damage hurt' : 'hud-damage'}>{t('hud.damage', { value: telemetry.damage })}</div>
         </div>
-        <div className="hud-meter">
-          <span>{t('hud.nitro')}</span>
-          <Bar value={telemetry.nitro} className={telemetry.nitroActive ? 'nitro active' : 'nitro'} />
-        </div>
-        <div className={telemetry.damage > 0 ? 'hud-damage hurt' : 'hud-damage'}>{t('hud.damage', { value: telemetry.damage })}</div>
+        {mapSide === 'right' && map}
       </div>
     </div>
   );
@@ -78,7 +84,7 @@ export function DebugOverlay({ telemetry, input }) {
   const state = input.read({});
   return (
     <div className="debug" data-testid="debug">
-      {t('hud.fps', { fps: telemetry.fps })} · steer {state.steer} · gas {state.gas} · brake {state.brake} · nitro {state.nitro ? 1 : 0}
+      {t('hud.fps', { fps: telemetry.fps })} · steer {state.steer.toFixed(2)} · gas {state.gas} · brake {state.brake} · nitro {state.nitro ? 1 : 0}
     </div>
   );
 }

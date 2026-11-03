@@ -155,6 +155,7 @@ Automatic-check phases (2, 3, 5) may run back to back. **Always stop at a 🛑 o
 
 - After Nov 14: bug fixes, links and text only.
 - After submission: no feature commits to the jam build. Ideas go to ROADMAP.md.
+- Exception (owner, 2026-11-03): player-feedback fixes (track map, tilt steering, Quick Race restart, camera zoom) go to the live Vercel build via PR. Updating itch.io is the owner's call (PRD §16).
 
 ## 15. Definition of done
 

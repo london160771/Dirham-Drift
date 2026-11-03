@@ -5,6 +5,7 @@ import { RACE } from '../../config/race.js';
 import { CAR_COLORS, CAR_SPRITES, DEPTH, PALETTE } from '../../config/style.js';
 import { TRACKS } from '../../config/tracks/index.js';
 import { buildTrack, pointAt } from '../track/buildTrack.js';
+import { trackOutline } from '../track/mapOutline.js';
 import { createRace, playerTelemetry, raceResults, stepRace } from '../sim/raceSim.js';
 import { CAR_TEXTURE_SCALE, createCarTexture } from '../render/carTexture.js';
 import { collectRaceArt, preloadRaceArt } from '../render/raceArt.js';
@@ -58,7 +59,7 @@ export class RaceScene extends Phaser.Scene {
     this.raceCamera = createRaceCamera(this.cameras.main, this.race.entries[0].car);
     this.scale.on('resize', this.fitCamera, this);
     this.events.once('shutdown', () => this.scale.off('resize', this.fitCamera, this));
-    this.bridge.onReady?.();
+    this.bridge.onReady?.({ outline: trackOutline(track) });
   }
 
   fitCamera(gameSize) {
@@ -97,7 +98,12 @@ export class RaceScene extends Phaser.Scene {
     this.telemetryTimer -= dt;
     if (this.telemetryTimer > 0) return;
     this.telemetryTimer = 1 / RACE.telemetryHz;
-    this.bridge.onTelemetry({ ...playerTelemetry(this.race), fps: Math.round(this.game.loop.actualFps) });
+    this.bridge.onTelemetry({
+      ...playerTelemetry(this.race),
+      cars: this.race.entries.map(({ car }) => [Math.round(car.x), Math.round(car.y)]),
+      ghost: this.ghostRun.position(),
+      fps: Math.round(this.game.loop.actualFps),
+    });
   }
 
   update(_time, delta) {
