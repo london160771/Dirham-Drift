@@ -8,7 +8,7 @@ export function pwaAllowed({ hostname, framed, hasServiceWorker }) {
   return hasServiceWorker && !framed && !isItchHost(hostname);
 }
 
-function isFramed() {
+export function isFramed() {
   try {
     return window.self !== window.top;
   } catch {

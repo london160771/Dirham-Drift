@@ -4,6 +4,7 @@ import { App } from './App.jsx';
 import { applyLanguage } from './ui/applyLanguage.js';
 import { applySettings } from './ui/applySettings.js';
 import { registerPwa } from './ui/pwa/registerSw.js';
+import { startSiteAnalytics } from './ui/siteAnalytics.js';
 import { loadSettings } from './ui/storage/settingsStore.js';
 import { installUiSounds } from './ui/uiSounds.js';
 import './styles/base.css';
@@ -20,6 +21,7 @@ applySettings(settings);
 applyLanguage(settings.language);
 installUiSounds(settings);
 registerPwa();
+startSiteAnalytics();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
