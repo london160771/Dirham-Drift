@@ -122,6 +122,10 @@
 }
 
 .hud-pause {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   pointer-events: auto;
   width: 44px;
   height: 44px;
@@ -364,4 +368,81 @@
 
 :root.left-handed .pedals .touch-btn {
   transform: scaleX(-1);
+}
+
+.hud-col {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.hud-col.right {
+  flex-direction: row-reverse;
+}
+
+.minimap {
+  height: 270px;
+  min-width: 56px;
+  max-width: 200px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(11, 13, 20, 0.55);
+}
+
+.minimap-edge {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.minimap-road {
+  fill: none;
+  stroke: #2a2e3a;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.minimap-finish {
+  fill: #ffffff;
+}
+
+.minimap-ghost {
+  opacity: 0.7;
+}
+
+.minimap-rival {
+  stroke: #0b0d14;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.minimap-player {
+  stroke: #ffffff;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (max-height: 500px) {
+  .minimap {
+    height: 200px;
+    min-width: 48px;
+    max-width: 150px;
+    padding: 4px;
+  }
+}
+
+.tilt-note {
+  position: absolute;
+  top: max(64px, calc(env(safe-area-inset-top) + 56px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(520px, 70vw);
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(11, 13, 20, 0.85);
+  font-size: 13px;
 }

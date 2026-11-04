@@ -8,7 +8,7 @@ import { HOW_TO_CARDS, HOW_TO_SECTIONS } from '../../src/ui/screens/howToPlayCar
 import { SettingsScreen } from '../../src/ui/screens/SettingsScreen.jsx';
 import { loadSettings } from '../../src/ui/storage/settingsStore.js';
 
-const TOGGLES = ['steeringAssist', 'autoAccelerate', 'chillMode', 'colorBlind', 'reduceMotion', 'leftHanded', 'vibration', 'showFps'];
+const TOGGLES = ['showMinimap', 'steeringAssist', 'autoAccelerate', 'chillMode', 'colorBlind', 'reduceMotion', 'leftHanded', 'vibration', 'showFps'];
 
 beforeEach(() => {
   cleanup();

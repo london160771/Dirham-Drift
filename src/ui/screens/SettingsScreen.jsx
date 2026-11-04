@@ -4,9 +4,11 @@ import { audio } from '../../game/audio/audio.js';
 import { t } from '../../i18n/strings.js';
 import { applySettings } from '../applySettings.js';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
+import { requestTiltPermission, tiltSupported } from '../race/tilt.js';
+import { useDevice } from '../race/useDevice.js';
 import { LanguageToggle } from './LanguageToggle.jsx';
 
-const TOGGLES = ['steeringAssist', 'autoAccelerate', 'chillMode', 'colorBlind', 'reduceMotion', 'leftHanded', 'vibration', 'showFps'];
+const TOGGLES = ['showMinimap', 'steeringAssist', 'autoAccelerate', 'chillMode', 'colorBlind', 'reduceMotion', 'leftHanded', 'vibration', 'showFps'];
 const VOLUMES = ['musicVolume', 'effectsVolume'];
 const SIZES = ['textSize', 'controlSize'];
 
@@ -54,11 +56,20 @@ function Volume({ id, value, onChange }) {
 export function SettingsScreen({ onBack, onLanguage }) {
   const [settings, setSettings] = useState(loadSettings);
   const [hintNote, setHintNote] = useState(false);
+  const [tiltNote, setTiltNote] = useState(false);
+  const device = useDevice();
+  const toggles = device.touch && tiltSupported() ? ['tiltSteering', ...TOGGLES] : TOGGLES;
   const change = (patch) => {
     const next = updateSettings(patch);
     applySettings(next);
     audio.setVolumes(next);
     setSettings(next);
+  };
+  const changeToggle = async (id, value) => {
+    if (id !== 'tiltSteering' || !value) return change({ [id]: value });
+    const allowed = (await requestTiltPermission()) !== 'denied';
+    setTiltNote(!allowed);
+    if (allowed) change({ tiltSteering: true });
   };
   const resetHints = () => {
     change({ hintsSeen: false, pitTipsSeen: false });
@@ -89,9 +100,10 @@ export function SettingsScreen({ onBack, onLanguage }) {
         </section>
         <section>
           <h3>{t('settings.driving')}</h3>
-          {TOGGLES.map((id) => (
-            <Toggle key={id} id={id} value={settings[id]} onChange={(value) => change({ [id]: value })} />
+          {toggles.map((id) => (
+            <Toggle key={id} id={id} value={settings[id]} onChange={(value) => changeToggle(id, value)} />
           ))}
+          {tiltNote && <p className="note">{t('settings.tiltBlocked')}</p>}
           <div className="setting-row">
             <strong>{t('settings.resetHints')}</strong>
             <button type="button" className="btn" onClick={resetHints} data-testid="reset-hints">

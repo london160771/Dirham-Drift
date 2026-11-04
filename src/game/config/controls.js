@@ -14,3 +14,10 @@ export const KEY_BINDINGS = {
   nitro: ['Space'],
   pause: ['KeyP', 'Escape'],
 };
+
+export const TILT = {
+  deadZoneDeg: 4,
+  fullLockDeg: 25,
+  noDataMs: 2000,
+  noteMs: 6000,
+};

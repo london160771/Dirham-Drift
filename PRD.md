@@ -146,6 +146,7 @@ RACE → EARN → BORROW → CRASH → REPO → SCAM → RECOVER
 | FR-RACE-005 | P0 | Wall/barrier hits slow the car and add damage (0–100%). Damage lowers top speed until repaired. | A hard hit adds damage; damage shows in HUD; speed drops by the configured amount. |
 | FR-RACE-006 | P0 | Nitro: fills over time, boosts speed for a short burst. | Nitro bar fills, empties on use, speed increases while active. |
 | FR-RACE-007 | P0 | Countdown, positions, lap/progress, speed, cash and loan status in the HUD. | All values update live; money values come from the season state. |
+| FR-RACE-009 | P1 | Track map (minimap) in the race HUD: the track outline with a dot for the player, each rival and the ghost. Turned so the long side runs up and down; the Sheikh Zayed finish is at the top. On by default; Settings can hide it. | Dots match the cars' places on the track; the map covers no HUD value or touch control at 844×390 or desktop; it sits on the side away from the pedals. |
 | FR-RACE-008 | P0 | Code-drawn tracks in the locked "Dubai at night" style (see §21). | No image tiles for roads; track geometry is a spline used for drawing, walls, checkpoints and AI line. Scenery beside the road (ground textures, palms, yachts, rooftops) may be images placed along the spline (§16, 2026-10-29). |
 
 ### Controls
@@ -154,6 +155,7 @@ RACE → EARN → BORROW → CRASH → REPO → SCAM → RECOVER
 | FR-CTL-001 | P0 | Phone (landscape): left thumb = steer left / right buttons; right thumb = **Gas** (big), **Brake**, **Nitro** above Gas. No auto-accelerate by default. | Multi-touch works (steer + gas at once). |
 | FR-CTL-002 | P0 | Keyboard: arrows / WASD drive, Space = nitro, Shift = brake, P = pause. | All actions work without a mouse. |
 | FR-CTL-003 | P0 | Portrait on phone shows a "Rotate your phone" screen on every screen, from the title onward. | Nothing can be tapped or played in portrait; the race pauses in portrait and resumes in landscape. |
+| FR-CTL-005 | P1 | Tilt steering (phones and tablets): an on/off setting, off by default. When on, tilting the phone like a steering wheel steers (dead zone and full-lock angle in `config/controls.js`) and the left/right buttons hide; gas, brake and nitro stay as buttons. Turning it on asks for motion-sensor access where the browser needs it (iPhone). | Steer follows the tilt within one race; if the sensor sends nothing within 2 s the steering buttons come back with a note and a Try again button, so the player is never stuck. Hidden on computers. |
 | FR-CTL-004 | P0 | First-race hints fade in next to each control and disappear once used. | Shown only on first race; can be reset in Settings. |
 
 ### Money (rules in §11)
@@ -194,6 +196,7 @@ RACE → EARN → BORROW → CRASH → REPO → SCAM → RECOVER
 | ID | Pri | Requirement | Acceptance criteria |
 |---|---|---|---|
 | FR-UI-001 | P0 | Title screen, mode select, How to Play, Settings, pause menu. | Reachable within 2 taps; first race starts ≤ 2 taps from title. |
+| FR-UI-004 | P1 | Pause menu **Restart race** in Quick Race only: starts the same race again from the countdown (same track, rivals and difficulty). Season and Ghost races do not offer it. | Restart shows the countdown, lap 1, time 0 and no damage; no money or season state changes. |
 | FR-UI-002 | P0 | How to Play: controls, the loop, money basics (one card per system), modes, tips, install steps. | Available from title and pause. |
 | FR-UI-003 | P0 | First Pit Hub visit shows 3 short tips (Garage, Bank, net worth). | First time only. |
 | FR-A11Y-001 | P0 | Settings: steering assist, optional auto-accelerate (off by default), Chill mode, text size S/M/L, colour-blind safe icons/signs, reduce motion, left-handed layout, control size, vibration on/off, music/effects volume. | Each setting works and persists. |
@@ -401,6 +404,8 @@ No sponsor SDK is required; any engine is allowed. The "fit" is the theme and ru
 | 2026-10-31 | Difficulty (FR-MODE-007, owner request): three levels change the AI rivals only (`DIFFICULTY` in `src/game/config/race.js`). Easy = the game as it was (rival pace ×1.00, pace wobble ±3%, nitro chance 0.35/s, no catch-up). Medium = pace ×1.05, wobble ±2%, nitro 1/s, catch-up up to +3%. Hard = pace ×1.10, wobble ±1%, nitro 4/s (on almost every straight), catch-up up to +6%. Pace multiplies top speed, acceleration and corner speed and stacks on stage pace (Rookie/Pro/Final) and on Chill mode. Catch-up raises the top speed of a rival who is behind the player, scaling to full at 600 px behind (`AI.catchUpFullGap`); leaders are never slowed. The last choice is kept in settings (`difficulty`); a season stores its level in the career save (`difficulty`, missing = Easy), so Continue keeps it and it can't be changed mid-season. Shown on Mode select, the pre-race card, the Continue card and the recap. No money changes: Quick Season events stay identical | Owner wants harder, more interesting AI; AI-only keeps the money engine and the Quick Season snapshot untouched, and a locked level stops dropping to Easy just for the Grand Final |
 | 2026-10-31 | Owner request: the rotate screen covers the whole app on a touch phone in portrait (title, menus, Pit Hub, race), not only the race; the title shows a small install note (FR-PWA-003) that opens the install guide, hidden on itch.io and inside the installed app; desktop Pit Hub keeps the Turbo banner to its text height; the Bank says "One strike" in Quick Season instead of "1 strikes" | Owner wants no play at all until the phone is landscape, and to nudge phone players to the installed app |
 | 2026-11-01 | Owner request: new deploys reached players only after many refreshes, and the installed app needed a reinstall. The service worker now uses vite-plugin-pwa `registerType: 'prompt'` with `clientsClaim`; the app checks for a new version on open, when it comes back to the screen and every `PWA_RULES.updateCheckMinutes` (30); when one is ready a small "New version ready. Tap to update." bar shows on menu screens only (`PWA_RULES.updateBarScreens`), never in a race, season or ghost run; tapping reloads into the new build, otherwise it applies on the next full close and reopen. Offline play and localStorage saves are unchanged; itch.io still gets no service worker | The old `autoUpdate` setup only checked on page load and could reload the page at any time, including mid-race. Vercel headers were already `max-age=0, must-revalidate` for `index.html` and `sw.js`, so no header change was needed |
+| 2026-11-03 | Player feedback after submission (owner request; owner OK'd changing the live build, itch update is the owner's call): **track map** (FR-RACE-009) drawn as an SVG over the race from the track spline (about 120 points), car dots from race telemetry at 12 Hz, map turned in quarter turns so its long side is vertical and the start points up; **tilt steering** (FR-CTL-005) moves from "Never" to P1: steer comes from `beta` of `deviceorientation` (`asin(sin β)`, sign from the landscape side, level = straight), dead zone 4°, full lock 25°, no data for 2 s → buttons come back with a note; Chromium's `requestPermission` answers `prompt` without asking, so only `denied` keeps it off; the itch.io iframe may block motion sensors, so the fallback matters there; **Restart race** (FR-UI-004) in Quick Race only, so season crash bills can't be dodged | Requested by a player (minimap, tilt) and the owner (restart). Car physics untouched: tilt only feeds a partial steer value the physics already accepted |
+| 2026-11-03 | Race camera zoomed out a little (owner pick B from phone and desktop screenshots): `CAMERA.worldViewHeight` 256 → 320 world units when stopped, about 533 at top speed (`speedZoomOut` stays 0.4) | Owner found the view too close after the Oct 31 zoom-in; 25% more road ahead |
 
 ---
 
@@ -474,7 +479,7 @@ Scripted tests through the real money engine. Each must pass:
 
 1. **Title** — Play, How to Play, Settings, language.
 2. **Mode select** — Quick Season (5 min), Career Season, Quick Race, Ghost Challenge (P1).
-3. **Race** — driver view + HUD + touch controls.
+3. **Race** — driver view + HUD + track map + touch controls; pause menu (Resume, Restart race in Quick Race, How to Play, Quit).
 4. **Results statement** — position, prize, deductions like a mini bank statement; repair choice.
 5. **Event card** — one event, choices with costs.
 6. **Pit Lesson card** — after consequences.
@@ -556,9 +561,9 @@ Recorded with the Quick Season seed. Desktop: OBS 1080p60. Phone: built-in recor
 
 **P0 — must ship:** racing on both tracks, touch + keyboard controls, money engine + tests, Pit Hub, events, lessons, Lesson Book, glossary, Quick Season, Career Season, Quick Race, recap, save/continue, title, How to Play, first-race hints, settings + accessibility, sound, strings file, itch build.
 
-**P1 — only after P0 is deployed and recorded:** PWA install + guide, Arabic toggle, interest-free loan, Zakat note, Ghost Challenge.
+**P1 — only after P0 is deployed and recorded:** PWA install + guide, Arabic toggle, interest-free loan, Zakat note, Ghost Challenge, track map, tilt steering, Quick Race restart (player feedback, §16 2026-11-03).
 
-**Never in this build (→ ROADMAP.md):** live online multiplayer, accounts, leaderboards, 3D, more tracks or cities, credit score, taxes, remittances, real brands, tilt steering, gamepad.
+**Never in this build (→ ROADMAP.md):** live online multiplayer, accounts, leaderboards, 3D, more tracks or cities, credit score, taxes, remittances, real brands, gamepad.
 
 ---
 

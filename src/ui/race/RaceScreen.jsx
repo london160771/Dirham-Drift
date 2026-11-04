@@ -7,14 +7,16 @@ import { applyAssists } from '../raceSetup.js';
 import { HowToPlay } from '../screens/HowToPlay.jsx';
 import { loadSettings, updateSettings } from '../storage/settingsStore.js';
 import { KeyboardHint } from './Hints.jsx';
+import { Minimap } from './Minimap.jsx';
 import { Countdown, DebugOverlay, Hud } from './Hud.jsx';
-import { PauseOverlay } from './Overlays.jsx';
+import { PauseOverlay, TiltNote } from './Overlays.jsx';
 import { TouchControls } from './TouchControls.jsx';
 import { useDevice } from './useDevice.js';
 import { useRaceSounds } from './useRaceSounds.js';
+import { useTilt } from './useTilt.js';
 import { useUsedControls } from './useUsedControls.js';
 
-export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
+export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit, onRestart }) {
   const hostRef = useRef(null);
   const pausedRef = useRef(false);
   const finishRef = useRef(onFinish);
@@ -22,9 +24,11 @@ export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
   const settings = useMemo(() => loadSettings(), []);
   const device = useDevice();
   const used = useUsedControls(input);
+  const tilt = useTilt(input, Boolean(settings.tiltSteering && device.touch));
   const [telemetry, setTelemetry] = useState(null);
   const [paused, setPaused] = useState(false);
   const [ready, setReady] = useState(false);
+  const [outline, setOutline] = useState(null);
   const [howTo, setHowTo] = useState(false);
   const [canBoot, setCanBoot] = useState(!device.mustRotate);
   if (!canBoot && !device.mustRotate) setCanBoot(true);
@@ -42,7 +46,10 @@ export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
     const bridge = {
       input,
       isPaused: () => pausedRef.current,
-      onReady: () => setReady(true),
+      onReady: (map) => {
+        setOutline(map?.outline ?? null);
+        setReady(true);
+      },
       onTelemetry: setTelemetry,
       onFinish: (results) => {
         updateSettings({ hintsSeen: true });
@@ -79,12 +86,20 @@ export function RaceScreen({ setup, money, ghostTimeMs, onFinish, onQuit }) {
     <div className="race-screen" dir="ltr">
       <div className="race-canvas" ref={hostRef} />
       {!ready && <div className="overlay loading">{t('common.loading')}</div>}
-      <Hud telemetry={telemetry} money={money} ghostTimeMs={ghostTimeMs} onPause={() => setPaused(true)} />
+      <Hud
+        telemetry={telemetry}
+        money={money}
+        ghostTimeMs={ghostTimeMs}
+        onPause={() => setPaused(true)}
+        map={settings.showMinimap && <Minimap outline={outline} cars={telemetry?.cars} ghost={telemetry?.ghost} />}
+        mapSide={device.touch && settings.leftHanded ? 'right' : 'left'}
+      />
       <Countdown telemetry={telemetry} />
-      {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} />}
+      {device.touch && <TouchControls input={input} hints={!settings.hintsSeen} used={used} tilt={tilt.active} />}
+      {tilt.note && <TiltNote onRetry={tilt.retry} />}
       {!settings.hintsSeen && !device.touch && <KeyboardHint used={used} />}
       {settings.showFps && <DebugOverlay telemetry={telemetry} input={input} />}
-      {paused && !device.mustRotate && !howTo && <PauseOverlay onResume={() => setPaused(false)} onHowTo={() => setHowTo(true)} onQuit={() => onQuit(telemetry)} />}
+      {paused && !device.mustRotate && !howTo && <PauseOverlay onResume={() => setPaused(false)} onRestart={onRestart} onHowTo={() => setHowTo(true)} onQuit={() => onQuit(telemetry)} />}
       {paused && howTo && <HowToPlay overlay onBack={() => setHowTo(false)} />}
     </div>
   );
